@@ -1,0 +1,20 @@
+
+server int MES_isrunningzandronum = 1;
+
+server int MES_disabledecorations = 0;
+
+server int MES_disablemapenhancements = 0;
+
+server int MES_disablewaterripples2 = 0;
+
+server int MES_voxeldec = 1;
+
+user int MES_bloodamount	= 2;
+
+user int MES_lowgraphicsmode = 0;
+
+server int MES_infinitecasings = 0;
+
+server int MES_footstepsounds = 1;
+
+server int sv_allowbossmap = 0;

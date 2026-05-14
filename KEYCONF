@@ -1,0 +1,6 @@
+// Key Configuration
+   addkeysection "Map Enahancements - Boss Mode" ActivateBrutalBoss
+   addmenukey "BossMode" BossMode
+// Aliases
+   alias BossMode "pukename SetBossMode"
+   defaultbind "/" BossMode

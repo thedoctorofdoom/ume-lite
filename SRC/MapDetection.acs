@@ -1,0 +1,1033 @@
+#library "MapDetection"
+#include "zcommon.acs"
+
+//What a doozy, but now you can all STFU about BD-Enhancement incompatibility.
+//This system has been reworked from my previous attempts and now factors in
+//player 1 starting position and level par time. Once successfully detected, the script
+//will spawn the evidence checkers with their corresponding map Thing Number. Once again, you 
+//no longer are required to replace actors. Simply load this after your gameplay mod and
+//behold its glory!
+
+//As of this writing (04.14.22), this is compatible with GZDoom, LZDoom, and Zandronum.
+//It can technically run with K8Vavoom, however, destructible decorations don't seem to
+//function properly.
+
+//Special thanks to TDRR, Kaminsky, and of course, SGTMARKIV!
+
+// -- BROS_ETT_311
+
+Script "Initialize_Enhancements" ENTER
+{
+	SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
+	ACS_NamedExecuteWithResult("Detect_Map", 0, 0, 0, 0);
+}
+
+Script "Freeze_Player" UNLOADING
+{
+	SetActivator(0, AAPTR_PLAYER1);
+	SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
+}
+
+script "Detect_Map" (VOID)
+{
+	int x = GetActorX(0) >> 16;// / 65536;
+	int y = GetActorY(0) >> 16;// / 65536;
+	int z = GetActorZ(0) >> 16;// / 65536;
+	int par = GetLevelInfo(LEVELINFO_PAR_TIME);
+	int secrets = GetLevelInfo(LEVELINFO_TOTAL_SECRETS);
+	
+	//debugger
+	//Print(f:GetActorX(0), s:" : ",f:GetActorY(0), s:" : ", s:StrParam(n:PRINTNAME_LEVEL));
+	
+	int delaytic = 1;
+	//E1M1
+		if ( (x == 1056 && y == -3616 || x == 1072 && y == -4296) && par == 30 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M1") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerLightpost",3232.0,-3040.0,0.0,40,0.0);
+		}
+	//E1M2
+		if ( x == -32 && y == -240 && par == 75 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M2") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerLightpost",32.0,-480.0,0.0,118,0.0);
+		}
+	//E1M3
+		if ( (x == -1472 && y == -3344 || x == -1504 && y == -4128) && par == 120 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M3") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-160.0,-864.0,0.0,19,0.0);
+		}
+	//E1M4
+		if ( (x == 2032 && y == 1120 || x == 2400 && y == -160) && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M4") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",160.0,800.0,144.0,62,0.0);
+		}
+	//E1M5
+		if ( (x == -224 && y == -624 || x == -224 && y == -1888) && par == 165 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M5") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",192.0,1040.0,0.0,4,0.0);
+		}
+	//E1M6
+		if ( (x == 32 && y == -1376 || x == 96 && y == -2144) && par == 180 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M6") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-1536.0,-1728.0,0.0,5,0.0);
+		}
+	//E1M7
+		if ( (x == 96 && y == 528 || x == -280 && y == 2784) && par == 180 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M7") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-1024.0,272.0,32.0,26,0.0);
+		}
+	//E1M8
+		if ( (x == -128 && y == -224 || x == -164 && y == -224) && secrets == 1 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M8") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerInvisibility",-480.0,3344.0,0.0,70,0.0);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossChecker",304.0,2864.0,-32768.0,58,0.0);
+				SpawnForced("BossChecker",528.0,2864.0,-32768.0,59,0.0);
+				SpawnForced("BossHealthActivator",416.0,2528.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//E1M9
+		if ( x == 96 && y == -272 && par == 165 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M9") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",704.0,-1024.0,88.0,188,0.0);
+		}
+	//E2M2
+		if ( (x == 608 && y == 4576 || x == 736 && y == 5408) && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M2") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",2656.0,2016.0,24.0,153,0.0);
+		}
+	//E2M3
+		if ( x == 480 && y == 1904 && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M3") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-992.0,672.0,24.0,90,0.0);
+		}
+	//E2M4
+		if ( x == -768 && y == -2592 && par == 120 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M4") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-512.0,-2304.0,288.0,74,0.0);
+		}
+	//E2M5
+		if ( x == -1536 && y == 2384 && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M5") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",-1664.0,1216.0,40.0,57,0.0);
+		}
+	//E2M6
+		if ( x == 592 && y == 400 && par == 360 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M6") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",752.0,2192.0,24.0,10,0.0);
+		}
+	//E2M7
+		if ( x == 1424 && y == 1776 && par == 240 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M7") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",1760.0,-224.0,176.0,140,0.0);
+		}
+	//E2M8
+		if ( x == -96 && y == -736 && secrets == 0 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M8") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossChecker",-1472.0,576.0,0.0,19,0.0);
+				SpawnForced("BossHealthActivator",-128.0,-128.0,0.0,0,0.0);
+				SpawnForced("BossHealthActivator",-768.0,-768.0,0.0,0,0.0);
+				SpawnForced("BossHealthActivator",-128.0,-1472.0,0.0,0,0.0);
+				SpawnForced("BossHealthActivator",576.0,-768.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//E3M1
+		if ( x == 288 && y == -1568 && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M1") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedPillar",-160.0,64.0,0.0,65,0.0);
+		}
+	//E3M2
+		if ( x == 2176 && y == -288	 && par == 45 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M2") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",848.0,208.0,-32.0,37,0.0);
+		}
+	//E3M3
+		if ( x == -160 && y == -1248 && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M3") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",1472.0,736.0,-8.0,11,0.0);
+		}
+	//E3M4
+		if ( x == 16 && y == 1104 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M4") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",976.0,400.0,0.0,15,0.0);
+		}
+	//E3M5
+		if ( (x == -224 && y == -1872 || x == -232 && y == -2648) && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M5") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",496.0,1200.0,0.0,126,0.0);
+		}
+	//E3M6
+		if ( x == 1712 && y == -1792 && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M6") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",784.0,720.0,32.0,206,0.0);
+		}
+	//E3M7
+		if ( x == 368 && y == -1392 && par == 165 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M7") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",160.0,-1632.0,0.0,22,0.0);
+		}
+	//E3M8
+		if ( x == 176 && y == -1488 && secrets == 0 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M8") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossChecker",1600.0,-768.0,0.0,5,0.0);
+				SpawnForced("BossHealthActivator",160.0,-480.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//E3M9
+		if ( (x == 416 && y == -1568 || x == 288 && y == -1568) && par == 135 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M9") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedPillar",-32.0,64.0,88.0,65,0.0);
+		}
+	//D2MAP01
+		If( x == -96 && y == 784 && par == 30 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP01") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerChainsaw",-480.0,848.0,0.0,68,0.0);
+		}
+	//D2MAP02
+		If( (x == 1104 && y == 1984 || x == 2272 && y == 2720) && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP02") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",928.0,576.0,0.0,44,0.0);
+		}
+	//D2MAP03
+		If( (x == 1936 && y == 3488 || x == 1632 && y == 2976) && par == 120 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP03") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",4608.0,3360.0,0.0,85,0.0);
+		}
+	//D2MAP04
+		If( (x == -864 && y == 1648 || x == -1000 && y == 2336) && par == 120 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP04") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-832.0,304.0,0.0,21,0.0);
+		}
+	//D2MAP05
+		If( (x == 352 && y == 432 || x == 352 && y == 672) && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP05") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",976.0,-640.0,0.0,50,0.0);
+		}
+	//D2MAP06
+		If( x == 1408 && y == 736 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP06") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-800.0,608.0,0.0,36,0.0);
+		}
+	//D2MAP07
+		If( x == 80 && y == -208 && par == 120 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP07") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerInvisibility",-64.0,-832.0,0.0,7,0.0);
+		}
+	//D2MAP09 Evidence does not exist, possible error or different version of WAD
+		//If( x == 224 && y == 352 && par == 270 )
+		//{
+			//delay(delaytic);
+			//SpawnForced("EvidenceCheckerInvisibility",1056.0,416.0,0.0,0,0.0);
+		//}
+	//D2MAP09
+		If( x == 224 && y == 352 && par == 270 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP09") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-480.0,1504.0,0.0,185,0.0);
+		}
+	//D2MAP10
+		If( x == -1312 && y == 2080 && par == 90 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP10") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerInvisibility",800.0,-1632.0,0.0,470,0.0);
+		}
+	//D2MAP12
+		If( x == 1824 && y == 2848 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP12") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerGreenTorch",464.0,1840.0,0.0,147,0.0);
+		}
+	//D2MAP13
+		If( x == 880 && y == -2928 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP13") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerGreenTorch",-1024.0,-1760.0,0.0,175,0.0);
+		}
+	//D2MAP14
+		If( x == -16 && y == 352 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP14") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerInvisibility",800.0,-1072.0,0.0,138,0.0);
+		}
+	//D2MAP15
+		If( x == -352 && y == 592 && par == 210 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP15") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-1072.0,-3040.0,0.0,337,0.0);
+		}
+	//D2MAP16
+		If( x == 224 && y == 288 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP16") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerGreenTorch",352.0,416.0,0.0,1,0.0);
+		}
+	//D2MAP17
+		If( x == -1760 && y == -3824 && par == 420 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP17") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerInvisibility",-3056.0,-2560.0,0.0,81,0.0);
+		}
+	//D2MAP18
+		If( x == -1472 && y == -864 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP18") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",1936.0,1488.0,0.0,268,0.0);
+		}
+	//D2MAP19
+		If( x == 480 && y == -2176 && par == 210 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP19") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",1088.0,896.0,0.0,370,0.0);
+		}
+	//D2MAP20
+		If( x == 2240 && y == -3888 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP20") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerGreenTorch",2192.0,-2864.0,0.0,13,0.0);
+		}
+	//D2MAP24
+		If( x == 160 && y == -1760 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP24") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-112.0,288.0,0.0,23,0.0);
+		}
+	//D2MAP25
+		If( x == -992 && y == 544 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP25") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",-1312.0,3456.0,0.0,106,0.0);
+		}
+	//D2MAP26
+		If( x == -992 && y == 544 && par == 150 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP26") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",-1312.0,3456.0,0.0,106,0.0);
+		}
+	//D2MAP30
+		If( x == 2848 && y == -928 && par == 180 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",2880.0,1648.0,0.0,0,0.0);
+				//SpawnForced("BossHealthActivator",2880.0,384.0,0.0,0,0.0);
+				//SetSectorTerrain(0, 0, "blood"); 
+				ReplaceTextures("SLIME05", "BLOOD1");
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+				//SetSectorTerrain(0, 0, "nukage"); 
+				ReplaceTextures("SLIME05", "NUKAGE1");
+		}
+	//D2ReloadedMAP20
+		If( x == -40 && y == 0 && par == 840 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP20") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-6240.0,2448.0,0.0,15,0.0);
+		}
+	//D2ReloadedMAP30
+		If( x == 256 && y == 992 && par == 345 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",-64.0,800.0,0.0,4,0.0);
+				//SpawnForced("BossHealthActivator",-64.0,-32.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//TNTMAP01
+		If( x == -256 && y == -248 && par == 30 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP01") == 0 || StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP01") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueTorch",-32.0,1008.0,-72.0,66,0.0);
+		}
+	//TNTMAP02
+		If( x == -534 && y == 70 && par == 90 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP02") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP02") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerGreenTorch",162.0,507.0,80.0,16,0.0);
+		}
+	//TNTMAP03
+		If( x == -1184 && y == -1760 && par == 120 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP03") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP03") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",-1429.0,-103.0,0.0,182,0.0);
+		}
+	//TNTMAP04
+		If( x == -224 && y == -64 && par == 120 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP04") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP04") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerLightpost",-592.0,432.0,0.0,13,0.0);
+		}
+	//TNTMAP05
+		If( x == -400 && y == 216 && par == 90 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP05") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP05") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerLightpost",368.0,456.0,0.0,205,0.0);
+		}
+	//TNTMAP06
+		If( x == -1448 && y == -984 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP06") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP06") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerLightpost",528.0,-2160.0,0.0,12,0.0);
+		}
+	//TNTMAP07
+		If( x == 386 && y == -1654 && par == 120 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP07") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP07") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",-127.0,-1751.0,0.0,127,0.0);
+		}
+	//TNTMAP08
+		If( x == -158 && y == -106 && par == 120 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP08") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP08") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerLightpost",-256.0,2432.0,0.0,156,0.0);
+		}
+	//TNTMAP09
+		If( x == -32 && y == 1664 && par == 270 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP09") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP09") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerbERSERk",240.0,-368.0,0.0,316,0.0);
+		}
+	//TNTMAP10
+		If( x == -328 && y == 480 && par == 90 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP10") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP10") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-120.0,828.0,0.0,141,0.0);
+		}
+	//TNTMAP11
+		If( x == 2258 && y == 3456 && par == 210 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP11") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP11") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-64.0,1328.0,222.0,136,0.0);
+		}
+	//TNTMAP12
+		If( x == 128 && y == 1600 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP12") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP12") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-1184.0,2208.0,112.0,74,0.0);
+		}
+	//TNTMAP13
+		If( x == 224 && y == -128 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP13") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP13") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",4000.0,2944.0,240.0,87,0.0);
+		}
+	//TNTMAP14
+		If( x == -1120 && y == 1504 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP14") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP14") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-960.0,320.0,160.0,6,0.0);
+		}
+	//TNTMAP15
+		If( x == 2132 && y == 126 && par == 210 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP15") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP15") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerInvisibility",1608.0,2140.0,0.0,193,0.0);
+		}
+	//TNTMAP16
+		If( x == -832 && y == 1520 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP16") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP16") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",-992.0,-2264.0,0.0,84,0.0);
+		}
+	//TNTMAP17
+		If( x == -472 && y == -1064 && par == 420 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP17") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP17") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-32.0,1672.0,235.0,10,0.0);
+		}
+	//TNTMAP18
+		If( x == -256 && y == 128 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP18") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP18") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-1952.0,-160.0,-92.0,41,0.0);
+		}
+	//TNTMAP19
+		If( x == -1376 && y == 864 && par == 210 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP19") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP19") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",1280.0,616.0,24.0,287,0.0);
+		}
+	//TNTMAP20
+		If( x == -672 && y == -929 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP20") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP20") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerYellowSkull",-2192.0,1952.0,16.0,187,0.0);
+		}
+	//TNTMAP21
+		If( x == -507 && y == -1824 && par == 240 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP21") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP21") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerYellowSkull",-505.0,608.0,256.0,121,0.0);
+		}
+	//TNTMAP22
+		If( x == -64 && y == -616 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP22") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP22") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-4024.0,-1080.0,0.0,7,0.0);
+		}
+	//TNTMAP23
+		If( x == -55 && y == -1535 && par == 180 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP23") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP23") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-5.0,713.0,32.0,105,0.0);
+		}
+	//TNTMAP25
+		If( x == 96 && y == -544 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP25") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP25") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerYellowSkull",1816.0,-2176.0,-200.0,74,0.0);
+		}
+	//TNTMAP26
+		If( x == 1520 && y == -288 && par == 300 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP26") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP26") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerYellowSkull",-1952.0,2112.0,368.0,26,0.0);
+		}
+	//TNTMAP27
+		If( x == -3722 && y == -778 && par == 330 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP27") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP27") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",-5542.0,1594.0,-320.0,198,0.0);
+		}
+	//TNTMAP28
+		If( x == -288 && y == 224 && par == 420 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP28") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP28") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",-2080.0,480.0,0.0,44,0.0);
+		}
+	//TNTMAP29
+		If( x == -576 && y == 3520 && par == 300 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP29") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP29") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerYellowSkull",288.0,-1632.0,128.0,300,0.0);
+		}
+	//TNTMAP30
+		If( x == -3904 && y == -1888 && par == 180 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP30") == 0) */)
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",3072.0,-1472.0,128.0,95,0.0);
+				//SpawnForced("BossHealthActivator",2752.0,-736.0,0.0,0,0.0);
+				//SpawnForced("BossHealthActivator",3392.0,-736.0,0.0,0,0.0);
+				//SpawnForced("BossHealthActivator",3072.0,-336.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//PMAP01
+		If( x == -864 && y == -96 && par == 30 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP01") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP01") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerGreenTorch",1392.0,48.0,0.0,20,0.0);
+		}
+	//PMAP02
+		If( x == 32 && y == -32 && par == 90 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP02") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP02") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerYellowSkull",-1264.0,-657.0,0.0,44,0.0);
+		}
+	//PMAP03
+		If( x == 672 && y == -992 && par == 120 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP03") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP03") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerRedKey",1696.0,288.0,0.0,138,0.0);
+		}
+	//PMAP04
+		If( x == -800 && y == -1056 && par == 120 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP04") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP04") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",-1584.0,-627.0,0.0,87,0.0);
+		}
+	//PMAP05
+		If( x == 3104 && y == -2464 && par == 90 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP05") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP05") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueKey",4544.0,-4672.0,0.0,110,0.0);
+		}
+	//PMAP06
+		If( x == -2000 && y == 224 && par == 150 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP06") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP06") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",-448.0,1056.0,0.0,132,0.0);
+		}
+	//PMAP07
+		If( x == 416 && y == -352 && par == 120 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP07") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP07") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerYellowSkull",-16.0,16.0,0.0,12,0.0);
+		}
+	//PMAP29
+		If( x == 2144 && y == -96 && par == 300 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP29") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP29") == 0) */)
+		{
+			delay(delaytic);
+			SpawnForced("EvidenceCheckerBlueSkull",1408.0,-768.0,0.0,178,0.0);
+		}
+	//PMAP30
+		If( x == -4192 && y == 2528 && par == 180 /*&& (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 || /*StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP30") == 0) */)
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",-3648.0,6080.0,14.0,81,0.0);
+				//SpawnForced("BossHealthActivator",-3648.0,4320.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//P2MAP30 (Plutonia II)
+		If( x == -1152 && y == -1664 && par == 180 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",448.0,280.0,128.0,15,0.0);
+				//SpawnForced("BossHealthActivator",448.0,1408.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//PRCPMAP30 (Plutonia: Revisited Community Project)
+		If( x == 2088 && y == -616 && par == 180 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",4608.0,416.0,64.0,77,0.0);
+				//SpawnForced("BossHealthActivator",4608.0,-1440.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//AVMAP30 (Alien Vendetta)
+		If( x == -24 && y == -144 && par == 180 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 )
+		{
+			If(GameSkill() >= SKILL_HARD)
+			{
+				delay(delaytic);
+				If ( GetCvar("sv_allowbossmap") == 1 )
+				{
+					printbold(s:"Boss Mode Enabled");
+					SpawnForced("BossBrainChecker",-128.0,6026.0,14.0,61,0.0);
+					//SpawnForced("BossHealthActivator",672.0,3392.0,0.0,0,0.0);
+				}
+				Else
+					printbold(s:"Boss Mode Disabled");
+			}
+			Else If(GameSkill() < SKILL_HARD)
+			{
+				delay(delaytic);
+				If ( GetCvar("sv_allowbossmap") == 1 )
+				{
+					printbold(s:"Boss Mode Enabled");
+					SpawnForced("BossBrainChecker",-128.0,6048.0,14.0,141,0.0);
+					//SpawnForced("BossHealthActivator",672.0,3392.0,0.0,0,0.0);
+				}
+				Else
+					printbold(s:"Boss Mode Disabled");
+			}
+		}
+	//EPIC2MAP30
+		If( x == -4320 && y == 1312 && par == 180 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",7940.0,-1224.0,208.0,248,0.0);
+				//SpawnForced("BossHealthActivator",8000.0,656.0,0.0,0,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}
+	//WOSMAP30 (Whispers of Satan) //Can't get this to work at the moment.
+		//If( x == 704 && y == -1184 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 )
+		/*If( StrICmp(StrParam(n:PRINTNAME_LEVELNAME),"The Verge of Revelation") == 0 )
+		{
+			delay(delaytic);
+			If ( GetCvar("sv_allowbossmap") == 1 )
+			{
+				printbold(s:"Boss Mode Enabled");
+				SpawnForced("BossBrainChecker",-2496.0,2536.0,-128.0,408,0.0);
+				//SpawnForced("BossBrainChecker",-2496.0,2536.0,9999.0,408,0.0);
+			}
+			Else
+				printbold(s:"Boss Mode Disabled");
+		}*/
+	//EDAY06
+		If( x == -704 && y == 144 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "EDAY06") == 0 )
+		{
+			delay(delaytic);
+			SpawnForced("SSReplacer",1744.0,6848.0,-32768.0,0,0.0);
+			delay(70); //2 seconds to start spawning EEEVILLL!!!
+			SpawnForced("EvilMarine",1742.0,6770.0,-32768.0,372,168.0);
+			SpawnForced("EvilMarine",1822.0,6776.0,-32768.0,5,168.0);
+			SpawnForced("EvilMarine",1708.0,6828.0,-32768.0,770,168.0);
+			SpawnForced("EvilMarine",1796.0,6834.0,-32768.0,374,168.0);
+			SpawnForced("EvilMarine",1654.0,6880.0,-32768.0,771,168.0);
+			SpawnForced("EvilMarine",1740.0,6878.0,-32768.0,4,168.0);
+			SpawnForced("EvilMarine",1804.0,6900.0,-32768.0,271,168.0);
+			SpawnForced("EvilMarine",1712.0,6928.0,-32768.0,772,168.0);
+		}
+	//EDAY10
+		If( x == 1376 && y == 704 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "EDAY10") == 0 && !CheckInventory("PB_PDAWeaponContainer") )
+		{
+			delay(delaytic);
+			SpawnForced("BossChecker",8336.0,-480.0,-32768.0,456,0.0);
+			SpawnForced("BossChecker",8567.0,-414.0,-32768.0,457,0.0);
+		} 
+		// "You buy yourself a product and you get what you pay for, and these chumps had paid 
+		// for some angry gringo without the sensibilities to know right from wrong."
+}
+
+Script "BossMapCheck" (VOID)
+{
+	If( StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M8") == 0 )
+	{
+		//delay(delaytic);
+		ACS_NamedExecute("BruiserHealth", 0, 0, 0, 0);
+	}
+	If( StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M8") == 0 )
+	{
+		//delay(delaytic);
+		ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
+	}
+	If( StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M8") == 0 )
+	{
+		//delay(delaytic);
+		ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
+	}
+	If( (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 || StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP30") == 0 || StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP30") == 0) )
+	{
+		//delay(delaytic);
+		ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
+	}
+}
+
+int BTID; //Boss ThingID
+int BROA; //Boss ThingID
+int BROB; //Boss ThingID
+
+script "MakeMeBad" (VOID)
+{
+	BTID = UniqueTID();
+	Thing_ChangeTID(0, BTID);
+	int	bosshealth = FixedMul(GetActorProperty(BTID, APROP_Health), 3.0);
+	int	bossmaxhealth = FixedMul(GetActorProperty(BTID, APROP_SpawnHealth), 3.0);
+	delay(5);
+	SetActorProperty(BTID, APROP_HEALTH, BossMaxHealth);
+	SetActorProperty(BTID, APROP_SPAWNHEALTH, BossMaxHealth);
+	SetActorFlag(BTID, "MISSILEMORE", 1);
+	SetActorFlag(BTID, "ALWAYSFAST", 1);
+	SetActorFlag(BTID, "BOSSDEATH", 1);
+	//ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
+}
+
+script "BruiserBroA" (VOID)
+{
+	BROA = UniqueTID();
+	Thing_ChangeTID(0, BROA);
+	//int	bosshealth = GetActorProperty(BROA, APROP_Health);
+	//int	bossmaxhealth = bosshealth + GetActorProperty(BROA, APROP_SpawnHealth);
+	if ( checkinventory("BelpheBro") == 1 )
+	terminate;
+	int	bosshealth = FixedMul(GetActorProperty(BROA, APROP_Health), 3.0);
+	int	bossmaxhealth = FixedMul(GetActorProperty(BROA, APROP_SpawnHealth), 3.0);
+	delay(5);
+	SetActorProperty(BROA, APROP_SPAWNHEALTH, BossMaxHealth);
+	SetActorProperty(BROA, APROP_HEALTH, BossMaxHealth);
+	SetActorFlag(BROA, "MISSILEMORE", 1);
+	SetActorFlag(BROA, "ALWAYSFAST", 1);
+	SetActorFlag(BROA, "BOSSDEATH", 1);
+	//ACS_NamedExecute("BruiserHealth", 0, 0, 0, 0);
+}
+
+script "BruiserBroB" (VOID)
+{
+	BROB = UniqueTID();
+	Thing_ChangeTID(0, BROB);
+	//int	bosshealth = GetActorProperty(BROB, APROP_Health);
+	//int	bossmaxhealth = bosshealth + GetActorProperty(BROB, APROP_SpawnHealth);
+	if ( checkinventory("BelpheBro") == 1 )
+	terminate;
+	int	bosshealth = FixedMul(GetActorProperty(BROB, APROP_Health), 3.0);
+	int	bossmaxhealth = FixedMul(GetActorProperty(BROB, APROP_SpawnHealth), 3.0);
+	delay(5);
+	SetActorProperty(BROB, APROP_SPAWNHEALTH, BossMaxHealth);
+	SetActorProperty(BROB, APROP_HEALTH, BossMaxHealth);
+	SetActorFlag(BROB, "MISSILEMORE", 1);
+	SetActorFlag(BROB, "ALWAYSFAST", 1);
+	SetActorFlag(BROB, "BOSSDEATH", 1);
+	//ACS_NamedExecute("BruiserHealthB", 0, 0, 0, 0);
+}
+
+script "BossHealth" (void)
+{
+	int	bosshealth;
+	int	bossmaxhealth;
+	//BTID = ActivatorTID();
+	if(BTID == 0)
+	{
+		BTID = UniqueTID();
+		Thing_ChangeTID(0, BTID);
+	}
+
+    //Let's write the Boss's name here.
+	setfont("BIGFONT");
+	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 1.5, 0.09, 0.1, 1.0);
+	
+	
+	//How much health the boss currently has.
+	setfont("SMALLFONT");
+	bosshealth = GetActorProperty(BTID, APROP_Health);
+	HudMessageBold(d:bosshealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.43, 0.15, 0.1, 1.0);
+	
+	//Just a divider
+	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.5, 0.15, 0.05, 1.0);
+	
+	
+	//The boss's max health.
+	if ( checkactorinventory(BTID, "IsGateKeeper") == 1 )
+	{
+		bossmaxhealth = GetActorProperty(BTID, APROP_SpawnHealth);
+	}
+	else
+	{
+		bossmaxhealth = FixedMul(GetActorProperty(BTID, APROP_SpawnHealth), 3.0);
+	}
+	HudMessageBold(d:bossmaxhealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.57, 0.15, 0.1, 1.0);
+	delay(1);
+	
+	
+	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
+	if (GetActorProperty(BTID, APROP_Health)> 1)
+	restart;
+	else
+    ;
+
+}
+
+// The Bruiser Brothers
+
+script "BruiserHealth" (void)
+{
+	int	bosshealth1;
+	int	bosshealth2;
+	int	bossmaxhealth1;
+	int	bossmaxhealth2;
+
+    //Let's write the Boss's name here.
+	setfont("BIGFONT");
+	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 0.5, 0.09, 0.1, 1.0);
+	
+	
+	//How much health the boss currently has.
+	setfont("SMALLFONT");
+	bosshealth1 = GetActorProperty(BROA, APROP_Health);
+	bosshealth2 = GetActorProperty(BROB, APROP_Health);
+	
+	HudMessageBold(d:bosshealth1; HUDMSG_PLAIN, 0, CR_WHITE, 1.23, 0.15, 0.1, 1.0);
+	HudMessageBold(d:bosshealth2; HUDMSG_PLAIN, 0, CR_WHITE, 1.63, 0.15, 0.1, 1.0);
+	
+	
+	//Just a divider
+	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.3, 0.15, 0.05, 1.0);
+	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.7, 0.15, 0.05, 1.0);
+	
+	//The boss's max health.
+	if ( checkactorinventory(BROA, "BelpheBro") == 1 || checkactorinventory(BROB, "BelpheBro") == 1 )
+	{
+		bossmaxhealth1 = GetActorProperty(BROA, APROP_SpawnHealth);
+		bossmaxhealth2 = GetActorProperty(BROA, APROP_SpawnHealth);
+	}
+	else
+	{
+		bossmaxhealth1 = FixedMul(GetActorProperty(BROA, APROP_SpawnHealth), 3.0);
+		bossmaxhealth2 = FixedMul(GetActorProperty(BROA, APROP_SpawnHealth), 3.0);
+	}
+	HudMessageBold(d:bossmaxhealth1; HUDMSG_PLAIN, 0, CR_WHITE, 1.37, 0.15, 0.1, 1.0);
+	HudMessageBold(d:bossmaxhealth2; HUDMSG_PLAIN, 0, CR_WHITE, 1.77, 0.15, 0.1, 1.0);
+	delay(1);
+	
+	
+	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
+	if (GetActorProperty(BROA, APROP_Health)> 1)
+	restart;
+	
+	if (GetActorProperty(BROB, APROP_Health)> 1)
+	restart;
+	
+	Floor_LowerToLowest (666, 20);
+
+}
+
+script 1622 (void)
+{ ACS_NamedExecuteAlways("BruiserHealth", 0, 0, 0, 0); }
+
+script 56 (void)
+{ ACS_ExecuteAlways("33", 0, 0, 0, 0); }
+
+script "BruiserHealthA" (void)
+{
+
+    //Let's write the Boss's name here.
+	setfont("BIGFONT");
+	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 1.5, 0.09, 0.1, 1.0);
+	
+	
+	//How much health the boss currently has.
+	setfont("SMALLFONT");
+	int	bosshealth = GetActorProperty(BROA, APROP_Health);
+	HudMessageBold(d:bosshealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.43, 0.15, 0.1, 1.0);
+	
+	//Just a divider
+	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.5, 0.15, 0.05, 1.0);
+	
+	
+	//The boss's max health.
+	int	bossmaxhealth = GetActorProperty(BROA, APROP_SpawnHealth);
+	HudMessageBold(d:bossmaxhealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.57, 0.15, 0.1, 1.0);
+	delay(1);
+	
+	
+	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
+	if (GetActorProperty(BROA, APROP_Health)> 1)
+	restart;
+	else
+    ;
+
+}
+
+script "BruiserHealthB" (void)
+{
+
+    //Let's write the Boss's name here.
+	setfont("BIGFONT");
+	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 1.5, 0.09, 0.1, 1.0);
+	
+	
+	//How much health the boss currently has.
+	setfont("SMALLFONT");
+	int	bosshealth = GetActorProperty(BROB, APROP_Health);
+	HudMessageBold(d:bosshealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.43, 0.15, 0.1, 1.0);
+	
+	//Just a divider
+	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.5, 0.15, 0.05, 1.0);
+	
+	
+	//The boss's max health.
+	int	bossmaxhealth = GetActorProperty(BROB, APROP_SpawnHealth);
+	HudMessageBold(d:bossmaxhealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.57, 0.15, 0.1, 1.0);
+	delay(1);
+	
+	
+	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
+	if (GetActorProperty(BROB, APROP_Health)> 1)
+	restart;
+	else
+    ;
+
+}
+
+script "MakeMeBitch" (VOID)
+{
+	Int BITCH = UniqueTID();
+	Thing_ChangeTID(0, BITCH);
+	SetActorFlag(BITCH, "COUNTKILL", 0);
+	SetActorFlag(BITCH, "THRUACTORS", 1);
+	SetActorFlag(BITCH, "NOTARGET", 1);
+	SetActorFlag(BITCH, "NOBLOCKMAP", 1);
+	Delay(35);
+	Thing_Remove(BITCH);
+}
+
+Script "SetBossMode" (VOID) NET
+{
+	if((!GetCVAR("sv_allowbossmap")) && ((PlayerNumber() == -1) || !IsNetworkGame()))
+	{
+		SetCvar("sv_allowbossmap", 1);
+		//ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,StrParam(n:PRINTNAME_SKILL));
+		ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,-1);
+	}
+	Else
+	SetCvar("sv_allowbossmap", 0);
+	//ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,StrParam(n:PRINTNAME_SKILL));
+	ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,-1);
+}
+
+function int LiquidReplacement(void)
+{
+	int LTP;
+	if ( GetCvar("LTP_Largesplash") || GetCvar("LTP_Smallsplash") || GetCvar("LTP_Largesplashsize") )
+	{ LTP = 1; }
+	else
+	{ LTP = 0; }
+	return LTP;
+}
+
+Script "ReplaceLiquids" ENTER
+{
+	ReplaceTextures("LAVAFL", "LAVA1");
+	delay(35);
+	if ( LiquidReplacement() )
+	{ ReplaceTextures("LFALL01", "LPLAVAF"); }
+	
+	delay(1);
+}
+
+// God says he's away.

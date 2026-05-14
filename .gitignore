@@ -1,0 +1,25 @@
+# OS junk
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor / IDE
+*.bak
+*.swp
+*.tmp
+*~
+.vscode/
+.idea/
+
+# Build artefacts from the user's own GZDoom/UZDoom test runs
+gzdoom-*.log
+*.cfg.bak
+
+# Local PK3 builds (the source-of-truth is the loose directory)
+UME-Lite.pk3
+UME-Lite-*.pk3
+
+# ACS compiler scratch
+*.acs.bak
+acs.err
