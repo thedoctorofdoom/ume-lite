@@ -172,7 +172,6 @@ Decal "BulletDecalNew1"
 	TNT1 AAAAA 0 A_CustomMissile ("SparkX", 2, 0, random (0, 360), 2, random (0, 360))
     TNT1 A 0 A_SpawnItemEx ("RicoChet",0,0,-5,0,0,0,0,SXF_NOCHECKPOSITION,0)
     TNT1 AAAA 0
-    TNT1 A 0 A_PlaySound("ricochet/hit")
 	Stop
   Melee:
 	TNT1 AAA 0 A_CustomMissile ("OldschoolRocketSmokeTrail2", 2, 0, random (0, 360), 2, random (0, 360))
@@ -250,7 +249,6 @@ ACTOR RicoChet
     TNT1 A 0 A_SpawnItem ("YellowFlareSmall", 0)
 	TNT1 A 0 A_SpawnItemEx ("Detect_FloorBullet",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
 	TNT1 A 0 A_SpawnItemEx ("Detect_CeilBullet",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
-	PUFF A 0 bright A_PlaySound("ricochet/hit")
     
 	
 	TNT1 A 0 A_SpawnItem ("YellowFlareSmall", 0)
@@ -280,7 +278,6 @@ ACTOR RicoChet
 	
 	TNT1 A 0 A_SpawnItemEx ("Detect_FloorBullet",0,0,5,0,0,0,0,SXF_NOCHECKPOSITION,0)
 	TNT1 A 0 A_SpawnItemEx ("Detect_CeilBullet",0,0,0,-5,0,0,0,SXF_NOCHECKPOSITION,0)
-	PUFF A 0 bright A_PlaySound("ricochet/hit")
 	TNT1 A 0 A_SpawnItem ("YellowFlareSmall", 0)
 	TNT1 A 0 A_SetScale(-0.6)
     TNT1 A 0 A_Jump (132, 15)
@@ -521,7 +518,6 @@ ACTOR RicoChetMinor: RicoChet
 	TNT1 A 0 A_SpawnItemEx ("Detect_FloorBullet",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
 	TNT1 A 0 A_SpawnItemEx ("Detect_CeilBullet",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
 	TNT1 AAA 0 A_CustomMissile ("SparkXNoModel", 2, 0, random (0, 360), 2, random (0, 360))
-	PUFF A 0 bright A_PlaySound("ricochet/hit")
     TNT1 AA 0 A_CustomMissile ("OldschoolRocketSmokeTrail2", 2, 0, random (0, 360), 2, random (0, 360))
 
 	TNT1 A 0 A_Jump(255, "Spawn1", "Spawn2", "Spawn3", "Spawn4")

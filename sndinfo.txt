@@ -31,23 +31,12 @@ $limit world/sludgegloop 2
 $limit world/drip 2
 $limit world/lavasizzle 2
 
-$volume ricochet/hit 0.7 
 $volume world/watersplash 0.3 
 
 $rolloff world/watersplash 300 300 
 
 
-$random world/ricochet      {  ricochet/hit world/blank1 }
-$random ricochet/hit        {  world/ricochet1 world/ricochet2 world/ricochet3 world/ricochet4 world/ricochet5 world/ricochet6 world/ricochet7 }
-world/ricochet1     ricoche1
-world/ricochet2     ricoche2
-world/ricochet3     ricoche3
-world/ricochet4     ricoche4
-world/ricochet5     ricoche5
-world/ricochet6     ricoche6
-world/ricochet7     ricoche7
 world/blank1        blanksnd
-world/blank2        blanksnd
 
 $random BHITDIR {  BHITDIR1 BHITDIR2 BHITDIR3 BHITDIR4 BHITDIR5 world/blank1}
 BHITDIR1 BHITDIR1
@@ -61,26 +50,7 @@ $limit BHITDIR3 6
 $limit BHITDIR4 6
 $limit BHITDIR5 6
 
-$limit world/ricochet1 1
-$limit world/ricochet2 1
-$limit world/ricochet3 1
-$limit world/ricochet4 1
-$limit world/ricochet5 1
-$limit world/ricochet6 1
-$limit world/ricochet7 1
 $limit world/blank1 1
-$limit world/blank2 1
-$limit ricochet/hit 1
-$limit world/ricochet 1
-
-$rolloff world/ricochet1 200 700
-$rolloff world/ricochet2 200 700
-$rolloff world/ricochet3 200 700
-$rolloff world/ricochet4 200 700
-$rolloff world/ricochet5 200 700
-$rolloff world/ricochet6 200 700
-$rolloff world/ricochet7 200 700
-$rolloff world/ricochet 200 700
 
 // Explosion aliases below layer multiple sounds for a fuller mix.
 
