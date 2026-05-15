@@ -1,4 +1,4 @@
-# UME-Lite
+# Universal Map Enhancement System Lite (UME Lite)
 
 **Universal Map Enhancement System - Lite Edition**
 
