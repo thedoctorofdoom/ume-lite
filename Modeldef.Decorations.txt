@@ -8,7 +8,6 @@ Model BDECDestroyedCar      // Name of actor in DECORATE
    FrameIndex ELEC C 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
 Model BDECDestroyedCarRed      // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -39,8 +38,6 @@ Model BDECDestroyedCarGray      // Name of actor in DECORATE
    FrameIndex ELEC C 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
-
 Model BDECBed1     // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -50,7 +47,6 @@ Model BDECBed1     // Name of actor in DECORATE
    ZOffset 0.0
    FrameIndex SPDE M 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
 
 Model BDECBed2     // Name of actor in DECORATE
 {
@@ -62,12 +58,6 @@ Model BDECBed2     // Name of actor in DECORATE
    FrameIndex SPDE N 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
-
-
-
-
-
 Model BDECLargeBlood      // Name of actor in DECORATE
 {
    Path "models/bloodspot"    // Path to model in PK3
@@ -77,8 +67,6 @@ Model BDECLargeBlood      // Name of actor in DECORATE
    ZOffset 0.1
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
-
 
 Model BDECSmallShaft1Red      // Name of actor in DECORATE
 {
@@ -91,7 +79,6 @@ Model BDECSmallShaft1Red      // Name of actor in DECORATE
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
 Model BDECSmallShaft1Orange      // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -102,7 +89,6 @@ Model BDECSmallShaft1Orange      // Name of actor in DECORATE
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
 Model BigShaftOrange1      // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -112,7 +98,6 @@ Model BigShaftOrange1      // Name of actor in DECORATE
    ZOffset 0.9
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
 
 Model DestroyedCeilLampBig     // Name of actor in DECORATE
 {
@@ -125,7 +110,6 @@ Model DestroyedCeilLampBig     // Name of actor in DECORATE
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
 Model DestroyedCeilLamp      // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -136,10 +120,6 @@ Model DestroyedCeilLamp      // Name of actor in DECORATE
 
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
-
-
-
 
 Model BDecMap16SecretExit     // Name of actor in DECORATE
 {
@@ -162,6 +142,7 @@ Model BDECExitHoleMap13     // Name of actor in DECORATE
 
    FrameIndex SPDF E 0 0         // The sprite lump, sprite frame, model index, frame number
 }
+
 Model BDECExitHoleMap13     // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -173,7 +154,6 @@ Model BDECExitHoleMap13     // Name of actor in DECORATE
    FrameIndex SPDF F 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
 Model BDECWIndowFrame1     // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -183,7 +163,6 @@ Model BDECWIndowFrame1     // Name of actor in DECORATE
 
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
 
 Model BDECWIndowGlass1     // Name of actor in DECORATE
 {
@@ -204,8 +183,6 @@ Model BDECWIndowGlass1     // Name of actor in DECORATE
 
    FrameIndex XXX1 B 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
-
 
 Model BDECWIndowFrame2     // Name of actor in DECORATE
 {
@@ -217,7 +194,6 @@ Model BDECWIndowFrame2     // Name of actor in DECORATE
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
 Model BDECWIndowGlass2     // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -237,8 +213,6 @@ Model BDECWIndowGlass2     // Name of actor in DECORATE
 
    FrameIndex XXX1 B 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
-
 
 Model PlutoniaBridge      // Name of actor in DECORATE
 {
@@ -251,8 +225,6 @@ Model PlutoniaBridge      // Name of actor in DECORATE
    FrameIndex SPDF V 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-
-
 Model BDECPentagram   // Name of actor in DECORATE
 {
    Path "models/bloodspot"    // Path to model in PK3
@@ -264,8 +236,6 @@ Model BDECPentagram   // Name of actor in DECORATE
    FrameIndex PNTG C 0 0
 }
 
-
-
 Model BDECHellKeep   // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -274,5 +244,3 @@ Model BDECHellKeep   // Name of actor in DECORATE
    Scale 22.0 22.0 35.0            // Scale values
    FrameIndex NULL A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
-
-

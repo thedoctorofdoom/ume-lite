@@ -1,132 +1,84 @@
-
-// IF YOU WANT TO USE STUFF FROM THIS MOD, GIVE ME CREDITS
-
-
 Actor DebrisGeneral
 {
-+MISSILE
-+NOBLOCKMAP
-+NOGRAVITY
-+DROPOFF
-+NOTELEPORT
-+FORCEXYBILLBOARD
-+NOTDMATCH
-+GHOST
-radius 1
-height 1
-mass 1
-damage 0
+	+MISSILE
+	+NOBLOCKMAP
+	+NOGRAVITY
+	+DROPOFF
+	+NOTELEPORT
+	+FORCEXYBILLBOARD
+	+NOTDMATCH
+	+GHOST
+	radius 1
+	height 1
+	mass 1
+	damage 0
 }
 
 Actor BDECLightCheckerRed : Inventory
 {
-inventory.maxamount 1
+	inventory.maxamount 1
 }
+
 Actor BDECLightCheckerOrange : Inventory
 {
-inventory.maxamount 1
+	inventory.maxamount 1
 }
 
 Actor BDECLightCheckerBlue : Inventory
 {
-inventory.maxamount 1
+	inventory.maxamount 1
 }
 
 Actor BDECLightCheckerGreen : Inventory
 {
-inventory.maxamount 1
+	inventory.maxamount 1
 }
 
 Actor BDECLightCheckerWhite : Inventory
 {
-inventory.maxamount 1
+	inventory.maxamount 1
 }
 
 Actor BDECNukageChecker : Inventory
 {
-inventory.maxamount 1
+	inventory.maxamount 1
 }
 
+//Tokens
 #include DECORATE/TOKENS.txt
-//Gore N' Blood
-#include DECORATE/GOREGROUPS.txt
+
+//Gore and blood
+//#include DECORATE/GOREGROUPS.txt
 #include DECORATE/BLOOD.txt
 #include DECORATE/MEAT.txt
 #include DECORATE/LIMBS.txt
 #include DECORATE/GREENGORE.txt
 #include DECORATE/DEAD.txt
 
-//MISC
+//Miscellaneous
 #include DECORATE/PARTICLES.txt
 #include DECORATE/SMOKE.txt
 #include DECORATE/CASING.txt
 #include DECORATE/FIRE.txt
 #include DECORATE/PUFF.txt
-#include DECORATE/TRACERS.txt
-#include DECORATE/SPARKS.txt
 #include DECORATE/FLARES.txt
-//#include DECORATE/Teleports.txt
-#include DECORATE/Footsteps.txt
+
 //Enemies
-#include DECORATE/LABGUY.txt
 #include DECORATE/MUMMY.txt
-#include DECORATE/EEEVILLL.txt
-#include DECORATE/ICONOFSIN.txt
-//ST Monsters (Plans for added compatibility in the future...maybe) -BROS_ETT_311
-//#include DECORATE/BELPHEGOR.txt
-//#include DECORATE/JUGGERNAUT.txt
 
-//Bosses
-//#include DECORATE/MOTHERDEMON.txt
-//#include DECORATE/NAZIS.txt
-//#include DECORATE/UBERSOLDAT.txt
-
-//DECORATIONS
+//Decorations
 #include DECORATE/FURNITURE.txt
 #include DECORATE/LAMPS.txt
 #include DECORATE/NATURAL.txt
 #include DECORATE/FIREWORKS.txt
 #include DECORATE/TORCHES.txt
 
-#include DECORATE/SPLASHES.txt
-
-
-
-
-#include DECORATE/Epic2Stuff.txt
-
-
-#include DECORATE/Water.txt
-#include DECORATE/FlatDecals.txt
-//#include DECORATE/BrutalChexQuest.txt
-
-
-//MAP ENHANCEMENT SYSTEM
+//Map Enhancement System
 #include DECORATE/MapSpecificDec.txt
 #include DECORATE/MapDetection.txt
 #include DECORATE/Doom1Remap.txt
 #include DECORATE/Doom2Remap.txt
-#include DECORATE/PlutoniaRemap.txt
-#include DECORATE/TNTRemap.txt
-#include DECORATE/OthermapsRemap.txt
 
-
-
-//VEHICLES
+//Vehicles
 #include DECORATE/EXPLOSIVES.txt
-#include DECORATE/UME_AMMO.txt
-#include DECORATE/Tank.txt
-#include DECORATE/ArtilleryTank.txt
-#include DECORATE/Mech.txt
-#include DECORATE/Helicopter.txt
-#include DECORATE/HeavyMachinegun.txt
-#include DECORATE/VehicleCrashes.txt
-#include DECORATE/Repairs.txt
-#include DECORATE/EnemyTanks.txt
 #include DECORATE/Critters.txt
-#include DECORATE/BIKE.txt
-
-actor Golden_NOPE_NO_THNX!! replaces GoldenBoner{} //As funny as this shit is
-										//...it kind of ruins the Universal MES 
-										//when used with Demon Steele lol
-										// -BROS_ETT_311

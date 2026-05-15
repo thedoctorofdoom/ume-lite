@@ -63,7 +63,6 @@ ACTOR TorchTree2: TorchTree Replaces TorchTree
 		TRE1 O 0 Thing_ChangeTID(0,748)
 		TRE1 A 3
 		MARN A 0 ACS_NamedExecuteAlways("BDCheckDecorations", 0, 0, 0, 0)//Check if advanced decorations are disabled.
-		TNT1 A 0 ACS_NamedExecuteAlways("BDCheckFloorType3", 0, 0, 0, 0)//Check floor texture type
 		Goto Spawn2
 		
 	Spawn2:
@@ -139,6 +138,11 @@ ACTOR TorchTree2: TorchTree Replaces TorchTree
 }
 
 
+Actor BDMap31TreeToken2 : Inventory
+{
+	inventory.maxamount 1
+}
+
 ACTOR Big_Tree: BigTree Replaces BigTree
 {
 	Game Doom
@@ -170,13 +174,19 @@ ACTOR Big_Tree: BigTree Replaces BigTree
 		TNT1 A 0 A_NoBlocking
 		TNT1 A 0 A_SpawnItem("VanillaBigTree")
 		Stop
+	WolfSpawn:
+		FLG1 A 0 A_ChangeFlag("SHOOTABLE", 0)
+		FLG1 A 0 A_ChangeFlag("INVULNERABLE", 1)
+		FLG1 A -1
+		Stop
+	
 	Spawn:	
 		TRE2 O 0
 		TRE2 A 0 Thing_ChangeTID(0,748)
-		
+		TRE2 A 0 ACS_NamedExecuteAlways("BD_CheckMap31TreeSwap", 0, 0, 0, 0)
 		TRE2 A 3
+		TNT1 A 0 A_JumpIfInventory("BDMap31TreeToken2", 1, "WolfSpawn")
 		MARN A 0 ACS_NamedExecuteAlways("BDCheckDecorations", 0, 0, 0, 0)//Check if advanced decorations are disabled.
-		TNT1 A 0 ACS_NamedExecuteAlways("BDCheckFloorType3", 0, 0, 0, 0)//Check floor texture type
 		Goto Spawn2
 		
 		
@@ -362,7 +372,6 @@ ACTOR StalagtiteReplacer Replaces Stalagtite
 	Spawn:
 	
 		SMIT A 0 ACS_NamedExecuteAlways("BDCheckDecorations", 0, 0, 0, 0)//Check if advanced decorations are disabled.
-		TNT1 A 0 ACS_NamedExecuteAlways("BDCheckFloorType3", 0, 0, 0, 0)//Check floor texture type
 		Goto Spawn2
 		
 	Spawn2:

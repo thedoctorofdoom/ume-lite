@@ -23,3 +23,7 @@ UME-Lite-*.pk3
 # ACS compiler scratch
 *.acs.bak
 acs.err
+
+# Local ACS toolchain (acc compiler + zcommon headers, kept for local
+# development only and not part of the shipped mod)
+acc-1.60-win32/

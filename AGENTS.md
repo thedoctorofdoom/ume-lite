@@ -1,8 +1,9 @@
-# AGENTS.md — UME-Lite (Universal Map Enhancement System, Lite)
+# AGENTS.md - UME-Lite (Universal Map Enhancement System, Lite)
 
 Guidance for AI agents working in this repository. Read this **first** before
-making changes; the engine is unforgiving and the patterns here are not obvious
-from filenames alone.
+making changes. This tree is a heavily stripped fork of the original UME /
+Brutal Doom Map Enhancement System, and many files an agent might expect from
+upstream are intentionally gone.
 
 ---
 
@@ -10,189 +11,259 @@ from filenames alone.
 
 UME-Lite is a loose-file Doom add-on (PK3-style directory) intended to be loaded
 by **GZDoom / UZDoom** (and, with caveats, **LZDoom** and **Zandronum**) on top
-of `doom.wad` / `doom2.wad` (and optionally Plutonia, TNT, and PSX Doom). It is
-a stripped-down derivative of Sergeant Mark IV's **Brutal Doom Map Enhancement
-System**, originally maintained by `BROS_ETT_311` (see comments in
-`SRC/MapDetection.acs`).
+of `doom.wad` or `doom2.wad`, usually alongside a gameplay mod such as Brutal
+Doom, Project Brutality, Brutal Doom Platinum, Demon Steele, etc.
 
-What it adds at runtime:
+This fork keeps the non-replacing decoration pipeline and a subset of gore /
+ambient actors. It does **not** ship gameplay systems, player classes, weapons,
+vehicle control, boss HUDs, bonus maps, or episode definitions.
 
-- **Map enhancements** — vanilla maps (Doom 1, Doom 2, Plutonia, TNT, PSX Doom)
-  are *detected by signature* (player‑1 start coordinates + par time + level
-  name) and then enriched with extra props, lights, plant pots, antennae,
-  destroyable windows, light shafts, water/lava splashes, etc.
-- **Texture upgrades** — original flats/walls are swapped via ACS
-  `ReplaceTextures` to higher‑detail variants in `Textures/Replacement/`.
-- **Brutal-style gore, blood, gibs, particles, casings, sparks, fire, smoke,
-  flares, tracers, footsteps**, with material-aware splash and footstep sounds.
-- **Vehicles** — drivable Tank, Artillery Tank, Mech, Helicopter, and a
-  stationary Heavy Machinegun, plus enemy variants. Movement is implemented in
-  ACS (`SRC/VEHICLECONTROL.acs`) and physics-faking DECORATE actors
-  (`DECORATE/Tank.txt` etc.) using `A_CustomMissile` "feeler" projectiles.
-- **Boss-Mode** for E1M8 (`/` key by default, see `KEYCONF`) and a generic boss
-  HUD (`SRC/BOSSHEALTH.acs`).
-- **Brutal Deathmatch maps** (`dmlevels.wad` → `BDM01`–`BDM10`) and **PSX Doom
-  maps** (`psxlevels.wad` → `PSXMAP*`) registered through `MAPINFO.lmp`.
+What remains at runtime:
 
-UME-Lite does **not** ship a player class, weapons, or monsters of its own — it
-is meant to be *combined with a gameplay mod* (Brutal Doom, Project Brutality,
-Demon Steele, etc.). Everything here is decoration, environmental FX, and
-vehicle support.
+- **Complete map detection and decoration spawns** for vanilla Doom 1 and
+  Doom II. Maps are identified by player-1 start coordinates, par time, and
+  level name, then confirmed with `EvidenceChecker*` DECORATE actors.
+- **Per-map decoration placement** through `Doom1Remap.txt`, `Doom2Remap.txt`,
+  and `MapSpecificDec.txt`, using absolute-position `A_SpawnItemEx` calls.
+- **Gore, blood, gibs, particles, casings, smoke, fire, puffs, flares, props,
+  torches, lamps, natural decorations, fireworks**, one enemy (`Mummy`), and
+  one critter (`BDCritterMouse`).
+- **Brightmaps, dynamic lights, and model bindings** for the remaining actors.
+- **A Brutal Doom Platinum compatibility build path** using `DECORATE_BDP.txt`
+  and `scripts/Build-UME-BDP.ps1`.
+
+Important: `MAPINFO.lmp` is absent. UME-Lite does not define episodes, maps,
+music, skies, map order, or bundled WAD entries.
+
+---
+
+## 1.5. Changes from upstream - agent reference
+
+### Removed
+
+These upstream features are intentionally absent. Do not waste time searching
+for them unless the user explicitly asks to restore them.
+
+- **Vehicles**: no `Tank.txt`, `Helicopter.txt`, `Mech.txt`,
+  `HeavyMachineGun.txt`, `Bike.txt`, `UME_Ammo.txt`,
+  `SRC/VEHICLECONTROL.acs`, `Modeldef.BDVehicles.txt`, or
+  `SNDINFO.Vehicles`.
+- **Boss-Mode**: no `SRC/BOSSHEALTH.acs`, no boss HUD implementation, no
+  `KEYCONF`, and no `BossMode` key alias.
+- **Bundled map sets and map registration**: no `MAPINFO.lmp`, no
+  `dmlevels.wad`, no `psxlevels.wad`, no `testmap.wad`, and no bundled
+  `*.wad` files at all.
+- **Complete per-map remap coverage outside Doom 1 / Doom 2**: no
+  `DECORATE/PlutoniaRemap.txt`, `DECORATE/TNTRemap.txt`, or
+  `DECORATE/OtherMapsRemap.txt`. Some stale TNT / Plutonia signatures remain
+  in `SRC/MapDetection.acs` and `DECORATE/MapDetection.txt`, but their
+  `TNTMap*DecorationSpawn` / `PMap*DecorationSpawn` actor definitions are not
+  present, so those IWADs are not supported targets in this stripped build.
+- **HD skies / terrain / animated environment lumps**: no `Textures.HDSkies`,
+  `doomwalls.bm`, `ANIMDEFS`, `TERRAIN`, or `DECALDEF.Terrain`.
+- **Splash and extra sound libraries**: no `SRC/SSPLASH.acs`,
+  `SNDINFO.BrutalChexQuest`, or `SNDINFO.Vehicles`.
+- **Asset directories removed**: no `MUSIC/`, `GRAPHICS/`, `Textures/`,
+  `PATCHES/`, or `announcer/`.
+
+### Gutted but still present
+
+These files are retained for compatibility with DECORATE calls and load order,
+but most of their old behavior has been removed.
+
+- `LOADACS` now loads only:
+
+  ```
+  DYNAMICLEV
+  BDCVARS
+  MapDetection
+  ```
+
+  There is no `SSPLASH` or `VEHICLECONTROL` library in this build.
+
+- `SRC/BDCVARS.acs` still defines the old Janitor script names, but most are
+  empty no-op bodies: `BDCheckJanitor`, `BDCheckJanitor2`,
+  `BDCheckJanitor3`, `BDCheckJanitor4`, `BDCheckDecorations`,
+  `BDDisableMapEnhancements`, `CheckIfDM`, `BDCheckWaterRipples`,
+  `BDFootsteps`, and `BD_CheckIfOverLiquid`.
+- `SRC/BDCVARS.acs` functions with real bodies are limited to
+  `BDInitialize`, `CheckVoxels`, `BD_CheckMap31TreeSwap`,
+  `BD_CheckBloodIntensity`, `BD_CheckBloodExtra1`, and
+  `BD_CheckIfLowBlood`.
+- `CheckVoxels` is hard-coded to `SetActorState(0, "Disappear")`, so voxel
+  decorations are forced off regardless of `MES_voxeldec`.
+- Every `MapEnhancement<Name>` script in `SRC/DYNAMICLEV.acs` is empty. The
+  `*DecorationSpawn` actors still call
+  `ACS_NamedExecuteAlways("MapEnhancement<Name>")`, but no `ReplaceTextures`
+  calls actually run in this build.
+- `CVARINFO` still declares old `MES_*` CVARs, but all `MES_*` values are
+  effectively inert because the Janitor scripts that used to translate them
+  into inventory tokens are empty. The one CVAR still consumed directly is
+  `sv_allowbossmap` in `SRC/MapDetection.acs`.
+
+### Added
+
+- `DECORATE_BDP.txt`: alternate DECORATE root for the Brutal Doom Platinum
+  compatibility build. It includes only:
+  `MapSpecificDec.txt`, `MapDetection.txt`, `Doom1Remap.txt`,
+  `Doom2Remap.txt`.
+- `scripts/Build-UME-BDP.ps1`: PowerShell builder that stages a pk3 with
+  `DECORATE_BDP.txt` copied to root `DECORATE.txt`, then writes
+  `UME-BDP.pk3`.
+- `.gitignore`: excludes OS/editor scratch, local pk3 builds, ACS scratch, and
+  the local `acc-1.60-win32/` toolchain.
+- `acc-1.60-win32/`: local ACS compiler and `zcommon.acs` headers for
+  development only. It is gitignored and must not be shipped.
+
+### Present but not included by DECORATE.txt
+
+These files exist under `DECORATE/` but are not included by the standalone
+`DECORATE.txt` root. Do not assume they run.
+
+- `DECORATE/FlatDecals.txt`
+- `DECORATE/GOREGROUPS.txt` (the include is present but commented out)
+- `DECORATE/KeyPLacement.txt`
+- `DECORATE/ReviewThisToReplaceTreesInWolfMaps.txt`
 
 ---
 
 ## 2. Engine, language, and directory layout
 
-This add-on uses the **classic ZDoom modding stack**, not modern ZScript:
+This add-on uses the classic ZDoom modding stack, not modern ZScript:
 
-- **DECORATE** for actor definitions (no `zscript.zs` exists — do not add one
-  unless explicitly asked).
-- **ACS** (`SRC/*.acs`, compiled to `ACS/*.o`) for global logic, map
-  detection, texture replacement, vehicle input, boss HUD.
-- **MAPINFO**, **GLDEFS**, **ANIMDEFS**, **TERRAIN**, **DECALDEF**,
-  **MODELDEF**, **SNDINFO**, **CVARINFO**, **KEYCONF**, **brightmap**, and
-  **Textures.\*** lumps for engine config.
+- **DECORATE** for actor definitions. There is no `zscript.zs`; do not add one
+  unless explicitly asked.
+- **ACS** (`SRC/*.acs`, compiled to `ACS/*.o`) for map detection and retained
+  compatibility stubs.
+- **GLDEFS**, **MODELDEF**, **SNDINFO**, **CVARINFO**, and brightmap lumps for
+  engine configuration.
+
+Current layout:
 
 ```
 UME-Lite/
-├── DECORATE.txt          # Master DECORATE include hub (entry point)
-├── DECORATE/             # Actor definitions, split by topic (#include'd above)
-├── SRC/                  # ACS source (.acs)
-├── ACS/                  # Compiled ACS objects (.o) — referenced by LOADACS
-├── LOADACS               # Whitespace-separated list of object libraries to load
-├── MAPINFO.lmp           # Episode + per-map definitions (sky, music, next)
-├── CVARINFO              # User/server CVARs (MES_*, sv_allowbossmap)
-├── KEYCONF               # Adds the BossMode key binding + alias
-├── GLDEFS                # Dynamic lights + glow definitions
-├── ANIMDEFS              # Animated flats/walls (e.g. HD nukage)
-├── TERRAIN               # Splash + terrain (footclip, liquid, damagetype)
-├── DECALDEF.Terrain      # Animated decals for water drops, etc.
-├── doomdefs.bm,
-│   doomwalls.bm          # Brightmap declarations
-├── modeldef.txt,
-│   Modeldef.BDVehicles.txt,
-│   Modeldef.Decorations.txt   # MD3 model bindings
-├── SNDINFO.BD,
-│   SNDINFO.Vehicles,
-│   SNDINFO.Terrain,
-│   SNDINFO.BrutalChexQuest    # Sound aliases, $random, $rolloff, $limit
-├── Textures.HDSkies      # TEXTURES lump (remap entries for HD skies)
-├── SPRITES/, MODELS/, SOUNDS/, GRAPHICS/, MUSIC/,
-│   Textures/, VOXELS/, brightmaps/, PATCHES/, announcer/   # Assets
-└── *.wad                 # Auxiliary maps & textures (loaded automatically as
-                          #   embedded WADs when this directory becomes a PK3)
+|-- DECORATE.txt              # Standalone DECORATE root (full)
+|-- DECORATE_BDP.txt          # BDP-compat DECORATE root (minimal)
+|-- DECORATE/                 # Remaining actor definitions
+|-- SRC/                      # ACS source: BDCVARS, DYNAMICLEV, MapDetection
+|-- ACS/                      # Compiled ACS objects referenced by LOADACS
+|-- LOADACS                   # DYNAMICLEV, BDCVARS, MapDetection
+|-- CVARINFO                  # Declares old CVAR surface, mostly inert
+|-- GLDEFS                    # Dynamic lights and glows
+|-- doomdefs.bm               # Brightmap declarations
+|-- modeldef.txt,
+|   Modeldef.Decorations.txt  # Remaining MD3 / MD2 model bindings
+|-- SNDINFO.BD,
+|   SNDINFO.Terrain           # Sound aliases, rolloff, random groups
+|-- SPRITES/, MODELS/, SOUNDS/,
+|   VOXELS/, brightmaps/      # Runtime assets
+|-- scripts/                  # Dev-only build helper(s)
+`-- acc-1.60-win32/           # Dev-only ACS compiler, gitignored
 ```
 
+There is no `MAPINFO.lmp`, `KEYCONF`, `ANIMDEFS`, `TERRAIN`,
+`DECALDEF.Terrain`, `Textures.*`, `doomwalls.bm`, `MUSIC/`, `GRAPHICS/`,
+`PATCHES/`, `announcer/`, or bundled `*.wad`.
+
 **Pseudo-PK3 packaging**: this directory is meant to be zipped into a `.pk3`
-(or loaded directly as a directory by GZDoom with `-file UME-Lite/`). Filename
-case **does not matter** to the engine, but Linux servers care — keep new file
-names consistent with neighbours.
+or loaded directly as a directory with `-file UME-Lite/`. Runtime packages
+should exclude `SRC/`, `scripts/`, `acc-1.60-win32/`, `.git/`, and local pk3
+build outputs.
 
 ---
 
 ## 3. Load order and the ACS pipeline
 
 1. `LOADACS` lists the ACS libraries the engine pre-loads:
-   `DYNAMICLEV  BDCVARS  SSPLASH  VEHICLECONTROL  MapDetection`.
-   Each name corresponds to `ACS/<name>.o`, compiled from `SRC/<name>.acs`.
-2. `BDCVARS.acs` runs the `BDInitialize` (script `enter`) and `BDInitiate`
-   (`open`) on every map; this is where global texture remaps and player
-   buddha-mode tweaks happen.
-3. `MapDetection.acs` `Initialize_Enhancements` (`enter`) freezes the player
-   for one tic and calls `Detect_Map`, which compares
-   `(GetActorX(0)>>16, GetActorY(0)>>16, par_time, level_name)` against a giant
-   table; on match it `SpawnForced("EvidenceChecker*", ...)` at fixed world
-   coordinates with a known **Thing TID** (the third arg).
-4. The spawned `EvidenceChecker*` actor (DECORATE, in
-   `DECORATE/MapDetection.txt`) then `A_JumpIf(x == ..., "IsXxx")` to confirm
-   it landed on the expected key/torch/lightpost in the *real* map (this filters
-   out custom WADs that happen to share par time + start XY) and finally
-   `A_SpawnItemEx("<MapName>DecorationSpawn", ..., SXF_ABSOLUTEPOSITION |
-   SXF_NOCHECKPOSITION)`.
-5. The `*DecorationSpawn` actor (in `DECORATE/Doom1Remap.txt`,
-   `Doom2Remap.txt`, `PlutoniaRemap.txt`, `TNTRemap.txt`,
-   `OtherMapsRemap.txt`, `MapSpecificDec.txt`) calls
-   `ACS_NamedExecuteAlways("MapEnhancement<MapName>")` (defined in
-   `SRC/DYNAMICLEV.acs`) to swap textures, then runs hundreds of
-   `A_SpawnItemEx` calls placing absolute‑position decorations.
+   `DYNAMICLEV`, `BDCVARS`, and `MapDetection`.
+2. `BDCVARS.acs` runs `BDInitialize` (`enter`) on every map. Most old Janitor
+   scripts are now no-op compatibility stubs. Do not assume a CVAR declared in
+   `CVARINFO` changes behavior unless you find a real `GetCvar` reader.
+3. `MapDetection.acs` runs `Initialize_Enhancements` (`enter`), freezes player
+   1 briefly, and calls `Detect_Map`.
+4. `Detect_Map` compares `(GetActorX(0)>>16, GetActorY(0)>>16, par_time,
+   level_name)` against the signature table. The complete supported path is
+   Doom 1 / Doom 2. Stale TNT / Plutonia checks still exist, but their
+   decoration-spawn actors are missing. On a match, it `SpawnForced`s an
+   `EvidenceChecker*` actor at fixed map coordinates with a known Thing TID.
+5. The spawned `EvidenceChecker*` actor in `DECORATE/MapDetection.txt`
+   confirms it landed on the expected object / sector / texture in the real
+   IWAD map, then spawns a `<MapName>DecorationSpawn` actor.
+6. The `*DecorationSpawn` actor in `DECORATE/Doom1Remap.txt`,
+   `DECORATE/Doom2Remap.txt`, or `DECORATE/MapSpecificDec.txt` calls
+   `ACS_NamedExecuteAlways("MapEnhancement<Name>")`, then runs many
+   absolute-position `A_SpawnItemEx` calls to place props.
+7. In this build, the `MapEnhancement<Name>` scripts are empty. The spawn
+   calls still happen, but texture swaps do not.
 
-> **Mental model:** ACS finds the map → DECORATE confirms the map →
-> DECORATE seeds decorations + ACS swaps textures.
+Mental model:
+
+```
+ACS detects map
+  -> DECORATE evidence checker confirms map
+  -> DECORATE decoration spawner places props
+  -> ACS MapEnhancement hook is called but currently does nothing
+```
 
 ### Re-compiling ACS
 
-ACS sources live in `SRC/` and target `ACS/<name>.o`. Use **`acc.exe`** (the
-ZDoom ACS compiler) with `zcommon.acs` on the include path:
+ACS sources live in `SRC/` and target `ACS/<name>.o`. Use the local compiler
+and include headers in `acc-1.60-win32/`:
 
 ```
-acc -i <path-to>/zcommon SRC/MapDetection.acs ACS/MapDetection.o
+acc-1.60-win32/acc.exe -i acc-1.60-win32 SRC/MapDetection.acs ACS/MapDetection.o
 ```
 
-Each `.acs` file starts with `#library "<name>"` and `#include "zcommon.acs"`.
-Always re-compile after editing — DECORATE references the named/numbered
-scripts inside, not the source.
+Each `.acs` file starts with `#library "<name>"` and
+`#include "zcommon.acs"`. Always recompile after editing `SRC/*.acs`; the
+engine runs the compiled `.o` files, not the source.
 
 ---
 
 ## 4. Recurring DECORATE patterns
 
-These idioms are everywhere; recognise them before editing.
+Recognise these idioms before editing.
 
-- **Inventory tokens as booleans** — `DECORATE/Tokens.txt` defines hundreds of
-  zero-state `Inventory` actors (e.g. `IsOverWater`, `IsInATank`,
-  `LowGraphicsMode`, `DMGame`). ACS or DECORATE calls `GiveInventory` /
-  `TakeInventory`, and other states branch with `A_JumpIfInventory`.
-- **CVAR feature flags** — server/user CVARs in `CVARINFO` are read from ACS by
-  the **Janitor scripts** in `SRC/BDCVARS.acs` (`BDCheckJanitor`,
-  `BDDisableMapEnhancements`, `BDCheckWaterRipples`, `BDFootsteps`,
-  `CheckVoxels`, `BD_CheckBloodIntensity`, …). DECORATE actors call them via
-  `ACS_NamedExecuteAlways("BDCheck...")` early in their `Spawn` state, and
-  branch to a `Vanilla:` / `Vanish:` / `LowBlood:` state if the feature is off.
-- **`TNT1 A 0` chains** — DECORATE has no real expressions; conditional logic
-  is a long ladder of `TNT1 A 0 A_JumpIf(...)` / `A_JumpIfInventory(...)` /
-  `A_SpawnItemEx(...)` lines, each consuming zero tics. Preserve formatting and
-  ordering when editing — re-ordering can change which jump fires first.
-- **`A_SpawnItemEx` with absolute placement** — map-specific decorations use
+- **Inventory tokens as booleans**: `DECORATE/Tokens.txt` defines many
+  zero-state `Inventory` actors. ACS or DECORATE can call `GiveInventory` /
+  `TakeInventory`, and other states branch with `A_JumpIfInventory`. Many old
+  tokens are now never granted because the Janitor scripts are empty.
+- **CVAR feature flags**: old CVARs remain in `CVARINFO`, but most readers are
+  gone. If you need a working CVAR, fill in or add an ACS script that actually
+  reads it and sets inventory state.
+- **`TNT1 A 0` chains**: DECORATE uses long zero-tic ladders of
+  `A_JumpIf`, `A_JumpIfInventory`, and `A_SpawnItemEx`. Preserve ordering;
+  changing it can change which branch fires first.
+- **`A_SpawnItemEx` with absolute placement**: map-specific decorations use
   `SXF_ABSOLUTEPOSITION | SXF_NOCHECKPOSITION` so coordinates are world-space,
-  not relative to the spawner. This is how the per-map `*DecorationSpawn`
-  actors place props at exact map locations.
-- **Vehicle "pitch feelers"** — Tank / Helicopter actors fire short
-  `A_CustomMissile("CheckPitchFront/Back/Center", ...)` projectiles that on
-  impact give `PitchFrontToken` / `PitchBackToken`; the parent then jumps to
-  the appropriate sprite frame to fake terrain-following pitch on a flat-floor
-  engine. Don't "simplify" these — they are load-bearing.
-- **Cross-port branches** — a lot of code does
-  `if (GetCvar("MES_isrunningzandronum") == 1) { … } else { … }` because
-  Zandronum lacks features GZDoom has. When adding logic that uses ZDoom-only
-  tricks, gate it the same way.
-- **Replacement actors** — `replaces XYZ` is used sparingly (e.g.
-  `Golden_NOPE_NO_THNX!! replaces GoldenBoner`) because the goal is to be
-  **non-replacing** so we coexist with gameplay mods. Prefer
-  `EvidenceChecker*` + `*DecorationSpawn` pattern over `replaces`.
+  not relative to the spawner.
+- **Replacement actors**: avoid `replaces` unless the user explicitly asks.
+  This fork stays gameplay-mod-friendly by using the
+  `EvidenceChecker*` -> `*DecorationSpawn` pattern instead of replacing
+  vanilla map actors.
 
 ---
 
 ## 5. Conventions
 
 - **Naming**
-  - Actors / classes are `BDEC*` (Brutal Doom Enhanced Content), `Brutal_*`,
-    `BD_*`, or `<MapName>DecorationSpawn`.
-  - CVARs are `MES_*` (server/user) or `sv_*`.
-  - ACS scripts are usually named (`script "Detect_Map" …`) — only use raw
-    numeric IDs when an existing convention demands it (e.g. boss HUD `621`,
-    bruiser `1622`–`1624`, dynamic `2093/3125/3126/3127`).
+  - Actors / classes are usually `BDEC*`, `Brutal_*`, `BD_*`, or
+    `<MapName>DecorationSpawn`.
+  - CVARs are old-style `MES_*` or `sv_*`, but `MES_*` values are inert unless
+    a script actively reads them.
+  - ACS scripts are usually named. Preserve existing raw numeric IDs where
+    they already exist (`2093`, `230`, `3125`, etc.).
 - **Style**
-  - DECORATE keywords are case-insensitive but the project uses ALL-CAPS for
-    flags (`+THRUACTORS`) and PascalCase for properties (`Radius 12`). Match
-    surrounding style.
+  - DECORATE keywords are case-insensitive, but the project uses ALL-CAPS for
+    flags (`+THRUACTORS`) and PascalCase / mixed historical casing for
+    properties. Match nearby code.
   - One state line per visual; comments use `//`.
-  - Indentation is loose — most files mix tabs and spaces. Don't reformat
-    unrelated code.
+  - Indentation is loose and mixed. Do not reformat unrelated code.
 - **Compatibility floor**
-  - Code path defaults assume **GZDoom 4.x / UZDoom 4.14.x**. Anything that
-    requires newer features must be guarded.
-  - **Never** introduce ZScript without explicit approval — the project has
-    been deliberately kept on DECORATE for Zandronum compatibility.
+  - Code paths assume GZDoom 4.x / UZDoom 4.14.x unless a port-specific branch
+    says otherwise.
+  - Do not introduce ZScript without explicit approval; this tree is still
+    DECORATE + ACS for broad port compatibility.
 
 ---
 
@@ -200,76 +271,110 @@ These idioms are everywhere; recognise them before editing.
 
 ### Add a decoration to an existing detected map
 
-1. Find the map's `*DecorationSpawn` actor (search `DECORATE/Doom1Remap.txt`,
-   `Doom2Remap.txt`, `PlutoniaRemap.txt`, `TNTRemap.txt`,
-   `OtherMapsRemap.txt`, or `MapSpecificDec.txt`).
-2. Add a new line inside its `Spawn:` state:
-   ```
-   TNT1 A 0 A_SpawnItemEx("BDECPlantPot", X, Y, Z, 0, 0, 0, ANGLE,
-       SXF_ABSOLUTEPOSITION | SXF_NOCHECKPOSITION)
-   ```
-   `Z = 999` snaps to ceiling-relative, `Z = -999` snaps to floor.
-3. The actor name must already exist in one of the `DECORATE/*.txt` files
-   (most live in `Furniture.txt`, `Lamps.txt`, `Natural.txt`, `Torches.txt`,
-   `Particles.txt`, etc.).
+1. Find the map's `*DecorationSpawn` actor in `DECORATE/Doom1Remap.txt`,
+   `DECORATE/Doom2Remap.txt`, or `DECORATE/MapSpecificDec.txt`.
+2. Add a line inside its `Spawn:` state:
 
-### Detect a new vanilla / megawad map
+   ```
+   TNT1 A 0 A_SpawnItemEx("BDECPlantPot", X, Y, Z, 0, 0, 0, ANGLE, SXF_ABSOLUTEPOSITION | SXF_NOCHECKPOSITION)
+   ```
 
-1. Pick a stable signature: player-1 start `(x, y)` (right-shifted by 16,
-   matching the ACS code), `par` time, and `PRINTNAME_LEVEL`. Avoid signatures
-   shared by multiple known maps.
-2. In `SRC/MapDetection.acs > script "Detect_Map"`, add a new `if (...)`
-   block that `SpawnForced`s an evidence actor at known-good map coordinates,
-   passing a unique TID.
-3. In `DECORATE/MapDetection.txt`, add a new evidence-confirmation jump that
+   `Z = 999` is commonly used for ceiling-relative placement and `Z = -999`
+   for floor-relative placement in this codebase.
+3. Confirm the actor exists in an included DECORATE file before referencing it.
+
+### Detect a new Doom 1 / Doom 2 map variant
+
+1. Pick a stable signature: player-1 start `(x, y)` after `>> 16`, par time,
+   and `PRINTNAME_LEVEL`. Avoid signatures shared by multiple maps.
+2. In `SRC/MapDetection.acs`, add an `if (...)` block in `Detect_Map` that
+   `SpawnForced`s an evidence actor at known-good map coordinates with a
+   unique TID.
+3. In `DECORATE/MapDetection.txt`, add the evidence-confirmation jump that
    spawns a new `<MapName>DecorationSpawn`.
-4. Define `<MapName>DecorationSpawn` in the appropriate `*Remap.txt` file and
-   create `MapEnhancement<MapName>` in `SRC/DYNAMICLEV.acs` for texture swaps.
-5. Re-compile both ACS libraries.
+4. Define `<MapName>DecorationSpawn` in `Doom1Remap.txt`, `Doom2Remap.txt`, or
+   `MapSpecificDec.txt`.
+5. Add or fill in `MapEnhancement<MapName>` in `SRC/DYNAMICLEV.acs` only if
+   you need ACS behavior such as texture replacement.
+6. Recompile the edited ACS library.
 
-### Add a new sound
+### Restore texture replacement for a map
 
-1. Drop the lump in `SOUNDS/<category>/`.
-2. Register a logical name in the relevant `SNDINFO.*` file. Add `$rolloff`,
-   `$limit`, `$volume`, or `$random` qualifiers as needed.
-3. Reference the *logical* name (not the lump) from DECORATE: `A_PlaySound`,
-   `SeeSound`, `DeathSound`.
+1. Find the matching `MapEnhancement<Name>` script in `SRC/DYNAMICLEV.acs`.
+2. Add the needed `ReplaceTextures`, `ChangeFloor`, `ChangeSky`, or other ACS
+   calls there.
+3. Recompile `DYNAMICLEV.acs` to `ACS/DYNAMICLEV.o`.
+4. Test the map manually. Decoration spawns call this hook already, but the
+   hook body is currently empty.
 
 ### Add a new CVAR-toggleable feature
 
-1. Declare it in `CVARINFO` (`server int MES_newthing = 1;`).
-2. Add a check script in `SRC/BDCVARS.acs` (a "Janitor" script that
-   `GiveInventory("FeatureDisabled", 1)` or `SetActorState(0, "Vanish")`).
-3. Re-compile `BDCVARS.acs`.
-4. Call `ACS_NamedExecuteAlways("BDCheck...")` early in the actor's `Spawn`
-   state and `A_JumpIfInventory("FeatureDisabled", 1, "Vanish")`.
+1. Declare the CVAR in `CVARINFO` if it is not already present.
+2. Fill in or add an ACS check script in `SRC/BDCVARS.acs` that actually reads
+   the CVAR with `GetCvar` and gives inventory or changes actor state.
+3. Call the script from the relevant DECORATE actor with
+   `ACS_NamedExecuteAlways`.
+4. Branch on the inventory token or actor state in DECORATE.
+5. Recompile `BDCVARS.acs`.
+
+Do not assume the existing `MES_*` CVARs work. Most are retained declarations
+only.
+
+### Add a new sound
+
+1. Put the sound lump under `SOUNDS/<category>/`.
+2. Register a logical name in `SNDINFO.BD` or `SNDINFO.Terrain`.
+3. Reference the logical name from DECORATE (`A_PlaySound`, `SeeSound`,
+   `DeathSound`), not the raw filename.
+
+### Build the BDP variant
+
+Run from the repo root:
+
+```
+pwsh -File scripts/Build-UME-BDP.ps1
+```
+
+The script builds `UME-BDP.pk3`, replacing root `DECORATE.txt` with
+`DECORATE_BDP.txt` inside the staged package. Load order is:
+
+```
+IWAD -> Brutal Doom Platinum -> UME-BDP.pk3
+```
+
+Do not merge `DECORATE.txt` and `DECORATE_BDP.txt`; they are alternate roots
+for different package variants.
 
 ---
 
 ## 7. Things to watch out for
 
-- **Don't replace vanilla actors** unless you have a very good reason.
-  Existing `replaces` directives interfere with gameplay mods and were the
-  reason this project was rewritten around the EvidenceChecker pattern.
-- **Don't change Thing TIDs** spawned by `MapDetection.acs` without updating
-  the corresponding `EvidenceChecker*` and `*DecorationSpawn` chain.
-- **Recompile ACS** every time you touch `SRC/*.acs`. The shipped `.o` files
-  are what the engine runs.
-- **Voxels** in `VOXELS/` are gated by `MES_voxeldec`; their actors call
-  `CheckVoxels` and jump to a `Disappear:` state when disabled.
-- **Casing actors** are gated by `MES_infinitecasings` and `LowGraphicsMode`;
-  Janitor 2 + 3 short-circuit them in deathmatch.
-- **Blood intensity** has *two* CVAR readers — one for Zandronum
-  (`bd_bloodamount`) and one for ZDoom (`zdoombrutalblood`); update both
-  branches when changing thresholds.
-- **`testmap.wad`** is for local debugging; it is not part of the shipped
-  experience. Don't link new content against it.
+- **Empty ACS stubs are intentional**. A `{}` Janitor body is not necessarily a
+  bug. Ask or document the behavior before restoring old upstream logic.
+- **Texture replacement is currently inert**. `ReplaceTextures` appears only
+  in comments / examples unless you add it to a `MapEnhancement<Name>` body.
+- **`DECORATE.txt` and `DECORATE_BDP.txt` are alternate roots**. Only one
+  should ship as root `DECORATE.txt` in a given pk3.
+- **Do not change Thing TIDs** spawned by `MapDetection.acs` without updating
+  the corresponding `EvidenceChecker*` and decoration-spawn chain.
+- **Do not replace vanilla actors** unless there is a very good reason.
+  Replacements interfere with gameplay mods.
+- **Voxels are forced off** by `CheckVoxels`; `MES_voxeldec` does not re-enable
+  them in this build.
+- **Casing / low-graphics / deathmatch throttles are inert** until the relevant
+  BDCVARS Janitor bodies are restored.
+- **Blood intensity uses external CVARs**: `BD_CheckBloodIntensity` reads
+  `bd_bloodamount` when `isrunningzandronum == 1`, and
+  `zdoombrutalblood` when `isrunningzandronum == 0`. It does not read
+  `MES_bloodamount`.
+- **Local toolchain is not runtime content**. Keep `acc-1.60-win32/` out of
+  built pk3s.
 
 ---
 
 ## 8. Testing
 
-There is no automated test harness — this is a Doom mod. Manual loop:
+There is no automated test harness. Manual loop:
 
 ```
 gzdoom -iwad doom2.wad -file UME-Lite/ +map MAP01
@@ -277,45 +382,43 @@ gzdoom -iwad doom2.wad -file UME-Lite/ +map MAP01
 
 Useful console commands while testing:
 
-- `summon BDECPlantPot` — spawn an actor by name.
-- `give Token1` — exercise inventory-token branches.
-- `puke -sname Detect_Map` — force re-run map detection (after replacing the
-  numeric script id with the named one).
-- `mes_disabledecorations 1`, `mes_disablemapenhancements 1`,
-  `mes_lowgraphicsmode 1`, `mes_voxeldec 0`, `sv_allowbossmap 1` — exercise
-  the CVAR gates.
+- `summon BDECPlantPot` - spawn an actor by name.
+- `give LowGraphicsMode` - manually exercise branches that old Janitor scripts
+  no longer grant automatically.
+- `puke -sname Detect_Map` - force re-run map detection in a port that supports
+  named ACS pukes.
+- `sv_allowbossmap 1` - exercise the remaining live CVAR branch in map
+  detection.
 
-Test against at least: GZDoom (latest 4.x), UZDoom 4.14.3, and Zandronum (for
-the cross-port branches).
+The old `mes_disabledecorations`, `mes_disablemapenhancements`,
+`mes_lowgraphicsmode`, `mes_voxeldec`, `mes_infinitecasings`, and
+`mes_footstepsounds` toggles are declared but have no current effect until the
+corresponding BDCVARS logic is restored.
+
+Test against at least: GZDoom (latest 4.x), UZDoom 4.14.3, and Zandronum if a
+change touches the Zandronum blood-intensity branch.
 
 ---
 
 ## 9. External documentation (authoritative)
 
 When a DECORATE keyword, ACS function, actor flag, action function, or class
-behaviour is unclear, **consult these in this order**:
+behavior is unclear, consult these in this order:
 
-1. **ZDoom Wiki — DECORATE** — the primary spec for everything in
-   `DECORATE/*.txt`:
+1. **ZDoom Wiki - DECORATE**:
    - DECORATE format: <https://zdoom.org/w/index.php?title=DECORATE_format_specifications>
    - Actor properties: <https://zdoom.org/w/index.php?title=Actor_properties>
    - Actor flags: <https://zdoom.org/w/index.php?title=Actor_flags>
    - Actor states: <https://zdoom.org/w/index.php?title=Actor_states>
    - Action functions: <https://zdoom.org/w/index.php?title=Action_functions>
    - DECORATE expressions: <https://zdoom.org/w/index.php?title=DECORATE_expressions>
-   - Classes (inheritance hierarchy): <https://zdoom.org/w/index.php?title=Classes>
-2. **ZDoom-docs (stable)** — the up-to-date authoritative reference for the
-   ZScript / VM language family that DECORATE compiles into. Useful for
-   understanding the *semantics* even when writing DECORATE:
-   <https://github.com/zdoom-docs/stable>
-3. **UZDoom source, tag 4.14.3** — versioned engine source that matches our
-   compatibility floor. Use it to confirm flag/property availability or to
-   trace what a built-in actor actually does:
+   - Classes: <https://zdoom.org/w/index.php?title=Classes>
+2. **zdoom-docs (stable)**: <https://github.com/zdoom-docs/stable>
+3. **UZDoom source, tag 4.14.3**:
    <https://github.com/UZDoom/UZDoom/tree/4.14.3>
 
-For ACS specifically, `zcommon.acs` (shipped with `acc`) is the canonical
-reference; the ZDoom Wiki has function pages keyed by name (e.g.
-`SpawnForced`, `CheckActorFloorTexture`, `GetLevelInfo`, `ReplaceTextures`).
+For ACS specifically, `zcommon.acs` in `acc-1.60-win32/` is the local canonical
+reference.
 
 ---
 
@@ -324,4 +427,4 @@ reference; the ZDoom Wiki has function pages keyed by name (e.g.
 The source comments credit **Sergeant Mark IV** (original Brutal Doom Map
 Enhancement System), **TDRR**, **Kaminsky**, and **BROS_ETT_311** (the
 detection rewrite in `SRC/MapDetection.acs`). When refactoring, keep the
-comment headers in place — they are the project's only attribution record.
+comment headers in place; they are the project's attribution record.

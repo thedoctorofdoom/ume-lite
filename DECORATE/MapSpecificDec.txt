@@ -344,7 +344,6 @@ States
 	{
 		Spawn:
 		SPDC M 0
-		TNT1 A 0 ACS_NamedExecuteAlways("BDCheckFloorType3", 0, 0, 0, 0)//Check if is under a liquid
 		SPDC M 2
 		TNT1 A 0 A_JumpIfInventory("IsOverGrass", 1, "Randomizes")
 		Stop
@@ -3779,9 +3778,9 @@ States
 
 Actor BDECBarrel: BDECChairSimple 15855
 {
-Health 100
+Health 50
 Mass 99999
-Scale 0.6
+Scale 1
 -PUSHABLE
 DropItem "HealthPlus" 128
 DropItem "ArmorShard" 128

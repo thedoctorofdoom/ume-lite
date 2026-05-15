@@ -90,9 +90,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossChecker",304.0,2864.0,-32768.0,58,0.0);
-				SpawnForced("BossChecker",528.0,2864.0,-32768.0,59,0.0);
-				SpawnForced("BossHealthActivator",416.0,2528.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -146,11 +143,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossChecker",-1472.0,576.0,0.0,19,0.0);
-				SpawnForced("BossHealthActivator",-128.0,-128.0,0.0,0,0.0);
-				SpawnForced("BossHealthActivator",-768.0,-768.0,0.0,0,0.0);
-				SpawnForced("BossHealthActivator",-128.0,-1472.0,0.0,0,0.0);
-				SpawnForced("BossHealthActivator",576.0,-768.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -204,8 +196,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossChecker",1600.0,-768.0,0.0,5,0.0);
-				SpawnForced("BossHealthActivator",160.0,-480.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -355,15 +345,23 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",2880.0,1648.0,0.0,0,0.0);
-				//SpawnForced("BossHealthActivator",2880.0,384.0,0.0,0,0.0);
-				//SetSectorTerrain(0, 0, "blood"); 
-				ReplaceTextures("SLIME05", "BLOOD1");
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
-				//SetSectorTerrain(0, 0, "nukage"); 
-				ReplaceTextures("SLIME05", "NUKAGE1");
+		}
+	//D2MAP31
+		If( x == -1664 && y == -1984 && par == 120 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP31") == 0 )
+		{
+			delay(delaytic);
+			//PrintBold(s:"Map 31 detected");
+			SpawnForced("EvidenceCheckerGreenTorch",-4608.0,3392.0,0.0,236,0.0);
+		}
+	//D2MAP32
+		If( x == 448 && y == 1600 && par == 30 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP32") == 0 )
+		{
+			delay(delaytic);
+			//PrintBold(s:"Map 32 detected");
+			SpawnForced("EvidenceCheckerbERSERk",448.0,1728.0,0.0,82,0.0);
 		}
 	//D2ReloadedMAP20
 		If( x == -40 && y == 0 && par == 840 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP20") == 0 )
@@ -378,8 +376,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",-64.0,800.0,0.0,4,0.0);
-				//SpawnForced("BossHealthActivator",-64.0,-32.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -559,10 +555,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",3072.0,-1472.0,128.0,95,0.0);
-				//SpawnForced("BossHealthActivator",2752.0,-736.0,0.0,0,0.0);
-				//SpawnForced("BossHealthActivator",3392.0,-736.0,0.0,0,0.0);
-				//SpawnForced("BossHealthActivator",3072.0,-336.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -622,8 +614,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",-3648.0,6080.0,14.0,81,0.0);
-				//SpawnForced("BossHealthActivator",-3648.0,4320.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -635,8 +625,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",448.0,280.0,128.0,15,0.0);
-				//SpawnForced("BossHealthActivator",448.0,1408.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -648,8 +636,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",4608.0,416.0,64.0,77,0.0);
-				//SpawnForced("BossHealthActivator",4608.0,-1440.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -663,8 +649,6 @@ script "Detect_Map" (VOID)
 				If ( GetCvar("sv_allowbossmap") == 1 )
 				{
 					printbold(s:"Boss Mode Enabled");
-					SpawnForced("BossBrainChecker",-128.0,6026.0,14.0,61,0.0);
-					//SpawnForced("BossHealthActivator",672.0,3392.0,0.0,0,0.0);
 				}
 				Else
 					printbold(s:"Boss Mode Disabled");
@@ -675,8 +659,6 @@ script "Detect_Map" (VOID)
 				If ( GetCvar("sv_allowbossmap") == 1 )
 				{
 					printbold(s:"Boss Mode Enabled");
-					SpawnForced("BossBrainChecker",-128.0,6048.0,14.0,141,0.0);
-					//SpawnForced("BossHealthActivator",672.0,3392.0,0.0,0,0.0);
 				}
 				Else
 					printbold(s:"Boss Mode Disabled");
@@ -689,8 +671,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",7940.0,-1224.0,208.0,248,0.0);
-				//SpawnForced("BossHealthActivator",8000.0,656.0,0.0,0,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -703,8 +683,6 @@ script "Detect_Map" (VOID)
 			If ( GetCvar("sv_allowbossmap") == 1 )
 			{
 				printbold(s:"Boss Mode Enabled");
-				SpawnForced("BossBrainChecker",-2496.0,2536.0,-128.0,408,0.0);
-				//SpawnForced("BossBrainChecker",-2496.0,2536.0,9999.0,408,0.0);
 			}
 			Else
 				printbold(s:"Boss Mode Disabled");
@@ -713,321 +691,13 @@ script "Detect_Map" (VOID)
 		If( x == -704 && y == 144 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "EDAY06") == 0 )
 		{
 			delay(delaytic);
-			SpawnForced("SSReplacer",1744.0,6848.0,-32768.0,0,0.0);
-			delay(70); //2 seconds to start spawning EEEVILLL!!!
-			SpawnForced("EvilMarine",1742.0,6770.0,-32768.0,372,168.0);
-			SpawnForced("EvilMarine",1822.0,6776.0,-32768.0,5,168.0);
-			SpawnForced("EvilMarine",1708.0,6828.0,-32768.0,770,168.0);
-			SpawnForced("EvilMarine",1796.0,6834.0,-32768.0,374,168.0);
-			SpawnForced("EvilMarine",1654.0,6880.0,-32768.0,771,168.0);
-			SpawnForced("EvilMarine",1740.0,6878.0,-32768.0,4,168.0);
-			SpawnForced("EvilMarine",1804.0,6900.0,-32768.0,271,168.0);
-			SpawnForced("EvilMarine",1712.0,6928.0,-32768.0,772,168.0);
 		}
 	//EDAY10
 		If( x == 1376 && y == 704 && StrCmp(StrParam(n:PRINTNAME_LEVEL), "EDAY10") == 0 && !CheckInventory("PB_PDAWeaponContainer") )
 		{
 			delay(delaytic);
-			SpawnForced("BossChecker",8336.0,-480.0,-32768.0,456,0.0);
-			SpawnForced("BossChecker",8567.0,-414.0,-32768.0,457,0.0);
 		} 
 		// "You buy yourself a product and you get what you pay for, and these chumps had paid 
 		// for some angry gringo without the sensibilities to know right from wrong."
 }
 
-Script "BossMapCheck" (VOID)
-{
-	If( StrCmp(StrParam(n:PRINTNAME_LEVEL), "E1M8") == 0 )
-	{
-		//delay(delaytic);
-		ACS_NamedExecute("BruiserHealth", 0, 0, 0, 0);
-	}
-	If( StrCmp(StrParam(n:PRINTNAME_LEVEL), "E2M8") == 0 )
-	{
-		//delay(delaytic);
-		ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
-	}
-	If( StrCmp(StrParam(n:PRINTNAME_LEVEL), "E3M8") == 0 )
-	{
-		//delay(delaytic);
-		ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
-	}
-	If( (StrCmp(StrParam(n:PRINTNAME_LEVEL), "MAP30") == 0 || StrCmp(StrParam(n:PRINTNAME_LEVEL), "TN_MAP30") == 0 || StrCmp(StrParam(n:PRINTNAME_LEVEL), "PL_MAP30") == 0) )
-	{
-		//delay(delaytic);
-		ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
-	}
-}
-
-int BTID; //Boss ThingID
-int BROA; //Boss ThingID
-int BROB; //Boss ThingID
-
-script "MakeMeBad" (VOID)
-{
-	BTID = UniqueTID();
-	Thing_ChangeTID(0, BTID);
-	int	bosshealth = FixedMul(GetActorProperty(BTID, APROP_Health), 3.0);
-	int	bossmaxhealth = FixedMul(GetActorProperty(BTID, APROP_SpawnHealth), 3.0);
-	delay(5);
-	SetActorProperty(BTID, APROP_HEALTH, BossMaxHealth);
-	SetActorProperty(BTID, APROP_SPAWNHEALTH, BossMaxHealth);
-	SetActorFlag(BTID, "MISSILEMORE", 1);
-	SetActorFlag(BTID, "ALWAYSFAST", 1);
-	SetActorFlag(BTID, "BOSSDEATH", 1);
-	//ACS_NamedExecute("BossHealth", 0, 0, 0, 0);
-}
-
-script "BruiserBroA" (VOID)
-{
-	BROA = UniqueTID();
-	Thing_ChangeTID(0, BROA);
-	//int	bosshealth = GetActorProperty(BROA, APROP_Health);
-	//int	bossmaxhealth = bosshealth + GetActorProperty(BROA, APROP_SpawnHealth);
-	if ( checkinventory("BelpheBro") == 1 )
-	terminate;
-	int	bosshealth = FixedMul(GetActorProperty(BROA, APROP_Health), 3.0);
-	int	bossmaxhealth = FixedMul(GetActorProperty(BROA, APROP_SpawnHealth), 3.0);
-	delay(5);
-	SetActorProperty(BROA, APROP_SPAWNHEALTH, BossMaxHealth);
-	SetActorProperty(BROA, APROP_HEALTH, BossMaxHealth);
-	SetActorFlag(BROA, "MISSILEMORE", 1);
-	SetActorFlag(BROA, "ALWAYSFAST", 1);
-	SetActorFlag(BROA, "BOSSDEATH", 1);
-	//ACS_NamedExecute("BruiserHealth", 0, 0, 0, 0);
-}
-
-script "BruiserBroB" (VOID)
-{
-	BROB = UniqueTID();
-	Thing_ChangeTID(0, BROB);
-	//int	bosshealth = GetActorProperty(BROB, APROP_Health);
-	//int	bossmaxhealth = bosshealth + GetActorProperty(BROB, APROP_SpawnHealth);
-	if ( checkinventory("BelpheBro") == 1 )
-	terminate;
-	int	bosshealth = FixedMul(GetActorProperty(BROB, APROP_Health), 3.0);
-	int	bossmaxhealth = FixedMul(GetActorProperty(BROB, APROP_SpawnHealth), 3.0);
-	delay(5);
-	SetActorProperty(BROB, APROP_SPAWNHEALTH, BossMaxHealth);
-	SetActorProperty(BROB, APROP_HEALTH, BossMaxHealth);
-	SetActorFlag(BROB, "MISSILEMORE", 1);
-	SetActorFlag(BROB, "ALWAYSFAST", 1);
-	SetActorFlag(BROB, "BOSSDEATH", 1);
-	//ACS_NamedExecute("BruiserHealthB", 0, 0, 0, 0);
-}
-
-script "BossHealth" (void)
-{
-	int	bosshealth;
-	int	bossmaxhealth;
-	//BTID = ActivatorTID();
-	if(BTID == 0)
-	{
-		BTID = UniqueTID();
-		Thing_ChangeTID(0, BTID);
-	}
-
-    //Let's write the Boss's name here.
-	setfont("BIGFONT");
-	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 1.5, 0.09, 0.1, 1.0);
-	
-	
-	//How much health the boss currently has.
-	setfont("SMALLFONT");
-	bosshealth = GetActorProperty(BTID, APROP_Health);
-	HudMessageBold(d:bosshealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.43, 0.15, 0.1, 1.0);
-	
-	//Just a divider
-	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.5, 0.15, 0.05, 1.0);
-	
-	
-	//The boss's max health.
-	if ( checkactorinventory(BTID, "IsGateKeeper") == 1 )
-	{
-		bossmaxhealth = GetActorProperty(BTID, APROP_SpawnHealth);
-	}
-	else
-	{
-		bossmaxhealth = FixedMul(GetActorProperty(BTID, APROP_SpawnHealth), 3.0);
-	}
-	HudMessageBold(d:bossmaxhealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.57, 0.15, 0.1, 1.0);
-	delay(1);
-	
-	
-	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
-	if (GetActorProperty(BTID, APROP_Health)> 1)
-	restart;
-	else
-    ;
-
-}
-
-// The Bruiser Brothers
-
-script "BruiserHealth" (void)
-{
-	int	bosshealth1;
-	int	bosshealth2;
-	int	bossmaxhealth1;
-	int	bossmaxhealth2;
-
-    //Let's write the Boss's name here.
-	setfont("BIGFONT");
-	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 0.5, 0.09, 0.1, 1.0);
-	
-	
-	//How much health the boss currently has.
-	setfont("SMALLFONT");
-	bosshealth1 = GetActorProperty(BROA, APROP_Health);
-	bosshealth2 = GetActorProperty(BROB, APROP_Health);
-	
-	HudMessageBold(d:bosshealth1; HUDMSG_PLAIN, 0, CR_WHITE, 1.23, 0.15, 0.1, 1.0);
-	HudMessageBold(d:bosshealth2; HUDMSG_PLAIN, 0, CR_WHITE, 1.63, 0.15, 0.1, 1.0);
-	
-	
-	//Just a divider
-	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.3, 0.15, 0.05, 1.0);
-	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.7, 0.15, 0.05, 1.0);
-	
-	//The boss's max health.
-	if ( checkactorinventory(BROA, "BelpheBro") == 1 || checkactorinventory(BROB, "BelpheBro") == 1 )
-	{
-		bossmaxhealth1 = GetActorProperty(BROA, APROP_SpawnHealth);
-		bossmaxhealth2 = GetActorProperty(BROA, APROP_SpawnHealth);
-	}
-	else
-	{
-		bossmaxhealth1 = FixedMul(GetActorProperty(BROA, APROP_SpawnHealth), 3.0);
-		bossmaxhealth2 = FixedMul(GetActorProperty(BROA, APROP_SpawnHealth), 3.0);
-	}
-	HudMessageBold(d:bossmaxhealth1; HUDMSG_PLAIN, 0, CR_WHITE, 1.37, 0.15, 0.1, 1.0);
-	HudMessageBold(d:bossmaxhealth2; HUDMSG_PLAIN, 0, CR_WHITE, 1.77, 0.15, 0.1, 1.0);
-	delay(1);
-	
-	
-	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
-	if (GetActorProperty(BROA, APROP_Health)> 1)
-	restart;
-	
-	if (GetActorProperty(BROB, APROP_Health)> 1)
-	restart;
-	
-	Floor_LowerToLowest (666, 20);
-
-}
-
-script 1622 (void)
-{ ACS_NamedExecuteAlways("BruiserHealth", 0, 0, 0, 0); }
-
-script 56 (void)
-{ ACS_ExecuteAlways("33", 0, 0, 0, 0); }
-
-script "BruiserHealthA" (void)
-{
-
-    //Let's write the Boss's name here.
-	setfont("BIGFONT");
-	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 1.5, 0.09, 0.1, 1.0);
-	
-	
-	//How much health the boss currently has.
-	setfont("SMALLFONT");
-	int	bosshealth = GetActorProperty(BROA, APROP_Health);
-	HudMessageBold(d:bosshealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.43, 0.15, 0.1, 1.0);
-	
-	//Just a divider
-	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.5, 0.15, 0.05, 1.0);
-	
-	
-	//The boss's max health.
-	int	bossmaxhealth = GetActorProperty(BROA, APROP_SpawnHealth);
-	HudMessageBold(d:bossmaxhealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.57, 0.15, 0.1, 1.0);
-	delay(1);
-	
-	
-	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
-	if (GetActorProperty(BROA, APROP_Health)> 1)
-	restart;
-	else
-    ;
-
-}
-
-script "BruiserHealthB" (void)
-{
-
-    //Let's write the Boss's name here.
-	setfont("BIGFONT");
-	HudMessageBold(s:"-= BOSS =-"; HUDMSG_PLAIN, 0, CR_RED, 1.5, 0.09, 0.1, 1.0);
-	
-	
-	//How much health the boss currently has.
-	setfont("SMALLFONT");
-	int	bosshealth = GetActorProperty(BROB, APROP_Health);
-	HudMessageBold(d:bosshealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.43, 0.15, 0.1, 1.0);
-	
-	//Just a divider
-	HudMessageBold(s:"/"; HUDMSG_PLAIN, 0, CR_WHITE, 1.5, 0.15, 0.05, 1.0);
-	
-	
-	//The boss's max health.
-	int	bossmaxhealth = GetActorProperty(BROB, APROP_SpawnHealth);
-	HudMessageBold(d:bossmaxhealth; HUDMSG_PLAIN, 0, CR_WHITE, 1.57, 0.15, 0.1, 1.0);
-	delay(1);
-	
-	
-	//Check if the boss still is alive. If yes, repeat the script, if not, it ends here.
-	if (GetActorProperty(BROB, APROP_Health)> 1)
-	restart;
-	else
-    ;
-
-}
-
-script "MakeMeBitch" (VOID)
-{
-	Int BITCH = UniqueTID();
-	Thing_ChangeTID(0, BITCH);
-	SetActorFlag(BITCH, "COUNTKILL", 0);
-	SetActorFlag(BITCH, "THRUACTORS", 1);
-	SetActorFlag(BITCH, "NOTARGET", 1);
-	SetActorFlag(BITCH, "NOBLOCKMAP", 1);
-	Delay(35);
-	Thing_Remove(BITCH);
-}
-
-Script "SetBossMode" (VOID) NET
-{
-	if((!GetCVAR("sv_allowbossmap")) && ((PlayerNumber() == -1) || !IsNetworkGame()))
-	{
-		SetCvar("sv_allowbossmap", 1);
-		//ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,StrParam(n:PRINTNAME_SKILL));
-		ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,-1);
-	}
-	Else
-	SetCvar("sv_allowbossmap", 0);
-	//ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,StrParam(n:PRINTNAME_SKILL));
-	ChangeLevel(StrParam(n:PRINTNAME_LEVEL),0,CHANGELEVEL_NOINTERMISSION,-1);
-}
-
-function int LiquidReplacement(void)
-{
-	int LTP;
-	if ( GetCvar("LTP_Largesplash") || GetCvar("LTP_Smallsplash") || GetCvar("LTP_Largesplashsize") )
-	{ LTP = 1; }
-	else
-	{ LTP = 0; }
-	return LTP;
-}
-
-Script "ReplaceLiquids" ENTER
-{
-	ReplaceTextures("LAVAFL", "LAVA1");
-	delay(35);
-	if ( LiquidReplacement() )
-	{ ReplaceTextures("LFALL01", "LPLAVAF"); }
-	
-	delay(1);
-}
-
-// God says he's away.
