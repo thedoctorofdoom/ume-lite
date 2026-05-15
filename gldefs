@@ -37,14 +37,6 @@ pulselight CandleStickLight
     offset 0 10 0
 }
 
-pulselight FSKULL
-{
-    color 1.0 1.0 0.0
-    size 32
-    secondarysize 25
-    interval 3
-}
-
 pointlight BD_PLASMA_BALL
 {
     color 0.0 0.0 1.0
@@ -176,13 +168,6 @@ object BDECComputerLight3
 }
 
 // Floor lamp
-pointlight LAMP
-{
-    color 1.0 1.0 1.0
-    size 56
-    offset 0 44 0
-}
-
 pointlight YELLOWLAMP
 {
     color 1.0 1.0 0.0
@@ -417,13 +402,6 @@ pulselight SmallShotLight
 	secondarySize 24
 }
 
-pulselight BigShotLight
-{
-    color 0.5 0.4 0
-    size 62
-	secondarySize 36
-}
-
 object OrangeLensFlareAlt
 {
     frame LEYS { light SmallShotLight }
@@ -433,91 +411,9 @@ object OrangeLensFlareAlt
 // -- Doom Items --
 // ----------------
 
-// Soul Sphere
-pulselight SOULSPHERE
-{
-    color 0.0 0.0 1.0
-    size 40
-    secondarySize 42
-    interval 2.0
-    offset 0 16 0
-}
-
-// Invulnerability Sphere
-pulselight INVULN
-{
-    color 0.0 1.0 0.0
-    size 40
-    secondarySize 42
-    interval 2.0
-    offset 0 16 0
-}
-
-pulselight HEALTHPOTION
-{
-    color 0.0 0.0 0.6
-    size 16
-    secondarySize 18
-    interval 2.0
-}
-
 object HealthBonus
 {
     frame BON1 { light BLUEITEM }
-}
-
-// Armour Helmet
-pulselight ARMORBONUS
-{
-    color 0.0 0.6 0.0
-    size 14
-    secondarySize 16
-    interval 1.0
-	dontlightself 1
-}
-
-// Yellow Keys
-pulselight YELLOWKEY
-{
-    color 0.6 0.6 0.0
-    size 16
-    secondarySize 18
-    interval 2.0
-}
-
-// Red Keys
-pulselight REDKEY
-{
-    color 0.6 0.0 0.0
-    size 16
-    secondarySize 18
-    interval 2.0
-}
-
-// Green armour
-pointlight GREENARMOR1
-{
-    color 0.0 0.6 0.0
-    size 48
-}
-
-pointlight GREENARMOR2
-{
-    color 0.0 0.6 0.0
-    size 32
-}
-
-// Blue armour
-pointlight BLUEARMOR1
-{
-    color 0.0 0.0 0.6
-    size 48
-}
-
-pointlight BLUEARMOR2
-{
-    color 0.0 0.0 0.6
-    size 32
 }
 
 pulselight ROCKETLIGHT
@@ -539,14 +435,6 @@ object ROCKET2
     frame MISL { light ROCKETLIGHT }
 }
 
-pointlight SpecialLightz
-{
-    color 0.6 0.6 0.6
-    size 24
-	offset 0 32 0
-	dontlightself 1
-}
-
 pulselight GREENGOOZ
 {
     color 0.3 1.0 0.0
@@ -554,25 +442,6 @@ pulselight GREENGOOZ
     secondarySize 24
     interval 0.1
     offset 0 40 0
-	dontlightself 1
-}
-
-pulselight GREENITEM
-{
-    color 0.3 1.0 0.0
-    size 14
-    secondarySize 16
-    interval 0.1
-    offset 0 5 0
-}
-
-pulselight GREENITEM2
-{
-    color 0.3 1.0 0.0
-    size 14
-    secondarySize 16
-    interval 0.1
-    offset 0 5 0
 	dontlightself 1
 }
 

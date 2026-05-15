@@ -179,39 +179,6 @@ Model DestroyedCeilLamp      // Name of actor in DECORATE
    FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
 }
 
-Model BDecMap16SecretExit     // Name of actor in DECORATE
-{
-   Path "models/decoration"    // Path to model in PK3
-   Model 0 "flatspriteceil.md3"    // Model index, model file
-   Skin 0 "holexi3.png"     // Model index, texture (can be in any format supported by GZDoom)
-   Scale 32.0 32.0 32.0            // Scale values
-   ZOffset 0.9
-
-   FrameIndex SPDF D 0 0         // The sprite lump, sprite frame, model index, frame number
-}
-
-Model BDECExitHoleMap13     // Name of actor in DECORATE
-{
-   Path "models/decoration"    // Path to model in PK3
-   Model 0 "flatspriteceil.md3"    // Model index, model file
-   Skin 0 "holexi1.png"     // Model index, texture (can be in any format supported by GZDoom)
-   Scale 44.0 44.0 44.0            // Scale values
-   ZOffset 0.9
-
-   FrameIndex SPDF E 0 0         // The sprite lump, sprite frame, model index, frame number
-}
-
-Model BDECExitHoleMap13     // Name of actor in DECORATE
-{
-   Path "models/decoration"    // Path to model in PK3
-   Model 0 "flatspriteceil.md3"    // Model index, model file
-   Skin 0 "holexi2.png"     // Model index, texture (can be in any format supported by GZDoom)
-   Scale 44.0 44.0 44.0            // Scale values
-   ZOffset 0.9
-
-   FrameIndex SPDF F 0 0         // The sprite lump, sprite frame, model index, frame number
-}
-
 Model BDECWIndowFrame1     // Name of actor in DECORATE
 {
    Path "models/decoration"    // Path to model in PK3
@@ -229,7 +196,7 @@ Model BDECWIndowGlass1     // Name of actor in DECORATE
    Skin 0 "window2.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 44.0 44.0 44.0            // Scale values
 
-   FrameIndex BRGL A 0 0         // The sprite lump, sprite frame, model index, frame number
+   FrameIndex BRGL A 0 0         // Spawn: intact glass
 }
 
 Model BDECWIndowGlass1     // Name of actor in DECORATE
@@ -239,7 +206,7 @@ Model BDECWIndowGlass1     // Name of actor in DECORATE
    Skin 0 "window3.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 44.0 44.0 44.0            // Scale values
 
-   FrameIndex XXX1 B 0 0         // The sprite lump, sprite frame, model index, frame number
+   FrameIndex XXX1 B 0 0         // Death: shattered glass
 }
 
 Model BDECWIndowFrame2     // Name of actor in DECORATE
@@ -259,7 +226,7 @@ Model BDECWIndowGlass2     // Name of actor in DECORATE
    Skin 0 "window2.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 44.0 44.0 44.0            // Scale values
 
-   FrameIndex BRGL A 0 0         // The sprite lump, sprite frame, model index, frame number
+   FrameIndex BRGL A 0 0         // Spawn: intact glass
 }
 
 Model BDECWIndowGlass2     // Name of actor in DECORATE
@@ -269,18 +236,7 @@ Model BDECWIndowGlass2     // Name of actor in DECORATE
    Skin 0 "window3.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 44.0 44.0 44.0            // Scale values
 
-   FrameIndex XXX1 B 0 0         // The sprite lump, sprite frame, model index, frame number
-}
-
-Model PlutoniaBridge      // Name of actor in DECORATE
-{
-   Path "models/decoration"    // Path to model in PK3
-   Model 0 "flatsprite.md3"    // Model index, model file
-   Skin 0 "bridge1.png"     // Model index, texture (can be in any format supported by GZDoom)
-   Scale 65.0 65.0 1.0            // Scale values
-   ZOffset 0.2
-   //Offset 2 0 0.9
-   FrameIndex SPDF V 0 0         // The sprite lump, sprite frame, model index, frame number
+   FrameIndex XXX1 B 0 0         // Death: shattered glass
 }
 
 Model BDECPentagram   // Name of actor in DECORATE
