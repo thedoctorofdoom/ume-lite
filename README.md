@@ -4,145 +4,29 @@
 
 A drop-in, decoration-only add-on for **GZDoom / UZDoom** (and, with caveats,
 **LZDoom** and **Zandronum**) that quietly adds props, gore, and ambient detail
-to the original Doom and Doom II campaigns. It is meant to load alongside a
-gameplay mod (Brutal Doom, Project Brutality, Brutal Doom Platinum, Demon
-Steele, etc.) and never replaces vanilla actors.
-
-UME-Lite is a deliberately **stripped fork** of the larger upstream UME / BD
-Map Enhancement System. Most of the heavyweight features have been removed;
-read the next section before you assume something works.
+to the original Doom and Doom II campaigns. It is meant to load alongside
+gameplay mods and never replaces vanilla actors.
 
 ---
 
-## Changes from upstream UME
+## What this mod does
 
-### Removed
+UME-Lite is an **ambient layer**: it recognizes the classic **Doom** and **Doom
+II** IWAD episodes and lays extra scenery onto those layouts—pots, lamps,
+cables, small props, and similar touches tuned per map—without editing the maps
+themselves or replacing the monsters and pickups you already have from the IWAD
+or another mod.
 
-The following upstream features have been **deleted from this repository** and
-are no longer present in any form:
+Alongside that, it adds richer **battlefield clutter**—blood pools and splatter,
+chunks and body decoration, sparks, smoke, shell casings, and other incidental
+effects. Gore strength follows **your gameplay mod's** usual blood CVARs when
+those are present, not UME-Lite's own `MES_*` settings (most of those are only
+there for backwards compatibility).
 
-- **All vehicles**: Tank, Artillery Tank, Mech, Helicopter, stationary Heavy
-  Machinegun, Bike. Their DECORATE actors, ammo (`ume_ammo.txt`), the
-  `src/vehiclecontrol.acs` controller, `modeldef.bdvehicles.txt`, and
-  `sndinfo.vehicles` are all gone.
-- **Boss-Mode for E1M8**: `src/bosshealth.acs`, the boss HUD, the `KEYCONF`
-  binding, and the `BossMode` alias have been removed. (The
-  `sv_allowbossmap` CVAR is still consulted by map detection so boss-aware
-  mods can suppress decoration spawns on those maps; see *Configuration*.)
-- **Bundled map sets**: `dmlevels.wad` (Brutal Deathmatch `BDM01`-`BDM10`),
-  `psxlevels.wad` (PSX Doom `PSXMAP*`), `testmap.wad`, and any Extermination
-  Day hooks. There is no `MAPINFO` lump at all.
-- **Per-map remap files for Plutonia, TNT, and "OtherMaps"**: only
-  `decorate/doom1remap.txt` and `decorate/doom2remap.txt` remain. The TNT,
-  Plutonia, PLMap, and PMap signatures and decoration-spawn references have
-  also been pruned from `src/mapdetection.acs` and
-  `decorate/mapdetection.txt`. TNT and Plutonia are not supported targets in
-  this build.
-- **HD skies and animated environment lumps**: `textures.hdskies`,
-  `doomwalls.bm`, `ANIMDEFS`, `TERRAIN`, and `DECALDEF.Terrain` have been
-  removed.
-- **Splash audio plumbing**: `src/ssplash.acs`, `sndinfo.vehicles`, and
-  `sndinfo.brutalchexquest` are gone. Only `sndinfo.txt` (the `SNDINFO`
-  lump, formerly `sndinfo.bd` + `sndinfo.terrain`, now merged) remains.
-- **Asset directories**: `music/`, `graphics/`, `textures/`, `patches/`, and
-  `announcer/` have been deleted.
-
-### Gutted (still present, but no-op)
-
-These are still in the source tree because removing them would require
-re-wiring DECORATE actors that call them, but they currently have empty
-bodies and **do nothing at runtime**:
-
-- **Janitor scripts in [`src/bdcvars.acs`](src/bdcvars.acs)**: `BDCheckJanitor`,
-  `BDCheckJanitor2`, `BDCheckJanitor3`, `BDCheckJanitor4`,
-  `BDCheckDecorations`, `BDDisableMapEnhancements`, `CheckIfDM`,
-  `BDCheckWaterRipples`, `BDFootsteps`, and `BD_CheckIfOverLiquid` all have
-  empty `{}` bodies. The inventory tokens they used to grant
-  (`LowGraphicsMode`, `FeatureDisabled`, etc.) are therefore never set, so
-  the corresponding `A_JumpIfInventory` branches in DECORATE never fire.
-- **`MapEnhancement<Name>` scripts in [`src/dynamiclev.acs`](src/dynamiclev.acs)**
-  are all empty, which means **runtime
-  texture replacement (`ReplaceTextures`) does not fire on any map** in this
-  build. Only the commented `MapEnhancementE1M1` example shows what such a
-  call would look like.
-- **`CheckVoxels`**: hard-coded to `SetActorState(0, "Disappear")`, so voxel
-  decorations are forced off regardless of the `MES_voxeldec` CVAR.
-
-### Added
-
-- [`decorate/compataliases.txt`](decorate/compataliases.txt): eight thin
-  `Blood` subclasses (`MuchBlood`, `MuchBlood2`, `MediumBloodSpot`,
-  `BigBloodSpot`, `WaterBloodSpot`, `SplatteredLarge`, `MeatDeath`,
-  `MeatDeathSmall`) that resolve upstream gore-variant class names still
-  referenced by this fork's gore chains. Pure subclasses, **not** `replaces`,
-  so gameplay-mod compatibility is preserved.
-- [`.gitignore`](.gitignore): covers OS scratch, editor temp files, local
-  PK3 builds, ACS scratch, and the bundled `acc-1.60-win32/` toolchain.
-- `acc-1.60-win32/`: local ACS compiler, **gitignored**, kept only for
-  developer convenience. Never shipped in a built pk3.
-- `scripts/`: dev-only helpers, including
-  [`scripts/rename-to-lowercase.ps1`](scripts/rename-to-lowercase.ps1) (the
-  bulk-rename script that produced the current lowercase file/dir layout).
-  Not runtime content; exclude from built pk3s.
-
-### Renamed / reorganised
-
-- **Lowercase rename.** All directories and most filenames are lowercase.
-  GZDoom is case-insensitive at runtime for lump names, class names, sprite
-  names, sound names, ACS library names, and CVAR names, but `#include`
-  paths in `decorate.txt`, MODELDEF `Path` / `Model` / `Skin` values, and
-  `doomdefs.bm` `map "..."` paths are real filesystem strings that **are**
-  case-sensitive on Linux and inside zipped PK3s. Lowercasing makes the
-  tree portable. Exceptions:
-  - `AGENTS.md` and `README.md` are kept in their original casing.
-  - `acc-1.60-win32/` is dev-only and untouched.
-  - Files **inside** `sprites/` and `sounds/` use **UPPERCASE base names
-    with lowercase extensions** (e.g. `BARIA0.png`, `EXPLODE1.ogg`,
-    `WATER1`). The directories themselves are lowercase.
-- **MODELDEF lumps merged.** The old `Modeldef.Decorations.txt` was merged
-  into `modeldef.txt`; both used to be loaded as MODELDEF lumps and now
-  there is a single MODELDEF lump. A section banner inside `modeldef.txt`
-  marks where the decoration block begins.
-- **SNDINFO lumps merged.** The old `SNDINFO.BD` and `SNDINFO.Terrain`
-  were merged into a single file named `sndinfo.txt` (which the engine
-  resolves to lump `SNDINFO`). SNDINFO is order-sensitive (the last
-  definition of a key wins), so the merged file keeps the bd block above
-  the terrain block to preserve the original alphabetical load order.
-  Section banners inside `sndinfo.txt` mark the boundary.
-
-A short-lived alternate root `decorate_bdp.txt`, which scaffolded a
-dedicated Brutal Doom Platinum compatibility package, has been removed in a
-warning-cleanup pass. UME-Lite now ships only the standalone `decorate.txt`
-root.
-
----
-
-## What's still in the box
-
-After the trim, this is what UME-Lite actually does at runtime:
-
-- **Complete signature-based map detection** for vanilla **Doom 1**
-  (E1M1-E3M9) and **Doom II** (MAP01-MAP32). Maps are identified by player-1 start
-  coordinates + par time + `PRINTNAME_LEVEL`, then confirmed by
-  `EvidenceChecker*` actors that probe a known floor / ceiling / texture in
-  the real map.
-- **Per-map decoration spawns** placed at hand-tuned absolute world
-  coordinates: plant pots, antennae, hanging cables, computer lights, light
-  shafts, light posts, destroyable windows, etc.
-- **Brutal-style gore**: blood, gibs, limbs, dead-body decorations,
-  configurable intensity (controlled by external `bd_bloodamount` /
-  `zdoombrutalblood` CVARs supplied by your gameplay mod, **not** by
-  `MES_bloodamount`).
-- **Particle effects**: sparks, smoke, fire, flares, puffs, and shell
-  casings.
-- **One enemy** (`Mummy`) and **one critter** (`BDCritterMouse`).
-- **Brightmaps** for Doom sprites (`doomdefs.bm` + `brightmaps/ume/`),
-  **dynamic lights / glows** (`gldefs`), and **MD3 / MD2 model bindings**
-  for decorations and projectiles (`modeldef.txt`).
-
-UME-Lite intentionally ships **no weapons, no monsters except a mummy, no
-player class, no maps, no MAPINFO**. That's the job of the gameplay mod /
-megawad you load alongside it.
+Visually it leans on **models, glows / dynamic lights, and brightmaps** where
+those assets apply. Almost everything is ornamental: besides a lone mummy and
+a small critter actor, **you still bring weapons, monsters, progression, and
+maps** via the IWAD and whatever else you load.
 
 ---
 
@@ -162,8 +46,9 @@ megawad you load alongside it.
 
 1. Zip the **contents** of this folder into `UME.pk3`
    (everything inside the `UME-Lite/` directory, not the directory itself).
-   When zipping, exclude `acc-1.60-win32/`, `src/`, `scripts/`, `.git/`,
-   and `.cursor/` because they are not needed at runtime.
+   When zipping, exclude `src/`, `scripts/`, `.git/`, `.cursor/`, and any
+   local **ACS compiler** folder you keep for development (not needed at
+   runtime).
 2. Drop `UME.pk3` onto your `gzdoom.exe` along with your IWAD and any
    gameplay mod you'd like to use.
 
@@ -172,7 +57,7 @@ megawad you load alongside it.
 GZDoom can load loose folders directly:
 
 ```
-gzdoom -iwad doom2.wad -file BrutalDoom.pk3 -file path/to/UME-Lite/
+gzdoom -iwad doom2.wad -file gameplaymod.pk3 -file path/to/UME-Lite/
 ```
 
 Always load **UME-Lite *after* your gameplay mod** so its decoration spawns
@@ -200,7 +85,7 @@ DECORATE actors that used to consult them via the BDCVARS Janitor scripts
 will silently fall through to their default state.
 
 Blood intensity *is* still configurable, but it reads the **gameplay mod's**
-CVARs (`bd_bloodamount` for Brutal Doom on Zandronum, `zdoombrutalblood` for
+CVARs (`bd_bloodamount` on Zandronum, `zdoombrutalblood` on other
 ZDoom-family ports), not anything declared here.
 
 ---
@@ -225,11 +110,10 @@ UME-Lite/
 |-- modeldef.txt              -> MD3 / MD2 model bindings
 |                                (effects + decorations, single lump)
 |-- sndinfo.txt               -> sound aliases, $rolloff, $random, $limit
-|                                (single lump; was sndinfo.bd + sndinfo.terrain)
+|                                (single SNDINFO lump)
 |-- sprites/, models/, sounds/, voxels/,
 |   brightmaps/               -> shipped runtime assets
 |-- scripts/                  -> dev-only helpers (lowercase rename, etc.)
-|-- acc-1.60-win32/           -> dev-only: ACS compiler (gitignored)
 `-- .gitignore
 ```
 
@@ -280,8 +164,7 @@ If you'd like to extend UME-Lite, fill in an empty Janitor body, add a new
 map detection, drop in a new decoration, or wire texture replacement back up
 read [AGENTS.md](AGENTS.md) first. It walks through the load order, the
 EvidenceChecker -> DecorationSpawn pattern, the (now mostly empty) Janitor
-CVAR scripts, and how to recompile ACS with the bundled
-`acc-1.60-win32/acc.exe`.
+CVAR scripts, and how to recompile ACS (**ACC**, from [ZDoom downloads](https://zdoom.org/downloads); see **Editing** on that page).
 
 External references for the engine APIs in use:
 
@@ -301,11 +184,10 @@ External references for the engine APIs in use:
 
 ## Credits
 
-UME-Lite is a stripped-down, gameplay-mod-friendly derivative of work by:
+UME-Lite is a gameplay-mod-friendly project that builds on work by:
 
-- **Sergeant Mark IV**: original *Brutal Doom Map Enhancement System*,
-  decorations, gore, vehicles (since removed in this fork), and deathmatch
-  maps (since removed).
+- **Sergeant Mark IV**: original *Universal Map Enhancement System* lineage,
+  decorations, and gore.
 - **BROS_ETT_311**: the rewritten signature-based map detection in
   [`src/mapdetection.acs`](src/mapdetection.acs), plus the GZDoom / LZDoom /
   Zandronum compatibility pass.

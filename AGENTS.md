@@ -1,9 +1,9 @@
 # AGENTS.md - UME-Lite (Universal Map Enhancement System, Lite)
 
 Guidance for AI agents working in this repository. Read this **first** before
-making changes. This tree is a heavily stripped fork of the original UME /
-Brutal Doom Map Enhancement System, and many files an agent might expect from
-upstream are intentionally gone.
+making changes. This tree is a heavily stripped fork of the upstream
+Universal Map Enhancement System (UME), and many files an agent might expect
+from upstream are intentionally gone.
 
 ---
 
@@ -11,8 +11,7 @@ upstream are intentionally gone.
 
 UME-Lite is a loose-file Doom add-on (PK3-style directory) intended to be loaded
 by **GZDoom / UZDoom** (and, with caveats, **LZDoom** and **Zandronum**) on top
-of `doom.wad` or `doom2.wad`, usually alongside a gameplay mod such as Brutal
-Doom, Project Brutality, Brutal Doom Platinum, Demon Steele, etc.
+of `doom.wad` or `doom2.wad`, usually alongside gameplay mods.
 
 This fork keeps the non-replacing decoration pipeline and a subset of gore /
 ambient actors. It does **not** ship gameplay systems, player classes, weapons,
@@ -33,9 +32,8 @@ What remains at runtime:
 Important: `MAPINFO.lmp` is absent. UME-Lite does not define episodes, maps,
 music, skies, map order, or bundled WAD entries.
 
-A previous fork shipped a `decorate_bdp.txt` alternate root for a Brutal
-Doom Platinum compatibility package. That alternate root has been removed;
-this build is single-rooted on `decorate.txt` only.
+An alternate DECORATE root from a previous fork has been removed; this build is
+single-rooted on `decorate.txt` only.
 
 ---
 
@@ -108,9 +106,8 @@ but most of their old behavior has been removed.
 ### Added
 
 - `.gitignore`: excludes OS/editor scratch, local pk3 builds, ACS scratch, and
-  the local `acc-1.60-win32/` toolchain.
-- `acc-1.60-win32/`: local ACS compiler and `zcommon.acs` headers for
-  development only. It is gitignored and must not be shipped.
+  common paths for **locally unpacked ACC** installs (developers download ACC
+  themselves; see *Re-compiling ACS* below).
 - `scripts/`: dev-only PowerShell helpers (e.g.
   `scripts/rename-to-lowercase.ps1`, the bulk-rename script that produced
   the current lowercase file/dir layout). Not runtime content; should be
@@ -128,7 +125,6 @@ but most of their old behavior has been removed.
   PK3 convention. See `scripts/rename-to-lowercase.ps1` for the canonical
   script. Exceptions:
   - `AGENTS.md` and `README.md` are kept in their original casing.
-  - `acc-1.60-win32/` is dev-only and untouched.
   - Files **inside** `sprites/` and `sounds/` use **UPPERCASE base names
     with lowercase extensions** (e.g. `BARIA0.png`, `EXPLODE1.ogg`,
     `WATER1`). The directories themselves are lowercase. This matches the
@@ -191,17 +187,18 @@ UME-Lite/
 |-- sprites/, models/, sounds/,
 |   voxels/, brightmaps/      # Runtime assets
 |-- scripts/                  # Dev-only helpers (e.g. rename-to-lowercase.ps1)
-`-- acc-1.60-win32/           # Dev-only ACS compiler, gitignored
 ```
 
 There is no `MAPINFO`, `KEYCONF`, `ANIMDEFS`, `TERRAIN`, `DECALDEF.Terrain`,
 `textures.*`, `doomwalls.bm`, `music/`, `graphics/`, `patches/`,
-`announcer/`, or bundled `*.wad`.
+`announcer/`, or bundled `*.wad`. **ACC is not bundled** — obtain it for local
+ACS development from [ZDoom Downloads](https://zdoom.org/downloads) (links
+under **Editing**).
 
 **Pseudo-PK3 packaging**: this directory is meant to be zipped into a `.pk3`
 or loaded directly as a directory with `-file UME-Lite/`. Runtime packages
-should exclude `src/`, `scripts/`, `acc-1.60-win32/`, `.git/`, `.cursor/`,
-and local pk3 build outputs.
+should exclude `src/`, `scripts/`, any local ACS compiler directory, `.git/`,
+`.cursor/`, and local pk3 build outputs.
 
 ---
 
@@ -240,12 +237,18 @@ ACS detects map
 
 ### Re-compiling ACS
 
-ACS sources live in `src/` and target `acs/<name>.o`. Use the local compiler
-and include headers in `acc-1.60-win32/`:
+Download **ACC** (the ACS compiler, including headers such as `zcommon.acs`)
+for your OS from **[ZDoom Downloads](https://zdoom.org/downloads)** — ACC is
+linked from the **Editing** section.
+
+ACS sources live in `src/` and target `acs/<name>.o`. Point ACC's include path
+(`-i`) at the folder containing `zcommon.acs`:
 
 ```
-acc-1.60-win32/acc.exe -i acc-1.60-win32 src/mapdetection.acs acs/mapdetection.o
+acc -i path/to/acc/includes src/mapdetection.acs acs/mapdetection.o
 ```
+
+(On Windows your binary may be named `acc.exe`.)
 
 Each `.acs` file starts with `#library "<name>"` and
 `#include "zcommon.acs"`. Always recompile after editing `src/*.acs`; the
@@ -307,8 +310,8 @@ Recognise these idioms before editing.
     lowercase extensions** (e.g. `BARIA0.png`, `EXPLODE1.ogg`, `WATER1`).
     This matches the convention that the base name corresponds to a
     sprite or sound lump name. The directories themselves are lowercase.
-  - `AGENTS.md`, `README.md`, `acc-1.60-win32/`, `.git/`, `.cursor/`, and
-    `scripts/` are exempt from the lowercase rule.
+  - `AGENTS.md`, `README.md`, `.git/`, `.cursor/`, and `scripts/` are exempt
+    from the lowercase rule.
   - Lump-conceptual references in docs (e.g. `MAPINFO`, `KEYCONF`,
     `ANIMDEFS`) may use the canonical uppercase form even when the
     on-disk file would be lowercase.
@@ -407,8 +410,9 @@ only.
   `bd_bloodamount` when `isrunningzandronum == 1`, and
   `zdoombrutalblood` when `isrunningzandronum == 0`. It does not read
   `MES_bloodamount`.
-- **Local toolchain is not runtime content**. Keep `acc-1.60-win32/` out of
-  built pk3s.
+- **ACS compiler**: not shipped with this repo. Use ACC from
+  [ZDoom Downloads](https://zdoom.org/downloads) (**Editing**), and omit any
+  local ACC unpack directory from built pk3s.
 
 ---
 
@@ -457,14 +461,16 @@ behavior is unclear, consult these in this order:
 3. **UZDoom source, tag 4.14.3**:
    <https://github.com/UZDoom/UZDoom/tree/4.14.3>
 
-For ACS specifically, `zcommon.acs` in `acc-1.60-win32/` is the local canonical
-reference.
+For ACS specifically, **`zcommon.acs`** ships with ACC from
+[ZDoom Downloads](https://zdoom.org/downloads) (**Editing**); use your installed
+copy as the language header reference alongside the wiki/zdoom-docs links
+above.
 
 ---
 
 ## 10. Credits / lineage (do not strip from source comments)
 
-The source comments credit **Sergeant Mark IV** (original Brutal Doom Map
-Enhancement System), **TDRR**, **Kaminsky**, and **BROS_ETT_311** (the
+The source comments credit **Sergeant Mark IV** (original Map Enhancement
+System upstream), **TDRR**, **Kaminsky**, and **BROS_ETT_311** (the
 detection rewrite in `src/mapdetection.acs`). When refactoring, keep the
 comment headers in place; they are the project's attribution record.

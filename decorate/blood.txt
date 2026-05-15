@@ -1261,7 +1261,7 @@ ACTOR ChainsawWallRedBlood: GiantWallRedBlood
  speed 64
 }
 
-//Spawns giant blood decals all around the area. Used in Brutal Doom's BFG deaths.
+//Spawns giant blood decals all around the area (very high-impact weapon deaths).
 Actor BloodSplinter
 {
 	+THRUACTORS

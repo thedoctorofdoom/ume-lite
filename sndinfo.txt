@@ -1,5 +1,5 @@
 // =============================================================================
-// SNDINFO - Brutal Doom / UME-Lite sound aliases, $rolloff, $limit, $volume,
+// SNDINFO - UME-Lite sound aliases, $rolloff, $limit, $volume,
 // and $random groups. Formerly two lumps (sndinfo.bd + sndinfo.terrain);
 // merged into a single SNDINFO lump.
 //
@@ -11,7 +11,7 @@
 
 
 // -----------------------------------------------------------------------------
-// SNDINFO.BD - Brutal Doom-style sound bindings
+// SNDINFO.BD block (legacy primary effect / weapon sound bindings)
 // -----------------------------------------------------------------------------
 
 ICOSCRE ICOSCRE
@@ -127,7 +127,7 @@ $rolloff world/ricochet 200 700
 
 BIGEXPL2 BIGEXPL2
 
-//Brutal Doom's explosions sounds are actually 3 sounds playing at the same time so it can sound more realistic.
+// Explosion aliases below layer multiple sounds for a fuller mix.
 
 
 //First sound. Very sharp, like exploding next to you.

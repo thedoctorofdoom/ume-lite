@@ -1,6 +1,6 @@
 //Compatibility aliases.
 //
-//UME-Lite is a stripped fork of Brutal Doom's Map Enhancement System. Many
+//UME-Lite is a stripped fork of the upstream Map Enhancement System. Many
 //upstream gore variants of vanilla Blood (MuchBlood, MediumBloodSpot, etc.)
 //were removed alongside the gameplay systems that referenced them, but
 //A_SpawnItemEx call sites for those classes still exist in this fork's gore
