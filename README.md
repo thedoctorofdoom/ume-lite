@@ -70,6 +70,12 @@ bodies and **do nothing at runtime**:
 
 ### Added
 
+- [`DECORATE/CompatAliases.txt`](DECORATE/CompatAliases.txt): eight thin
+  `Blood` subclasses (`MuchBlood`, `MuchBlood2`, `MediumBloodSpot`,
+  `BigBloodSpot`, `WaterBloodSpot`, `SplatteredLarge`, `MeatDeath`,
+  `MeatDeathSmall`) that resolve upstream gore-variant class names still
+  referenced by this fork's gore chains. Pure subclasses, **not** `replaces`,
+  so gameplay-mod compatibility is preserved.
 - [`.gitignore`](.gitignore): covers OS scratch, editor temp files, local
   PK3 builds, ACS scratch, and the bundled `acc-1.60-win32/` toolchain.
 - `acc-1.60-win32/`: local ACS compiler, **gitignored**, kept only for
@@ -176,8 +182,9 @@ ZDoom-family ports), not anything declared here.
 ```
 UME-Lite/
 |-- DECORATE.txt              -> standalone DECORATE root (full)
-|-- DECORATE/                 -> 28 .txt files: gore, decorations,
-|                                map detection, particles, casings, ...
+|-- DECORATE/                 -> 26 .txt files: gore, decorations,
+|                                map detection, particles, casings,
+|                                CompatAliases, ...
 |-- SRC/                      -> ACS source: BDCVARS.acs, DYNAMICLEV.acs,
 |                                MapDetection.acs
 |-- ACS/                      -> compiled ACS libraries (.o)
