@@ -11,6 +11,7 @@ Desktop.ini
 *~
 .vscode/
 .idea/
+.cursor/
 
 # Build artefacts from the user's own GZDoom/UZDoom test runs
 gzdoom-*.log
