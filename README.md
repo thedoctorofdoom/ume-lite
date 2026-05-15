@@ -74,9 +74,6 @@ bodies and **do nothing at runtime**:
   that includes only the map detection / decoration-spawn includes, intended
   for a Brutal Doom Platinum compatibility build (BDP already provides the
   shared effect actors that `MapSpecificDec.txt` would otherwise duplicate).
-- [`scripts/Build-UME-BDP.ps1`](scripts/Build-UME-BDP.ps1): PowerShell
-  builder that stages the repo, swaps `DECORATE_BDP.txt` in as `DECORATE.txt`,
-  and produces `UME-BDP.pk3`.
 - [`.gitignore`](.gitignore): covers OS scratch, editor temp files, local
   PK3 builds, ACS scratch, and the bundled `acc-1.60-win32/` toolchain.
 - `acc-1.60-win32/`: local ACS compiler, **gitignored**, kept only for
@@ -130,7 +127,7 @@ megawad you load alongside it.
 
 1. Zip the **contents** of this folder into `UME.pk3`
    (everything inside the `UME-Lite/` directory, not the directory itself).
-   When zipping, exclude `acc-1.60-win32/`, `scripts/`, `SRC/`, and `.git/`
+   When zipping, exclude `acc-1.60-win32/`, `SRC/`, and `.git/`
    because they are not needed at runtime.
 2. Drop `UME.pk3` onto your `gzdoom.exe` along with your IWAD and any
    gameplay mod you'd like to use.
@@ -146,18 +143,13 @@ gzdoom -iwad doom2.wad -file BrutalDoom.pk3 -file path/to/UME-Lite/
 Always load **UME-Lite *after* your gameplay mod** so its decoration spawns
 layer on top without being overwritten.
 
-### Option C - Brutal Doom Platinum compatibility build
+### Option C - Brutal Doom Platinum compatibility package
 
-If you're playing Brutal Doom Platinum, build a slimmer compat pk3 that omits
-the duplicate DECORATE actors BDP already provides:
-
-```
-pwsh -File scripts/Build-UME-BDP.ps1
-```
-
-This produces `UME-BDP.pk3` in the repo root (`DECORATE.txt` is replaced with
-[`DECORATE_BDP.txt`](DECORATE_BDP.txt) at the root of the staged tree). Load
-order: **IWAD -> Brutal Doom Platinum -> `UME-BDP.pk3`**.
+If you're packaging for Brutal Doom Platinum, use the same contents as the
+standalone package but copy [`DECORATE_BDP.txt`](DECORATE_BDP.txt) to root
+`DECORATE.txt` in the staged pk3. This omits duplicate DECORATE actors BDP
+already provides. Load order: **IWAD -> Brutal Doom Platinum ->
+`UME-BDP.pk3`**.
 
 ---
 
@@ -208,7 +200,6 @@ UME-Lite/
 |   SNDINFO.Terrain           -> sound aliases, $rolloff, $random, $limit
 |-- SPRITES/, MODELS/, SOUNDS/, VOXELS/,
 |   brightmaps/               -> shipped runtime assets
-|-- scripts/Build-UME-BDP.ps1 -> dev-only: builds UME-BDP.pk3
 |-- acc-1.60-win32/           -> dev-only: ACS compiler (gitignored)
 `-- .gitignore
 ```

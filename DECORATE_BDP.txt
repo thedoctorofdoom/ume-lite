@@ -1,9 +1,9 @@
-// UME — Brutal Doom Platinum compatibility: minimal DECORATE root.
+// UME - Brutal Doom Platinum compatibility: minimal DECORATE root.
 //
 // Packagers: copy this file to DECORATE.txt at the pk3 root when building UME-BDP.pk3
-// (see scripts/Build-UME-BDP.ps1). Standalone UME.pk3 continues to use DECORATE.txt unchanged.
+// Standalone UME.pk3 continues to use DECORATE.txt unchanged.
 //
-// Load order: IWAD → Brutal Doom Platinum → UME-BDP.pk3 (compat last).
+// Load order: IWAD -> Brutal Doom Platinum -> UME-BDP.pk3 (compat last).
 // Requires BDP (or equivalent) to provide shared effect actors referenced by MapSpecificDec
 // (flares, particles, breaking lamps, etc.).
 

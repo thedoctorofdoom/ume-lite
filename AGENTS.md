@@ -29,8 +29,8 @@ What remains at runtime:
   torches, lamps, natural decorations, fireworks**, one enemy (`Mummy`), and
   one critter (`BDCritterMouse`).
 - **Brightmaps, dynamic lights, and model bindings** for the remaining actors.
-- **A Brutal Doom Platinum compatibility build path** using `DECORATE_BDP.txt`
-  and `scripts/Build-UME-BDP.ps1`.
+- **A Brutal Doom Platinum compatibility package path** using
+  `DECORATE_BDP.txt` as an alternate root.
 
 Important: `MAPINFO.lmp` is absent. UME-Lite does not define episodes, maps,
 music, skies, map order, or bundled WAD entries.
@@ -107,9 +107,6 @@ but most of their old behavior has been removed.
   compatibility build. It includes only:
   `MapSpecificDec.txt`, `MapDetection.txt`, `Doom1Remap.txt`,
   `Doom2Remap.txt`.
-- `scripts/Build-UME-BDP.ps1`: PowerShell builder that stages a pk3 with
-  `DECORATE_BDP.txt` copied to root `DECORATE.txt`, then writes
-  `UME-BDP.pk3`.
 - `.gitignore`: excludes OS/editor scratch, local pk3 builds, ACS scratch, and
   the local `acc-1.60-win32/` toolchain.
 - `acc-1.60-win32/`: local ACS compiler and `zcommon.acs` headers for
@@ -157,7 +154,6 @@ UME-Lite/
 |   SNDINFO.Terrain           # Sound aliases, rolloff, random groups
 |-- SPRITES/, MODELS/, SOUNDS/,
 |   VOXELS/, brightmaps/      # Runtime assets
-|-- scripts/                  # Dev-only build helper(s)
 `-- acc-1.60-win32/           # Dev-only ACS compiler, gitignored
 ```
 
@@ -167,8 +163,8 @@ There is no `MAPINFO.lmp`, `KEYCONF`, `ANIMDEFS`, `TERRAIN`,
 
 **Pseudo-PK3 packaging**: this directory is meant to be zipped into a `.pk3`
 or loaded directly as a directory with `-file UME-Lite/`. Runtime packages
-should exclude `SRC/`, `scripts/`, `acc-1.60-win32/`, `.git/`, and local pk3
-build outputs.
+should exclude `SRC/`, `acc-1.60-win32/`, `.git/`, and local pk3 build
+outputs.
 
 ---
 
@@ -327,16 +323,11 @@ only.
 3. Reference the logical name from DECORATE (`A_PlaySound`, `SeeSound`,
    `DeathSound`), not the raw filename.
 
-### Build the BDP variant
+### Package the BDP variant
 
-Run from the repo root:
-
-```
-pwsh -File scripts/Build-UME-BDP.ps1
-```
-
-The script builds `UME-BDP.pk3`, replacing root `DECORATE.txt` with
-`DECORATE_BDP.txt` inside the staged package. Load order is:
+For a Brutal Doom Platinum compatibility package, stage the same runtime files
+as the standalone pk3 but copy `DECORATE_BDP.txt` to root `DECORATE.txt` inside
+the staged package. Load order is:
 
 ```
 IWAD -> Brutal Doom Platinum -> UME-BDP.pk3
