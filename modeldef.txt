@@ -2,7 +2,7 @@ Model BD_MudDust      // Name of actor in DECORATE
 {
    Path "models/bloodspot"    // Path to model in PK3
    Model 0 "bloodspot.md3"    // Model index, model file
-   Skin 0 "DXRT.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Skin 0 "dxrt.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 40.0 40.0 1.0            // Scale values
    ZOffset 0.6
    FrameIndex DXRP G 0 0         // The sprite lump, sprite frame, model index, frame number
@@ -11,9 +11,9 @@ Model BD_MudDust      // Name of actor in DECORATE
 
 Model SparkX // Name of actor in DECORATE
 { 
-   Path "Models/Projectiles" // Path to model in PK3
+   Path "models/projectiles" // Path to model in PK3
    SKIN 0 "tracer1.tga" // Model index, model file
-   MODEL 0 "Tracer.md3" // Model index, texture (can be in any format supported by GZDoom)
+   MODEL 0 "tracer.md3" // Model index, texture (can be in any format supported by GZDoom)
    Scale 2.0 2.0 2.0 // Scale values
    PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
    
@@ -24,7 +24,7 @@ Model BurningPentagram   // Name of actor in DECORATE
 {
    Path "models/bloodspot"    // Path to model in PK3
    Model 0 "bloodspot.md3"    // Model index, model file
-   Skin 0 "PNTGA0.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Skin 0 "pntga0.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 100.0 100.0 1.0            // Scale values
    ZOffset 0.8
    FrameIndex PNTG A 0 0         // The sprite lump, sprite frame, model index, frame number
@@ -34,7 +34,7 @@ Model PentagramOff   // Name of actor in DECORATE
 {
    Path "models/bloodspot"    // Path to model in PK3
    Model 0 "bloodspot.md3"    // Model index, model file
-   Skin 0 "PNTGB0.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Skin 0 "pntgb0.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 100.0 100.0 1.0            // Scale values
    ZOffset 0.7
    FrameIndex PNTG B 0 0         // The sprite lump, sprite frame, model index, frame number
@@ -45,8 +45,260 @@ Model BDECWhiteFlareLargeFLAT      // Name of actor in DECORATE
 {
    Path "models/bloodspot"    // Path to model in PK3
    Model 0 "bloodceil.md3"    // Model index, model file
-   Skin 0 "LENTEX.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Skin 0 "lentex.png"     // Model index, texture (can be in any format supported by GZDoom)
    Scale 120.0 120.0 40.0            // Scale values
    ZOffset -0.1
    FrameIndex LENS A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+// =============================================================================
+// Map Enhancement decoration models
+// (formerly Modeldef.Decorations.txt; merged in for a single MODELDEF lump)
+// =============================================================================
+
+Model BDECDestroyedCar      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "junkcar.md3"    // Model index, model file
+   Skin 0 "junkcar.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.3 1.3 1.3            // Scale values
+   ZOffset 0.1
+   FrameIndex ELEC C 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECDestroyedCarRed      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "junkcar.md3"    // Model index, model file
+   Skin 0 "junkcar.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.3 1.3 1.3            // Scale values
+   ZOffset 0.1
+   FrameIndex ELEC C 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECDestroyedCarBlue      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "junkcar.md3"    // Model index, model file
+   Skin 0 "junkcar.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.3 1.3 1.3            // Scale values
+   ZOffset 0.1
+   FrameIndex ELEC C 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECDestroyedCarGray      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "junkcar.md3"    // Model index, model file
+   Skin 0 "junkcar.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.3 1.3 1.3            // Scale values
+   ZOffset 0.1
+   FrameIndex ELEC C 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECBed1     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "bed1.md3"    // Model index, model file
+   Skin 0 "bed2.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.3 1.6 1.6            // Scale values
+   ZOffset 0.0
+   FrameIndex SPDE M 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECBed2     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "bed2.md3"    // Model index, model file
+   Skin 0 "bed1.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.3 1.6 1.6            // Scale values
+   ZOffset 0.0
+   FrameIndex SPDE N 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECLargeBlood      // Name of actor in DECORATE
+{
+   Path "models/bloodspot"    // Path to model in PK3
+   Model 0 "bloodspot.md3"    // Model index, model file
+   Skin 0 "decblod.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 50.0 50.0 10.0            // Scale values
+   ZOffset 0.1
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECSmallShaft1Red      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "redlamp.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 54.0 54.0 1.0            // Scale values
+   ZOffset 0.9
+   //Offset 2 0 0.9
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECSmallShaft1Orange      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "orangelamp.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 54.0 54.0 1.0            // Scale values
+   ZOffset 0.9
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BigShaftOrange1      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "largeorangelamp.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 70.0 70.0 1.0            // Scale values
+   ZOffset 0.9
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model DestroyedCeilLampBig     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "largebrokelamp.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 70.0 70.0 1.0            // Scale values
+   ZOffset 0.9
+
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model DestroyedCeilLamp      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "brokenlamp.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 54.0 54.0 1.0            // Scale values
+   ZOffset 0.9
+
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDecMap16SecretExit     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "holexi3.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 32.0 32.0 32.0            // Scale values
+   ZOffset 0.9
+
+   FrameIndex SPDF D 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECExitHoleMap13     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "holexi1.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+   ZOffset 0.9
+
+   FrameIndex SPDF E 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECExitHoleMap13     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatspriteceil.md3"    // Model index, model file
+   Skin 0 "holexi2.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+   ZOffset 0.9
+
+   FrameIndex SPDF F 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECWIndowFrame1     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "glass.md2"    // Model index, model file
+   Skin 0 "window1.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECWIndowGlass1     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "glass.md2"    // Model index, model file
+   Skin 0 "window2.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+
+   FrameIndex BRGL A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECWIndowGlass1     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "glass.md2"    // Model index, model file
+   Skin 0 "window3.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+
+   FrameIndex XXX1 B 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECWIndowFrame2     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "glass.md2"    // Model index, model file
+   Skin 0 "window1.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+
+   FrameIndex XXX1 A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECWIndowGlass2     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "glass.md2"    // Model index, model file
+   Skin 0 "window2.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+
+   FrameIndex BRGL A 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECWIndowGlass2     // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "glass.md2"    // Model index, model file
+   Skin 0 "window3.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 44.0 44.0 44.0            // Scale values
+
+   FrameIndex XXX1 B 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model PlutoniaBridge      // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "flatsprite.md3"    // Model index, model file
+   Skin 0 "bridge1.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 65.0 65.0 1.0            // Scale values
+   ZOffset 0.2
+   //Offset 2 0 0.9
+   FrameIndex SPDF V 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model BDECPentagram   // Name of actor in DECORATE
+{
+   Path "models/bloodspot"    // Path to model in PK3
+   Model 0 "bloodspot.md3"    // Model index, model file
+   Skin 0 "pntgb0.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 200.0 200.0 1.0            // Scale values
+   ZOffset 0.7
+   FrameIndex PNTG B 0 0         // The sprite lump, sprite frame, model index, frame number
+   FrameIndex PNTG C 0 0
+}
+
+Model BDECHellKeep   // Name of actor in DECORATE
+{
+   Path "models/decoration"    // Path to model in PK3
+   Model 0 "hellkeep.md3"    // Model index, model file
+   Skin 0 "hellkeep.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 22.0 22.0 35.0            // Scale values
+   FrameIndex NULL A 0 0         // The sprite lump, sprite frame, model index, frame number
 }

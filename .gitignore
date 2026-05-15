@@ -1,7 +1,7 @@
-# OS junk
-Thumbs.db
-ehthumbs.db
-Desktop.ini
+# OS junk (case-insensitive, since the lowercase rename touches OS scratch too)
+[Tt]humbs.db
+[Ee]hthumbs.db
+[Dd]esktop.ini
 .DS_Store
 
 # Editor / IDE
