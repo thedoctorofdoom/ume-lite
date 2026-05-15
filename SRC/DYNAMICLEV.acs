@@ -21,28 +21,10 @@ script 3126 (VOID)
 	}
 }
 
-script 3127 (VOID)//Scythe 2 Desert Maps
-{
-}
-
 //DOOM E1M1 - Hangar
 script "MapEnhancementE1M1" (VOID)
 {
-	// Here are the kinds of things you can do to edit a level dynamically:
-	//SetMusic("D_SADIST");
-	//ChangeSky ("SKYPHO", "SKYPHO");
-	//ReplaceTextures("TLITE6_6", "LITGEN9B");
-	//ReplaceTextures("FLOOR7_2", "LITGEN8", not_floor);
-	//ChangefLOOR(4, "FLAT9");
-	//ReplaceTextures("pipe1", "SKINtek2", NOT_MIDDLE);
-	//ChangeFloor (9, "JUNKY15");
-	//SetCVAR("sv_maprotation", 0);
-	//ChangeLevel("MAP16B", 0, CHANGELEVEL_NOINTERMISSION, -1);
-	//Floor_raiseinstant(9, 0, 23);
-	//Floor_LowerToLowest(9, 32);
-	//delay(1);
 }
-
 
 //DOOM E1M2 - Nuclear Plant
 script "MapEnhancementE1M2" (VOID)
@@ -64,17 +46,17 @@ script "MapEnhancementE1M5" (VOID)
 {
 }
 
-//DOOM E1M6 - CentralProcessing
+//DOOM E1M6 - Central Processing
 script "MapEnhancementE1M6" (VOID)
 {
 }
 
-//DOOM E1M7 -Computer Station
+//DOOM E1M7 - Computer Station
 script "MapEnhancementE1M7" (VOID)
 {
 }
 
-//DOOM E1M8 -Phobos Anomaly
+//DOOM E1M8 - Phobos Anomaly
 script "MapEnhancementE1M8" (VOID)
 {
 }
@@ -84,17 +66,17 @@ script "MapEnhancementE1M9" (VOID)
 {
 }
 
-//DOOM E2M2 CONTAINMENT AREA
+//DOOM E2M2 - Containment Area
 script "MapEnhancementE2M2" (VOID)
 {
 }
 
-//DOOM E2M3 REFINERY
+//DOOM E2M3 - Refinery
 script "MapEnhancementE2M3" (VOID)
 {
 }
 
-//DOOM E2M4 Deimos Lab
+//DOOM E2M4 - Deimos Lab
 script "MapEnhancementE2M4" (VOID)
 {
 }
@@ -162,7 +144,7 @@ script "MapEnhancementD2Map05" (VOID)
 {
 }
 
-//DOOM 2 MAP 06 - cRUSHER
+//DOOM 2 MAP 06 - Crusher
 script "MapEnhancementD2Map06" (VOID)
 {
 }
@@ -172,7 +154,7 @@ script "MapEnhancementD2Map07" (VOID)
 {
 }
 
-//DOOM 2 MAP 10 - reFUELING BASE
+//DOOM 2 MAP 10 - Refueling Base
 script "MapEnhancementD2Map10" (VOID)
 {
 }
@@ -202,12 +184,12 @@ script "MapEnhancementD2Map16" (VOID)
 {
 }
 
-//DOOM 2 MAP 18 - Courtyyard
+//DOOM 2 MAP 18 - Courtyard
 script "MapEnhancementD2Map18" (VOID)
 {
 }
 
-//DOOM 2 MAP 19 - CASTLE
+//DOOM 2 MAP 19 - Castle
 script "MapEnhancementD2Map19" (VOID)
 {
 }
@@ -217,27 +199,27 @@ script "MapEnhancementD2Map20" (VOID)
 {
 }
 
-//DOOM 2 MAP 24 - THE CHASM
+//DOOM 2 MAP 24 - The Chasm
 script "MapEnhancementD2Map24" (VOID)
 {
 }
 
-//DOOM 2 MAP 25 - bLOODFALLS
+//DOOM 2 MAP 25 - Bloodfalls
 script "MapEnhancementD2Map25" (VOID)
 {
 }
 
-//DOOM 2 MAP 26 - mINES
+//DOOM 2 MAP 26 - Mines
 script "MapEnhancementD2Map26" (VOID)
 {
 }
 
-//DOOM 2 MAP 27 - MonsterCondo
+//DOOM 2 MAP 27 - Monster Condo
 script "MapEnhancementD2Map27" (VOID)
 {
 }
 
-//DOOM 2 MAP 28 - SpiritWorld
+//DOOM 2 MAP 28 - Spirit World
 script "MapEnhancementD2Map28" (VOID)
 {
 }
@@ -250,256 +232,12 @@ script 230 (VOID)
 //DOOM 2 MAP 31 - Wolfenstein / IDKFA
 Script "MapEnhancementD2Map31" (VOID)
 {
-Thing_Remove(54);
-//SetCVAR("sv_maprotation", 0);
-delay(35);
+	Thing_Remove(54);
+	delay(35);
 }
 
 //DOOM 2 MAP 32 - Wolfenstein / Grosse
 Script "MapEnhancementD2Map32" (VOID)
 {
-delay(1);
-}
-
-//TNT MAP 01 - System Control and MAP09 - Stronghold
-script 261 (VOID)
-{
-}
-
-//TNT MAP 02 - Human BBQ
-script 262 (VOID)
-{
-}
-
-//TNT MAP 03 - Power Control
-script 263 (VOID)
-{
-}
-
-//TNT MAP 04 - Wormhole
-script 264 (VOID)
-{
-}
-
-//TNT MAP 05 - Hanger
-script 265 (VOID)
-{
-}
-
-//TNT MAP 06 - Open Season
-script 266 (VOID)
-{
-}
-
-//TNT MAP 07 - Prison
-script 267 (VOID)
-{
-}
-
-//TNT MAP 08 - Metal
-script 268 (VOID)
-{
-}
-
-//TNT MAP 10 - Redemption 
-script 270 (VOID)
-{
-}
-
-//TNT MAP 11 - Storage
-script 271 (VOID)
-{
-}
-
-//TNT MAP 12 Crater
-script 272 (VOID)
-{
-}
-
-//TNT MAP 13 Nukage Processing
-script 273 (VOID)
-{
-}
-
-//TNT MAP 14 Steel Works
-script 274 (VOID)
-{
-}
-
-//TNT MAP 15 Dead Zone
-script 275 (VOID)
-{
-}
-
-//TNT MAP 16 Deepest Reaches
-script 276 (VOID)
-{
-}
-
-//TNT MAP 17 Processing Area
-script 277 (VOID)
-{
-}
-
-//TNT MAP 18 Mill
-script 278 (VOID)
-{
-}
-
-//TNT MAP 19 Shipping Respawning
-script 279 (VOID)
-{
-}
-
-//TNT MAP 20 Central Processing
-script 280 (VOID)
-{
-}
-
-//TNT MAP 21 Administration Center
-script 281 (VOID)
-{
-}
-
-//TNT MAP22: Habitat 
-script 282 (VOID)
-{
-}
-
-//TNT MAP23: Lunar Mining Project 
-script 283 (VOID)
-{
-}
-
-//TNT MAP24: Quarry
-script 284 (VOID)
-{
-}
-
-//TNT MAP25: Baron's Den
-script 285 (VOID)
-{
-}
-
-//TNT MAP26: Ballistyx 
-script 286 (VOID)
-{
-}
-
-//TNT MAP27: Mount Pain 
-script 287 (VOID)
-{
-}
-
-//TNT MAP28: Heck
-script 288 (VOID)
-{
-}
-
-//TNT MAP29: River Styx
-script 2089 (VOID)
-{
-}
-
-//TNT MAP30: last Call
-script 290 (VOID)
-{
-}
-
-//PLUTONIA MAP01 - CONGO
-script 2031 (VOID)
-{
-}
-
-//PLUTONIA MAP02 - WELL OF SOULS
-script 2032 (VOID)
-{
-}
-
-//PLUTONIA MAP03 - Aztec
-script 2033 (VOID)
-{
-}
-
-//PLUTONIA MAP04 - Caged
-script 2034 (VOID)
-{
-}
-
-//PLUTONIA MAP05 - GHOST TOWN
-script 2035 (VOID)
-{
-}
-
-//PLUTONIA MAP06 - Baron's Den
-script 2036 (VOID)
-{
-}
-
-//PLUTONIA MAP06 - Caughtyard
-script 2037 (VOID)
-{
-}
-
-//PLUTONIA MAP29 - ODYSSEY OF NOISES
-script 2030 (VOID)
-{
-}
-
-//Secret Exits to PSX levels
-script 1216 (VOID)//Suburbs to Mansion
-{
-}
-
-script 1214 (VOID)//Gotcha to Hellgate
-{
-}
-
-script 1213 (VOID)//Downtown to Twilight Descends
-{
-}
-
-script 177 (void)//NAZIS
-{
-
-	//Thing_ChangeTID(0,736);
-
-	//if (CheckActorFloorTexture(736, "FL0"))
-	//    GiveActorInventory(736, "AltEasyMarineVerification", 1);
-	//}
-
-	//SetActorState(0,"ISANazi");	
-
-	//if (CheckActorFloorTexture(736, "FLAT5_4"))
-	//    GiveActorInventory(736, "NaziVerificate1", 1);
-	//}
-	
-	//if (CheckActorCeilingTexture(736, "CEIL4_2"))
-	//    GiveActorInventory(736, "NaziVerificate2", 1);
-	//}
-		
-	//if (CheckActorCeilingTexture(736, "ACEIL42"))
-	//    GiveActorInventory(736, "Epic2AlienVerification", 1);
-	//}
-		
-	//if (CheckActorFloorTexture(736, "ACEIL22"))
-	//    GiveActorInventory(736, "Epic2AlienVerification", 1);
-	//}
-	
-	//if (CheckActorFloorTexture(736, "ACEIL42"))
-	//    GiveActorInventory(736, "Epic2AlienVerification", 1);
-	//}
-
-	//if (CheckActorcEILINGTexture(736, "ACEIL22"))
-	//    GiveActorInventory(736, "Epic2AlienVerification", 1);
-	//}
-
-	//if (CheckActorFloorTexture(736, "ACEIL68"))
-	//    GiveActorInventory(736, "Epic2AlienVerification", 1);
-	//}
-
-	//if (CheckActorcEILINGTexture(0, "F_SKY1"))
-	//    GiveActorInventory(728, "TVRRainVerification", 1);
-	//}
-
+	delay(1);
 }

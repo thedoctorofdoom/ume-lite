@@ -306,7 +306,6 @@ DamageFactor "Plasma", 200.0 DamageFactor "PLasma2", 200.0
 		Death.Plasma:
 			TNT1 A 0
 			TNT1 A 0 A_NoBlocking
-			TNT1 A 0 A_SpawnItem("BarrelExplosionSmokeColumnInfinite")
 			TNT1 A 0 A_CustomMissile("TinyBurningPieceInfinite")
 			TNT1 A 0 A_SpawnItemEx("RealisticFireSparksLoop", 0, 0, 15)			
 			BPDC A 1
@@ -422,7 +421,7 @@ Radius 16
 		
 		
 		Burning:
-			BPDC P 20 BRIGHT A_CustomMissile ("BurnDamageSmall", 16)
+			BPDC P 20 BRIGHT
 			Loop
 }}
 
@@ -462,7 +461,7 @@ sCALE 0.6
 		Stop
 		
 		Burning:
-			BPDC U 20 BRIGHT A_CustomMissile ("BurnDamageSmall", -16)
+			BPDC U 20 BRIGHT
 			Loop
 
 }}
@@ -479,7 +478,7 @@ ACTOR BDVines2: BDVines1 11834
 		Stop
 	
 		Burning:
-			BPDC V 20 BRIGHT A_CustomMissile ("BurnDamageSmall", -16)
+			BPDC V 20 BRIGHT
 			Loop
 }}
 
@@ -504,7 +503,7 @@ ACTOR BDecJunglePlant: BDECBush
 		Stop
 		
 		Burning:
-			BPDC W 20 A_CustomMissile ("BurnDamageSmall", 16)
+			BPDC W 20
 			Loop
 		
 }}
@@ -577,7 +576,6 @@ BloodType "TreeBlood"
 		
 		Burning:
 			BPDC Q 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageLarge", 16)
 			Loop
 }}
 
@@ -622,7 +620,6 @@ ACTOR BDECGreenTree2: BDECGreenTree1 15851
 		
 		Burning:
 			BPDC R 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageLarge", 16)
 			Loop
 
 }}
@@ -653,7 +650,6 @@ ACTOR BDECGreenTree3: BDECGreenTree2 15852
 		
 	Burning:
 			BPDC S 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageLarge", 16)
 			Loop	
 }}
 
@@ -700,7 +696,6 @@ ACTOR BDPalmTree: BDECGreenTree2 15853
 		
 		Burning:
 			BPDC X 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageLarge", 16)
 			Loop
 
 }}
@@ -742,7 +737,6 @@ ACTOR BDECDeadTree1: BDECGreenTree1 11008
 		Stop
 		Burning:
 			BPDC G 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageLarge", 16)
 			Loop
 }}
 
@@ -760,7 +754,6 @@ ACTOR BDECDeadTree2: BDECDeadTree1 11009
 		
 		Burning:
 			BPDC H 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageLarge", 16)
 			Loop
 }}
 
@@ -809,7 +802,6 @@ ACTOR BDECOldTree1: BDECGreenTree1
 		Stop
 		Burning:
 			BPDC G 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageLarge", 16)
 			Loop
 }}
 
@@ -837,7 +829,6 @@ ACTOR BDECOldTree2: BDECOldTree1
 		
 		Burning:
 			BPDC H 15 BRIGHT //A_CustomMissile("FireballExplosionFlamesBig", 45, 0, random (0, 360), 2, random (50, 130))
-			TNT1 A 0 A_CustomMissile ("BurnDamageSmall", 16)
 			Loop
 }}
 
@@ -2388,7 +2379,6 @@ States
  SPDF B 1
  TNT1 A 0 ThrustThingZ(0,955,0,1)
  SPDF B 5
- TNT1 A 0 A_SpawnItem("BDSpark_Down")
  
  Stay:
  SPDF B 1
@@ -3782,12 +3772,7 @@ Health 50
 Mass 99999
 Scale 1
 -PUSHABLE
-DropItem "HealthPlus" 128
-DropItem "ArmorShard" 128
 DropItem "Stimpack" 128
-DropItem "Clips" 128
-DropItem "CLIP1Drop" 128
-DropItem "Shells" 128
 states
 	{
 	Spawn:

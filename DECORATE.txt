@@ -14,41 +14,14 @@ Actor DebrisGeneral
 	damage 0
 }
 
-Actor BDECLightCheckerRed : Inventory
-{
-	inventory.maxamount 1
-}
-
-Actor BDECLightCheckerOrange : Inventory
-{
-	inventory.maxamount 1
-}
-
-Actor BDECLightCheckerBlue : Inventory
-{
-	inventory.maxamount 1
-}
-
-Actor BDECLightCheckerGreen : Inventory
-{
-	inventory.maxamount 1
-}
-
-Actor BDECLightCheckerWhite : Inventory
-{
-	inventory.maxamount 1
-}
-
-Actor BDECNukageChecker : Inventory
-{
-	inventory.maxamount 1
-}
-
 //Tokens
 #include DECORATE/TOKENS.txt
 
+//Compatibility aliases (orphan gore-variant class names retained for spawn-site compat)
+#include DECORATE/CompatAliases.txt
+
 //Gore and blood
-//#include DECORATE/GOREGROUPS.txt
+#include DECORATE/FlatDecals.txt
 #include DECORATE/BLOOD.txt
 #include DECORATE/MEAT.txt
 #include DECORATE/LIMBS.txt

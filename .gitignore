@@ -14,6 +14,8 @@ Desktop.ini
 
 # Build artefacts from the user's own GZDoom/UZDoom test runs
 gzdoom-*.log
+smoke_log*.txt
+smoke_baseline*.txt
 *.cfg.bak
 
 # Local PK3 builds (the source-of-truth is the loose directory)

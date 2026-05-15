@@ -33,11 +33,11 @@ are no longer present in any form:
   `psxlevels.wad` (PSX Doom `PSXMAP*`), `testmap.wad`, and any Extermination
   Day hooks. There is no `MAPINFO.lmp` at all.
 - **Per-map remap files for Plutonia, TNT, and "OtherMaps"**: only
-  `DECORATE/Doom1Remap.txt` and `DECORATE/Doom2Remap.txt` remain. Some stale
-  TNT / Plutonia signatures still exist in `SRC/MapDetection.acs` and
-  `DECORATE/MapDetection.txt`, but their `TNTMap*DecorationSpawn` /
-  `PMap*DecorationSpawn` actor definitions are not included in this tree, so
-  those IWADs do not have complete map-enhancement support.
+  `DECORATE/Doom1Remap.txt` and `DECORATE/Doom2Remap.txt` remain. The TNT,
+  Plutonia, PLMap, and PMap signatures and decoration-spawn references have
+  also been pruned from `SRC/MapDetection.acs` and
+  `DECORATE/MapDetection.txt`. TNT and Plutonia are not supported targets in
+  this build.
 - **HD skies and animated environment lumps**: `Textures.HDSkies`,
   `doomwalls.bm`, `ANIMDEFS`, `TERRAIN`, and `DECALDEF.Terrain` have been
   removed.
@@ -70,14 +70,15 @@ bodies and **do nothing at runtime**:
 
 ### Added
 
-- [`DECORATE_BDP.txt`](DECORATE_BDP.txt): a minimal alternate DECORATE root
-  that includes only the map detection / decoration-spawn includes, intended
-  for a Brutal Doom Platinum compatibility build (BDP already provides the
-  shared effect actors that `MapSpecificDec.txt` would otherwise duplicate).
 - [`.gitignore`](.gitignore): covers OS scratch, editor temp files, local
   PK3 builds, ACS scratch, and the bundled `acc-1.60-win32/` toolchain.
 - `acc-1.60-win32/`: local ACS compiler, **gitignored**, kept only for
   developer convenience. Never shipped in a built pk3.
+
+A short-lived alternate root `DECORATE_BDP.txt`, which scaffolded a
+dedicated Brutal Doom Platinum compatibility package, has been removed in a
+warning-cleanup pass. UME-Lite now ships only the standalone `DECORATE.txt`
+root.
 
 ---
 
@@ -116,7 +117,7 @@ megawad you load alongside it.
 | | |
 |---|---|
 | **Engine** | GZDoom 4.x or UZDoom 4.14.3+ recommended. LZDoom and Zandronum work but with reduced effects. K8Vavoom is not supported. |
-| **IWAD** | `doom.wad` or `doom2.wad`. Plutonia and TNT IWADs will load (the mod is non-replacing) but are not supported targets in this stripped build: stale signatures remain, but the matching decoration-spawn actor definitions do not. |
+| **IWAD** | `doom.wad` or `doom2.wad`. Plutonia and TNT IWADs will load (the mod is non-replacing) but are not supported targets in this build; their map signatures and decoration-spawn paths have been removed entirely. |
 | **Disk** | A few MB unpacked. |
 
 ---
@@ -142,14 +143,6 @@ gzdoom -iwad doom2.wad -file BrutalDoom.pk3 -file path/to/UME-Lite/
 
 Always load **UME-Lite *after* your gameplay mod** so its decoration spawns
 layer on top without being overwritten.
-
-### Option C - Brutal Doom Platinum compatibility package
-
-If you're packaging for Brutal Doom Platinum, use the same contents as the
-standalone package but copy [`DECORATE_BDP.txt`](DECORATE_BDP.txt) to root
-`DECORATE.txt` in the staged pk3. This omits duplicate DECORATE actors BDP
-already provides. Load order: **IWAD -> Brutal Doom Platinum ->
-`UME-BDP.pk3`**.
 
 ---
 
@@ -183,7 +176,6 @@ ZDoom-family ports), not anything declared here.
 ```
 UME-Lite/
 |-- DECORATE.txt              -> standalone DECORATE root (full)
-|-- DECORATE_BDP.txt          -> BDP-compat DECORATE root (minimal)
 |-- DECORATE/                 -> 28 .txt files: gore, decorations,
 |                                map detection, particles, casings, ...
 |-- SRC/                      -> ACS source: BDCVARS.acs, DYNAMICLEV.acs,
@@ -237,8 +229,8 @@ If you'd like to extend UME-Lite, fill in an empty Janitor body, add a new
 map detection, drop in a new decoration, or wire texture replacement back up
 read [AGENTS.md](AGENTS.md) first. It walks through the load order, the
 EvidenceChecker -> DecorationSpawn pattern, the (now mostly empty) Janitor
-CVAR scripts, the BDP build variant, and how to recompile ACS with the
-bundled `acc-1.60-win32/acc.exe`.
+CVAR scripts, and how to recompile ACS with the bundled
+`acc-1.60-win32/acc.exe`.
 
 External references for the engine APIs in use:
 

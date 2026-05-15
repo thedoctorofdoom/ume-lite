@@ -358,7 +358,6 @@ ACTOR underwaterEmptyBrass: EmptyBrass
       C4S3 ABCD 3 
 	  BLUD C 0 ThrustThingZ (0,7,1,0)
 	  C4S3 EFGH 3
-	   TNT1 A 0 A_SpawnItem("BUBULZ")
       Loop
    }
 }

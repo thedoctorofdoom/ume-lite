@@ -1,0 +1,28 @@
+//Compatibility aliases.
+//
+//UME-Lite is a stripped fork of Brutal Doom's Map Enhancement System. Many
+//upstream gore variants of vanilla Blood (MuchBlood, MediumBloodSpot, etc.)
+//were removed alongside the gameplay systems that referenced them, but
+//A_SpawnItemEx call sites for those classes still exist in this fork's gore
+//chains (DEAD.txt, LIMBS.txt, MapSpecificDec.txt, mummy.txt, meat.txt).
+//
+//Rather than scatter deletions across every call site, the visually-oriented
+//gore variants are aliased here to vanilla Blood. Each alias is a new class,
+//not a "replaces" - gameplay-mod compatibility is preserved (per AGENTS.md
+//section 4 "Replacement actors").
+//
+//Anything gameplay-affecting (BurnDamageSmall/Large, weapon carcasses,
+//projectile trails, scoring pop-ups, head-explode gibs, terrain splashes)
+//is intentionally NOT aliased here and is being deleted from its call sites
+//in the corresponding per-file cleanup steps of the parent plan
+//(decorate_unknown_class_triage).
+
+
+Actor MuchBlood       : Blood {}
+Actor MuchBlood2      : Blood {}
+Actor MediumBloodSpot : Blood {}
+Actor BigBloodSpot    : Blood {}
+Actor WaterBloodSpot  : Blood {}
+Actor SplatteredLarge : Blood {}
+Actor MeatDeath       : Blood {}
+Actor MeatDeathSmall  : Blood {}

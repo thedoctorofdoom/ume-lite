@@ -29,11 +29,13 @@ What remains at runtime:
   torches, lamps, natural decorations, fireworks**, one enemy (`Mummy`), and
   one critter (`BDCritterMouse`).
 - **Brightmaps, dynamic lights, and model bindings** for the remaining actors.
-- **A Brutal Doom Platinum compatibility package path** using
-  `DECORATE_BDP.txt` as an alternate root.
 
 Important: `MAPINFO.lmp` is absent. UME-Lite does not define episodes, maps,
 music, skies, map order, or bundled WAD entries.
+
+A previous fork shipped a `DECORATE_BDP.txt` alternate root for a Brutal
+Doom Platinum compatibility package. That alternate root has been removed;
+this build is single-rooted on `DECORATE.txt` only.
 
 ---
 
@@ -55,10 +57,10 @@ for them unless the user explicitly asks to restore them.
   `*.wad` files at all.
 - **Complete per-map remap coverage outside Doom 1 / Doom 2**: no
   `DECORATE/PlutoniaRemap.txt`, `DECORATE/TNTRemap.txt`, or
-  `DECORATE/OtherMapsRemap.txt`. Some stale TNT / Plutonia signatures remain
-  in `SRC/MapDetection.acs` and `DECORATE/MapDetection.txt`, but their
-  `TNTMap*DecorationSpawn` / `PMap*DecorationSpawn` actor definitions are not
-  present, so those IWADs are not supported targets in this stripped build.
+  `DECORATE/OtherMapsRemap.txt`. The TNT / Plutonia / PLMap / PMap signatures
+  and decoration-spawn references have also been pruned from
+  `SRC/MapDetection.acs` and `DECORATE/MapDetection.txt`. TNT and Plutonia
+  are not supported targets in this build.
 - **HD skies / terrain / animated environment lumps**: no `Textures.HDSkies`,
   `doomwalls.bm`, `ANIMDEFS`, `TERRAIN`, or `DECALDEF.Terrain`.
 - **Splash and extra sound libraries**: no `SRC/SSPLASH.acs`,
@@ -103,10 +105,6 @@ but most of their old behavior has been removed.
 
 ### Added
 
-- `DECORATE_BDP.txt`: alternate DECORATE root for the Brutal Doom Platinum
-  compatibility build. It includes only:
-  `MapSpecificDec.txt`, `MapDetection.txt`, `Doom1Remap.txt`,
-  `Doom2Remap.txt`.
 - `.gitignore`: excludes OS/editor scratch, local pk3 builds, ACS scratch, and
   the local `acc-1.60-win32/` toolchain.
 - `acc-1.60-win32/`: local ACS compiler and `zcommon.acs` headers for
@@ -140,7 +138,6 @@ Current layout:
 ```
 UME-Lite/
 |-- DECORATE.txt              # Standalone DECORATE root (full)
-|-- DECORATE_BDP.txt          # BDP-compat DECORATE root (minimal)
 |-- DECORATE/                 # Remaining actor definitions
 |-- SRC/                      # ACS source: BDCVARS, DYNAMICLEV, MapDetection
 |-- ACS/                      # Compiled ACS objects referenced by LOADACS
@@ -178,10 +175,9 @@ outputs.
 3. `MapDetection.acs` runs `Initialize_Enhancements` (`enter`), freezes player
    1 briefly, and calls `Detect_Map`.
 4. `Detect_Map` compares `(GetActorX(0)>>16, GetActorY(0)>>16, par_time,
-   level_name)` against the signature table. The complete supported path is
-   Doom 1 / Doom 2. Stale TNT / Plutonia checks still exist, but their
-   decoration-spawn actors are missing. On a match, it `SpawnForced`s an
-   `EvidenceChecker*` actor at fixed map coordinates with a known Thing TID.
+   level_name)` against the signature table. Only Doom 1 / Doom 2 signatures
+   are checked. On a match, it `SpawnForced`s an `EvidenceChecker*` actor at
+   fixed map coordinates with a known Thing TID.
 5. The spawned `EvidenceChecker*` actor in `DECORATE/MapDetection.txt`
    confirms it landed on the expected object / sector / texture in the real
    IWAD map, then spawns a `<MapName>DecorationSpawn` actor.
@@ -323,19 +319,6 @@ only.
 3. Reference the logical name from DECORATE (`A_PlaySound`, `SeeSound`,
    `DeathSound`), not the raw filename.
 
-### Package the BDP variant
-
-For a Brutal Doom Platinum compatibility package, stage the same runtime files
-as the standalone pk3 but copy `DECORATE_BDP.txt` to root `DECORATE.txt` inside
-the staged package. Load order is:
-
-```
-IWAD -> Brutal Doom Platinum -> UME-BDP.pk3
-```
-
-Do not merge `DECORATE.txt` and `DECORATE_BDP.txt`; they are alternate roots
-for different package variants.
-
 ---
 
 ## 7. Things to watch out for
@@ -344,8 +327,6 @@ for different package variants.
   bug. Ask or document the behavior before restoring old upstream logic.
 - **Texture replacement is currently inert**. `ReplaceTextures` appears only
   in comments / examples unless you add it to a `MapEnhancement<Name>` body.
-- **`DECORATE.txt` and `DECORATE_BDP.txt` are alternate roots**. Only one
-  should ship as root `DECORATE.txt` in a given pk3.
 - **Do not change Thing TIDs** spawned by `MapDetection.acs` without updating
   the corresponding `EvidenceChecker*` and decoration-spawn chain.
 - **Do not replace vanilla actors** unless there is a very good reason.
