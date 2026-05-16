@@ -405,14 +405,10 @@ YScale 12.0
 }
 
 
-Actor SmallSmoke: AltSmoke
-{
-+CLIENTSIDEONLY
-	Speed 1
-Scale 1.5
-}
-
-
+// (Orphan `Actor SmallSmoke: AltSmoke` removed when `zscript.txt` was added;
+//  the ZScript `Smoke` hierarchy from CodeFX defines its own `SmallSmoke`.
+//  The only references to the old DECORATE class were commented-out
+//  `A_CustomMissile` calls in decorate/particles.txt.)
 
 
 ACTOR MeleeSmoke: ExplosionSmoke

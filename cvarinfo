@@ -1,2 +1,3 @@
 
 server int sv_allowbossmap = 0;
+server bool mes_custombarrel = true;

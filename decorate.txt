@@ -35,6 +35,7 @@ Actor DebrisGeneral
 #include decorate/fire.txt
 #include decorate/puff.txt
 #include decorate/flares.txt
+#include decorate/cfx_barrel.txt
 
 //Enemies
 #include decorate/mummy.txt

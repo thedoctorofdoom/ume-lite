@@ -24,9 +24,15 @@ those are present, not UME-Lite's own `MES_*` settings (most of those are only
 there for backwards compatibility).
 
 Visually it leans on **models, glows / dynamic lights, and brightmaps** where
-those assets apply. Almost everything is ornamental: besides a lone mummy and
-a small critter actor, **you still bring weapons, monsters, progression, and
-maps** via the IWAD and whatever else you load.
+those assets apply. Vanilla **explosive barrels** are quietly upgraded to a
+CodeFX-derived `NewBarrel` with a smoking idle, a soft green glow, and a
+chained particle explosion on death — the damage, hitbox, and triggering
+behavior are unchanged, so gameplay mods that target `ExplosiveBarrel` keep
+working. If you'd rather have plain vanilla barrels, flip
+*Custom explosive barrel* off under Options → Map Enhancements (see
+[Configuration](#configuration)). Almost everything else is ornamental:
+besides a lone mummy and a small critter actor, **you still bring weapons,
+monsters, progression, and maps** via the IWAD and whatever else you load.
 
 ---
 
@@ -67,15 +73,23 @@ layer on top without being overwritten.
 
 ## Configuration
 
-UME-Lite ships several CVARs in [`cvarinfo`](cvarinfo), but **almost all of
-them are inert in this build** because they remain only for load-order
-compatibility with mods that already set them.
+UME-Lite ships several CVARs in [`cvarinfo`](cvarinfo); most are inert legacy
+declarations, but two are live.
 
-The single CVAR that still does anything:
+### In-game menu
 
-| CVAR | Default | Effect |
-|---|---|---|
-| `sv_allowbossmap` | `0` | Server CVAR. When `1`, [`src/mapdetection.acs`](src/mapdetection.acs) skips the `EvidenceChecker*` spawns on certain Doom 1 boss maps so a boss-aware gameplay mod can take them over without UME's decorations interfering. |
+Most users won't need the console. The mod adds a **"Map Enhancements"**
+submenu to the engine's Options screen (Esc → Options → Map Enhancements)
+that exposes the live toggles below as labelled On/Off entries.
+
+### Live CVARs
+
+| CVAR | Scope | Default | Effect |
+|---|---|---|---|
+| `mes_custombarrel` | server | `1` (on) | When **on**, vanilla explosive barrels are replaced with the CodeFX `NewBarrel` (animated smoke, pulsing green glow, chained `NukeKABOOM` death). When **off**, every barrel spawns as a `VanillaBarrelCompat` proxy — a plain `ExplosiveBarrel` subclass with no UME effects. The check runs at spawn time, so changes take effect on the **next map load**. Persists in the engine's server config across sessions. Also exposed as the *Custom explosive barrel* toggle in the Map Enhancements menu. |
+| `sv_allowbossmap` | server | `0` | When `1`, [`src/mapdetection.acs`](src/mapdetection.acs) skips the `EvidenceChecker*` spawns on certain Doom 1 boss maps so a boss-aware gameplay mod can take them over without UME's decorations interfering. |
+
+### Inert declarations
 
 The following CVARs are **declared but inert** in this build:
 `MES_isrunningzandronum`, `MES_disabledecorations`, `MES_disablemapenhancements`,
@@ -95,16 +109,25 @@ ZDoom-family ports), not anything declared here.
 ```
 UME-Lite/
 |-- decorate.txt              -> standalone DECORATE root (full)
-|-- decorate/                 -> 26 .txt files: gore, decorations,
+|-- decorate/                 -> 27 .txt files: gore, decorations,
 |                                map detection, particles, casings,
-|                                compataliases, ...
+|                                compataliases, CodeFX explosive barrel,
+|                                ...
+|-- zscript.txt               -> ZScript root (v4.7.1): CodeFX effect base
+|                                classes -- Smoke / SlowSmoke / FastSmoke
+|                                hierarchies, FlamesBright / FlamesDark
+|                                hierarchies, VisualSpecialEffect,
+|                                BouncyPhysicalThing
 |-- src/                      -> ACS source: bdcvars.acs, dynamiclev.acs,
 |                                mapdetection.acs
 |-- acs/                      -> compiled ACS libraries (.o)
 |-- loadacs                   -> "DYNAMICLEV  BDCVARS  MapDetection"
 |                                (case-insensitive ACS library names)
-|-- cvarinfo                  -> server / user CVARs (mostly inert,
-|                                see Configuration above)
+|-- cvarinfo                  -> live CVARs (sv_allowbossmap,
+|                                mes_custombarrel) + legacy inert
+|                                declarations
+|-- menudef                   -> MENUDEF lump: adds the "Map Enhancements"
+|                                submenu to the engine Options screen
 |-- gldefs                    -> dynamic lights & glow definitions
 |-- doomdefs.bm               -> brightmap definitions for Doom sprites
 |-- modeldef.txt              -> MD3 / MD2 model bindings

@@ -777,3 +777,49 @@ object HDFlamesGFX1
     frame NF1R { light BIGREDTORCHNOSELF }
 	frame NF2R { light BIGREDTORCHNOSELF }
 }
+
+// ---------------------------------------------------------------------
+// CodeFX explosive barrel (NewBarrel) -- migrated from GLDEFS.lights
+// ExplosiveBarrel1 (above) keeps its existing GREENGOOZ binding;
+// NewBarrel is a distinct actor (replaces vanilla ExplosiveBarrel) and
+// gets its own pulsing green glow plus the engine-stock rocket-explosion
+// lights on the death frames.
+//
+// `BARREL` pulse is tuned brighter and wider than the CodeFX original
+// (size 20/21, color 0.0/0.3/0.0) for a more visible ambient glow.
+// `GreenFlameLight` powers the `Light("GreenFlameLight")` state action
+// on `SmallGreenFireSpawnerX1` (a brief flicker on each flame-cluster
+// spawn). Dimmed slightly from the CodeFX original (was size 50/64,
+// color 0.3/0.99/0.3) because the spawner fires many overlapping
+// instances during the NukeKABOOM cluster.
+// ---------------------------------------------------------------------
+
+pulselight BARREL
+{
+    color 0.15 0.65 0.15
+    size 48
+    secondarySize 64
+    interval 0.5
+    offset 0 36 0
+	dontlightself 1
+	attenuate 1
+}
+
+flickerlight2 GreenFlameLight
+{
+    color 0.2 0.7 0.2
+    size 32
+    secondarySize 44
+    interval 2
+    offset 0 4 0
+	attenuate 1
+}
+
+object NewBarrel
+{
+    frame BAR1  { light BARREL    }
+
+    frame BEXPC { light ROCKET_X1 }
+    frame BEXPD { light ROCKET_X2 }
+    frame BEXPE { light ROCKET_X3 }
+}

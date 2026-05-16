@@ -1,0 +1,19 @@
+// =============================================================================
+// UME-Lite menu definitions
+// -----------------------------------------------------------------------------
+// Adds a "Map Enhancements" submenu to the engine's built-in Options menu.
+// All toggles live there. CVAR scopes are declared in `cvarinfo`.
+// =============================================================================
+
+AddOptionMenu "OptionsMenu"
+{
+	Submenu "Map Enhancements", "UMEOptionsMenu"
+}
+
+OptionMenu "UMEOptionsMenu"
+{
+	Title "Map Enhancements"
+	StaticText " "
+	Option "Custom explosive barrel", "mes_custombarrel", "OnOff"
+	StaticText "  (takes effect on next map load)"
+}

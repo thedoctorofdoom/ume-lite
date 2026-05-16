@@ -1,0 +1,925 @@
+version "4.7.1"
+
+Class VisualSpecialEffect : ACTOR
+{
+	Default
+	{
+	  +CLIENTSIDEONLY
+	  +NOGRAVITY
+	  +NOINTERACTION
+	  +NOBLOCKMAP
+	  +NOTELEPORT
+	  +ROLLSPRITE
+	  +FORCEXYBILLBOARD
+	  +NOCLIP
+	  +DONTSPLASH
+	  Renderstyle "Add";
+	}
+}
+
+Class BouncyPhysicalThing : ACTOR
+{
+	Default
+	{
+	  +ROLLSPRITE
+	  +DOOMBOUNCE
+	  +FORCEXYBILLBOARD
+	  +CLIENTSIDEONLY
+	  +NOTELEPORT
+	  +PAINLESS
+	  +ALLOWBOUNCEONACTORS
+	  +MISSILE
+	  -NOGRAVITY
+	  -CANBOUNCEWATER
+	  -NOINTERACTION
+	  Renderstyle "translucent";
+	  Speed 0.01;
+	  BounceType "Doom";
+	  BounceCount 4;
+	  Gravity 0.85;
+	  Health 1;
+	  Radius 1;
+	  Height 2;
+	  Mass 1;
+	}
+}
+
+//========================================================================
+//====== SMOKE ===========================================================
+//========================================================================
+
+
+Class Smoke : VisualSpecialEffect
+{
+	Default
+	{
+		Radius 0;
+		Height 0;
+		RenderStyle "Shaded";
+		StencilColor "44 44 44";
+		Alpha 0.16;
+		Scale 0.25;
+		Gravity -0.12;
+		Speed 0.25;
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0 A_SetRoll(random(1,359));
+			SMOK CCCC random(1,3)
+				{
+					A_FadeIn(0.05);
+					A_SetRoll(roll + 2);
+					A_SetScale(scale.x * 1.3);
+				}
+			SMOK CCCCCCCCCCCCCCCCCCCCC random(1,3)
+				{
+					A_FadeOut(0.02);
+					A_SetRoll(roll + 1);
+					A_SetScale(scale.x * 1.05);
+				}
+			SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(1,3)
+				{
+					A_FadeOut(0.002);
+					A_SetRoll(roll + 0.5);
+					A_SetScale(scale.x * 1.02);
+				}
+		Fadeout:
+			SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(1,3)
+				{
+					A_FadeOut(0.001);
+					A_SetRoll(roll + 0.2);
+					A_SetScale(scale.x * 1.01);
+				}
+			Loop;
+	}
+}
+
+
+Class SlowSmoke : Smoke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_SetRoll(random(1,359));
+		SMOK CCCC random(2,5)
+			{
+				A_FadeIn(0.05);
+				A_SetRoll(roll + 2);
+				A_SetScale(scale.x * 1.3);
+			}
+		SMOK CCCCCCCCCCCCCCCCCCCCC random(3,6)
+			{
+				A_FadeOut(0.02);
+				A_SetRoll(roll + 1);
+				A_SetScale(scale.x * 1.05);
+			}
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(3,6)
+			{
+				A_FadeOut(0.002);
+				A_SetRoll(roll + 0.5);
+				A_SetScale(scale.x * 1.02);
+			}
+	Fadeout:
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(3,6)
+			{
+				A_FadeOut(0.001);
+				A_SetRoll(roll + 0.2);
+				A_SetScale(scale.x * 1.01);
+			}
+		Loop;
+	}
+}
+
+
+Class FastSmoke : Smoke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_SetRoll(random(1,359));
+		SMOK CCCC 1
+			{
+				A_FadeIn(0.05);
+				A_SetRoll(roll + 2);
+				A_SetScale(scale.x * 1.3);
+			}
+		SMOK CCCCCCCCCCCCCCCCCCCCC 1
+			{
+				A_FadeOut(0.02);
+				A_SetRoll(roll + 1);
+				A_SetScale(scale.x * 1.05);
+			}
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCC 1
+			{
+				A_FadeOut(0.002);
+				A_SetRoll(roll + 0.5);
+				A_SetScale(scale.x * 1.02);
+			}
+	Fadeout:
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC 1
+			{
+				A_FadeOut(0.001);
+				A_SetRoll(roll + 0.2);
+				A_SetScale(scale.x * 1.01);
+			}
+		Loop;
+	}
+}
+
+Class BigSmoke : Smoke
+{
+	Default
+	{
+		Scale 0.60;
+	}
+}
+
+Class BigSlowSmoke : SlowSmoke
+{
+	Default
+	{
+		Scale 0.60;
+	}
+}
+
+Class BigFastSmoke : FastSmoke
+{
+	Default
+	{
+		Scale 0.60;
+	}
+}
+
+Class SmallSmoke : Smoke
+{
+	Default
+	{
+		Scale 0.08;
+	}
+}
+
+Class BloodMist : Smoke
+{
+	Default
+	{
+		RenderStyle "Shaded";
+		StencilColor "55 11 11";
+		Alpha 0.18;
+		Scale 0.12;
+	}
+}
+
+Class SmallSlowSmoke : SlowSmoke
+{
+	Default
+	{
+		Scale 0.08;
+	}
+}
+
+Class SmallFastSmoke : FastSmoke
+{
+	Default
+	{
+		Scale 0.08;
+	}
+}
+
+Class TinySmoke : Smoke
+{
+	Default
+	{
+		Scale 0.02;
+	}
+}
+
+Class TinySlowSmoke : SlowSmoke
+{
+	Default
+	{
+		Scale 0.02;
+	}
+}
+
+Class TinyFastSmoke : FastSmoke
+{
+	Default
+	{
+		Scale 0.02;
+	}
+}
+	
+
+
+
+Class StillSmoke : VisualSpecialEffect
+{
+	Default
+	{
+		Radius 0;
+		Height 0;
+		Scale 2;
+		RenderStyle "Shaded";
+		StencilColor "55 55 55";
+		Alpha 0.16;
+	}
+	States
+	{
+	Spawn:
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(1,3)
+			{
+				A_FadeIn(0.005);
+				A_SetRoll(roll + 0.1);
+				A_SetScale(scale.x * 1.005);
+			}
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(1,3)
+			{
+				A_FadeOut(0.001);
+				A_SetRoll(roll + 0.1);
+				A_SetScale(scale.x * 1.002);
+			}
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(1,3)
+			{
+				A_FadeIn(0.001);
+				A_SetRoll(roll + 0.1);
+				A_SetScale(scale.x * 0.998);
+			}
+	Fadeout:
+		SMOK CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC random(1,3)
+			{
+				A_FadeOut(0.005);
+				A_SetRoll(roll + 0.1);
+				A_SetScale(scale.x * 1.001);
+			}
+		Loop;
+	}
+}
+
+
+
+
+
+//========================================================================
+//====== FIRE ============================================================
+//========================================================================
+
+
+
+Class FlamesBright : VisualSpecialEffect
+{
+	Default
+	{
+		+EXPLODEONWATER;
+		+BRIGHT
+		-NOGRAVITY
+		Gravity -0.16;
+		Radius 1;
+		Height 2;
+		Scale 0.11;
+		RenderStyle "Add";
+		Alpha 0.35;
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay;
+			FIR1 A 0 
+			{
+				A_SetRoll(random(1,359));
+				A_SetScale(scale.x * (0.01 * random(75,125)),scale.x * (0.01 * random(75,125)));
+			}
+			FIR1 AAAB random(1,2)
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.25);
+				A_FadeIn(0.12);
+			}
+			FIR1 BCCD random(1,2)
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.025);
+			}
+			FIR1 DEEE random(1,2)
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.025);
+				A_FadeOut(0.12);
+			}
+			Stop;
+	}
+}
+
+Class FlamesBrightSlow : VisualSpecialEffect
+{
+	Default
+	{
+		+EXPLODEONWATER;
+		+BRIGHT
+		-NOGRAVITY
+		Gravity -0.13;
+		Radius 1;
+		Height 2;
+		Scale 0.11;
+		RenderStyle "Add";
+		Alpha 0.35;
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay;
+			FIR1 A 0 
+			{
+				A_SetRoll(random(1,359));
+				A_SetScale(scale.x * (0.01 * random(75,125)),scale.x * (0.01 * random(75,125)));
+			}
+			FIR1 AAAB 2
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.25);
+				A_FadeIn(0.12);
+			}
+			FIR1 BCCD 2
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.025);
+			}
+			FIR1 DEEE 2
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.025);
+				A_FadeOut(0.12);
+			}
+			Stop;
+	}
+}
+
+Class FlamesBrightFast : VisualSpecialEffect
+{
+	Default
+	{
+		+EXPLODEONWATER;
+		+BRIGHT
+		-NOGRAVITY
+		Gravity -0.21;
+		Radius 1;
+		Height 2;
+		Scale 0.11;
+		RenderStyle "Add";
+		Alpha 0.35;
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay;
+			FIR1 A 0 
+			{
+				A_SetRoll(random(1,359));
+				A_SetScale(scale.x * (0.01 * random(75,125)),scale.x * (0.01 * random(75,125)));
+			}
+			FIR1 AAAB 1
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.25);
+				A_FadeIn(0.12);
+			}
+			FIR1 BCCD 1
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.025);
+			}
+			FIR1 DEEE 1
+			{
+				A_SetRoll(roll + random(2,4));
+				A_SetScale(scale.x * 1.025);
+				A_FadeOut(0.12);
+			}
+			Stop;
+	}
+}
+			
+Class FlamesDark : FlamesBright
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}
+
+Class FlamesDarkSlow : FlamesBrightSlow
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}	
+
+Class FlamesDarkFast : FlamesBrightFast
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}		
+			
+Class FlamesBrightSmall : FlamesBright
+{
+	Default
+	{
+		Scale 0.07;
+	}	
+}
+
+Class FlamesBrightSmallSlow : FlamesBrightSlow
+{
+	Default
+	{
+		Scale 0.07;
+	}	
+}
+
+Class FlamesBrightSmallFast : FlamesBrightFast
+{
+	Default
+	{
+		Scale 0.07;
+	}	
+}
+			
+Class FlamesDarkSmall : FlamesBrightSmall
+{
+	Default
+	{
+		RenderStyle "Translucent";
+	}	
+}
+
+Class FlamesDarkSmallSlow : FlamesBrightSmallSlow
+{
+	Default
+	{
+		RenderStyle "Translucent";
+	}	
+}
+
+Class FlamesDarkSmallFast : FlamesBrightSmallFast
+{
+	Default
+	{
+		RenderStyle "Translucent";
+	}	
+}
+			
+Class FlamesBrightLarge : FlamesBright
+{
+	Default
+	{
+		Scale 0.16;
+	}	
+}
+
+Class FlamesBrightLargeSlow : FlamesBrightSlow
+{
+	Default
+	{
+		Scale 0.16;
+	}	
+}
+
+Class FlamesBrightLargeFast : FlamesBrightFast
+{
+	Default
+	{
+		Scale 0.16;
+	}	
+}
+			
+Class FlamesDarkLarge : FlamesBrightLarge
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}
+
+Class FlamesDarkLargeSlow : FlamesBrightLargeSlow
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}
+
+Class FlamesDarkLargeFast : FlamesBrightLargeFast
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}
+			
+Class FlamesBrightHuge : FlamesBright
+{
+	Default
+	{
+		Scale 0.24;
+	}	
+}
+
+Class FlamesBrightHugeSlow : FlamesBrightSlow
+{
+	Default
+	{
+		Scale 0.24;
+	}	
+}	
+
+Class FlamesBrightHugeFast : FlamesBrightFast
+{
+	Default
+	{
+		Scale 0.24;
+	}	
+}	
+			
+Class FlamesDarkHuge : FlamesBrightHuge
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}
+
+Class FlamesDarkHugeSlow : FlamesBrightHugeSlow
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}
+
+Class FlamesDarkHugeFast : FlamesBrightHugeFast
+{
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.05;
+	}	
+}
+		
+Class RedFlamesBright : FlamesBright
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+			
+Class RedFlamesDark : FlamesDark
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+	
+Class GreenFlamesBright : FlamesBright
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+			
+Class GreenFlamesDark : FlamesDark
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+		
+Class BlueFlamesBright : FlamesBright
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+			
+Class BlueFlamesDark : FlamesDark
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+		
+Class OrangeFlamesBright : FlamesBright
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}	
+			
+Class OrangeFlamesDark : FlamesDark
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}
+
+
+		
+Class RedFlamesBrightFast : FlamesBrightFast
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+			
+Class RedFlamesDarkFast : FlamesDarkFast
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+	
+Class GreenFlamesBrightFast : FlamesBrightFast
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+			
+Class GreenFlamesDarkFast : FlamesDarkFast
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+		
+Class BlueFlamesBrightFast : FlamesBrightFast
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+			
+Class BlueFlamesDarkFast : FlamesDarkFast
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+		
+Class OrangeFlamesBrightFast : FlamesBrightFast
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}	
+			
+Class OrangeFlamesDarkFast : FlamesDarkFast
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}
+
+
+Class RedFlamesBrightSmall : FlamesBrightSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+			
+Class RedFlamesDarkSmall : FlamesDarkSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+	
+Class GreenFlamesBrightSmall : FlamesBrightSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+			
+Class GreenFlamesDarkSmall : FlamesDarkSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+		
+Class BlueFlamesBrightSmall : FlamesBrightSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+			
+Class BlueFlamesDarkSmall : FlamesDarkSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+		
+Class OrangeFlamesBrightSmall : FlamesBrightSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}	
+			
+Class OrangeFlamesDarkSmall : FlamesDarkSmall
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}
+
+
+Class RedFlamesBrightLarge : FlamesBrightLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+			
+Class RedFlamesDarkLarge : FlamesDarkLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+	
+Class GreenFlamesBrightLarge : FlamesBrightLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+			
+Class GreenFlamesDarkLarge : FlamesDarkLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+		
+Class BlueFlamesBrightLarge : FlamesBrightLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+			
+Class BlueFlamesDarkLarge : FlamesDarkLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,1.60,2.00]";
+	}	
+}	
+		
+Class OrangeFlamesBrightLarge : FlamesBrightLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}	
+			
+Class OrangeFlamesDarkLarge : FlamesDarkLarge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.00]:[1.25,0.63,0.00]";
+	}	
+}
+
+
+Class RedFlamesBrightHuge : FlamesBrightHuge
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+			
+Class RedFlamesDarkHuge : FlamesDarkHuge
+{
+	Default
+	{
+		Translation "0:255=%[0.12,0.00,0.00]:[2.00,0.16,0.11]";
+	}	
+}	
+	
+Class GreenFlamesBrightHuge : FlamesBrightHuge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+			
+Class GreenFlamesDarkHuge : FlamesDarkHuge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.12,0.00]:[0.80,1.59,0.00]";
+	}	
+}	
+		
+Class BlueFlamesBrightHuge : FlamesBrightHuge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,2.00,2.00]";
+	}	
+}	
+			
+Class BlueFlamesDarkHuge : FlamesDarkHuge
+{
+	Default
+	{
+		Translation "0:255=%[0.00,0.00,0.12]:[0.00,2.00,2.00]";
+	}	
+}	

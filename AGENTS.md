@@ -20,20 +20,29 @@ vehicle control, boss HUDs, bonus maps, or episode definitions.
 What remains at runtime:
 
 - **Complete map detection and decoration spawns** for vanilla Doom 1 and
-  Doom II. Maps are identified by player-1 start coordinates, par time, and
-  level name, then confirmed with `EvidenceChecker*` DECORATE actors.
+ Doom II. Maps are identified by player-1 start coordinates, par time, and
+ level name, then confirmed with `EvidenceChecker*` DECORATE actors.
 - **Per-map decoration placement** through `doom1remap.txt`, `doom2remap.txt`,
-  and `mapspecificdec.txt`, using absolute-position `A_SpawnItemEx` calls.
+ and `mapspecificdec.txt`, using absolute-position `A_SpawnItemEx` calls.
 - **Gore, blood, gibs, particles, casings, smoke, fire, puffs, flares, props,
-  torches, lamps, natural decorations, fireworks**, one enemy (`Mummy`), and
-  one critter (`BDCritterMouse`).
+ torches, lamps, natural decorations, fireworks**, one enemy (`Mummy`), and
+ one critter (`BDCritterMouse`).
+- **CodeFX explosive barrel** (`NewBarrel`, replaces vanilla `ExplosiveBarrel`)
+ with smoke loop, pulsing green glow, and a chained `NukeKABOOM` death.
+ Defined in `decorate/cfx_barrel.txt`; supporting `Smoke` / `Flames*`
+ effect hierarchies live in `zscript.txt`.
+- **In-game options menu** (`menudef`) — Esc → Options → "Map Enhancements"
+ with a toggle (`mes_custombarrel`, server-scope, default on) that
+ redirects `NewBarrel.Spawn` to a vanilla-faithful `VanillaBarrelCompat`
+ proxy when off.
 - **Brightmaps, dynamic lights, and model bindings** for the remaining actors.
 
 Important: `MAPINFO.lmp` is absent. UME-Lite does not define episodes, maps,
 music, skies, map order, or bundled WAD entries.
 
 An alternate DECORATE root from a previous fork has been removed; this build is
-single-rooted on `decorate.txt` only.
+single-rooted on `decorate.txt` only. ZScript is now also in use, but only for
+shared effect base classes consumed by DECORATE — see §2.
 
 ---
 
@@ -106,12 +115,35 @@ but most of their old behavior has been removed.
 ### Added
 
 - `.gitignore`: excludes OS/editor scratch, local pk3 builds, ACS scratch, and
-  common paths for **locally unpacked ACC** installs (developers download ACC
-  themselves; see *Re-compiling ACS* below).
+ common paths for **locally unpacked ACC** installs (developers download ACC
+ themselves; see *Re-compiling ACS* below).
 - `scripts/`: dev-only PowerShell helpers (e.g.
-  `scripts/rename-to-lowercase.ps1`, the bulk-rename script that produced
-  the current lowercase file/dir layout). Not runtime content; should be
-  excluded from built pk3s.
+ `scripts/rename-to-lowercase.ps1`, the bulk-rename script that produced
+ the current lowercase file/dir layout). Not runtime content; should be
+ excluded from built pk3s.
+- `zscript.txt`: ZScript root (`version "4.7.1"`) containing the CodeFX
+ effect base classes — `VisualSpecialEffect`, `BouncyPhysicalThing`, the
+ full `Smoke` hierarchy (`Smoke`, `SlowSmoke`, `FastSmoke`, `StillSmoke`,
+ `BloodMist`, and Big/Small/Tiny size variants of each), and the
+ `FlamesBright` / `FlamesDark` hierarchy with Small/Large/Huge size
+ variants and Red/Green/Blue/Orange colour variants. These classes are
+ consumed by DECORATE; they are not standalone ZScript actors. The
+ `4.7.1` floor is deliberate — old enough that LZDoom and earlier
+ GZDoom 4.x can parse the lump, broadening compatibility.
+- `decorate/cfx_barrel.txt`: the **CodeFX `NewBarrel`** (replaces vanilla
+ `ExplosiveBarrel`) plus its full transitive effect chain — smoke, debris,
+ booms, the `NukeKABOOM` cluster, and the green flame spawner. Also
+ defines `VanillaBarrelCompat : ExplosiveBarrel` (empty body), the proxy
+ spawned at map load when `mes_custombarrel` is off so the toggle yields
+ plain vanilla-feeling barrels.
+- `menudef`: extensionless lump at the PK3 root. `AddOptionMenu
+ "OptionsMenu"` appends "Map Enhancements" to the engine's built-in
+ Options screen; `OptionMenu "UMEOptionsMenu"` defines the submenu. New
+ user-facing toggles belong here.
+- `mes_custombarrel` (in `cvarinfo`): **server-scope** bool, default
+ `true`. Read directly from DECORATE via `GetCvar("mes_custombarrel")` in
+ `NewBarrel.Spawn`. Server scope is required — see §4 ("CVAR feature
+ flags") and §7 ("`user` CVARs return 0 ...") for the rationale.
 
 ### Renamed / reorganised
 
@@ -148,37 +180,51 @@ but most of their old behavior has been removed.
 
 ### Present but not included by `decorate.txt`
 
-These files exist under `decorate/` but are not included by the standalone
-`decorate.txt` root. Do not assume they run.
+Every `decorate/*.txt` file currently on disk is `#include`d by
+`decorate.txt`. There are no orphan DECORATE files in this build.
 
-- `decorate/flatdecals.txt`
-- `decorate/goregroups.txt` (the include is present but commented out)
-- `decorate/keyplacement.txt`
-- `decorate/reviewthistoreplacetreesinwolfmaps.txt`
+(Earlier revisions of this doc listed `flatdecals.txt`, `goregroups.txt`,
+`keyplacement.txt`, and `reviewthistoreplacetreesinwolfmaps.txt` as orphans.
+`flatdecals.txt` is now included; the other three files were deleted from the
+tree. If you re-introduce a file that should stay out of the build, add it
+back to this list.)
 
 ---
 
 ## 2. Engine, language, and directory layout
 
-This add-on uses the classic ZDoom modding stack, not modern ZScript:
+This add-on uses the classic ZDoom modding stack, plus a small ZScript layer
+for shared effect base classes:
 
-- **DECORATE** for actor definitions. There is no `zscript.zs`; do not add one
-  unless explicitly asked.
+- **DECORATE** for actor definitions. `decorate.txt` is the standalone root;
+  it `#include`s the entire `decorate/` tree.
+- **ZScript** (`zscript.txt`, `version "4.7.1"`) defines a handful of base
+  classes that DECORATE actors inherit from — `VisualSpecialEffect`,
+  `BouncyPhysicalThing`, and the `Smoke` / `Flames*` hierarchies. Do not
+  add ZScript actors that duplicate behavior that can be expressed in
+  DECORATE; the existing ZScript file exists only to provide hierarchies
+  DECORATE cannot easily express (shared `Default { ... }` blocks and
+  named state chains reused across many subclasses). The `4.7.1` version
+  floor is deliberate — old enough that LZDoom and earlier GZDoom 4.x can
+  parse the lump.
 - **ACS** (`src/*.acs`, compiled to `acs/*.o`) for map detection and retained
   compatibility stubs.
-- **GLDEFS**, **MODELDEF**, **SNDINFO**, **CVARINFO**, and brightmap lumps for
-  engine configuration.
+- **GLDEFS**, **MODELDEF**, **SNDINFO**, **CVARINFO**, **MENUDEF**, and
+  brightmap lumps for engine configuration.
 
 Current layout:
 
 ```
 UME-Lite/
 |-- decorate.txt              # Standalone DECORATE root (full)
-|-- decorate/                 # Remaining actor definitions
+|-- decorate/                 # Actor definitions (all .txt files are #included)
+|-- zscript.txt               # ZScript root: CodeFX effect base classes
 |-- src/                      # ACS source: bdcvars, dynamiclev, mapdetection
 |-- acs/                      # Compiled ACS objects referenced by loadacs
 |-- loadacs                   # DYNAMICLEV, BDCVARS, MapDetection (library names)
-|-- cvarinfo                  # Declares old CVAR surface, mostly inert
+|-- cvarinfo                  # CVAR declarations (live: sv_allowbossmap,
+|                             # mes_custombarrel; rest are inert legacy)
+|-- menudef                   # MENUDEF lump: "Map Enhancements" submenu
 |-- gldefs                    # Dynamic lights and glows
 |-- doomdefs.bm               # Brightmap declarations
 |-- modeldef.txt              # MD3 / MD2 model bindings (effects + decorations)
@@ -264,9 +310,21 @@ Recognise these idioms before editing.
   zero-state `Inventory` actors. ACS or DECORATE can call `GiveInventory` /
   `TakeInventory`, and other states branch with `A_JumpIfInventory`. Many old
   tokens are now never granted because the Janitor scripts are empty.
-- **CVAR feature flags**: old CVARs remain in `cvarinfo`, but most readers are
-  gone. If you need a working CVAR, fill in or add an ACS script that actually
-  reads it and sets inventory state.
+- **CVAR feature flags**: old `MES_*` CVARs remain in `cvarinfo` but most
+  readers are gone (the BDCVARS Janitors are empty stubs). Two working
+  paths for adding a live CVAR-driven toggle:
+  - **Direct DECORATE read** (preferred for new work): declare a
+    **`server`**-scope CVAR in `cvarinfo` and read it via
+    `GetCvar("cvar_name")` inside an `A_JumpIf` in the actor's state. No
+    ACS, no recompile. `NewBarrel`'s `Spawn:` does this for
+    `mes_custombarrel`. The CVAR **must** be `server` (or `int`/`bool`
+    with no `user` qualifier), because `GetCvar` cannot resolve a
+    `user`-scope CVAR from an actor with no player owner — it silently
+    returns 0. See §7.
+  - **ACS-bridged read** (legacy path, still valid for `user` CVARs or
+    per-player branches): fill in or add a script in `src/bdcvars.acs`
+    that calls `GetCvar` / `GetUserCVar` and gives an inventory token,
+    then `A_JumpIfInventory` in DECORATE. Requires ACC recompile.
 - **`TNT1 A 0` chains**: DECORATE uses long zero-tic ladders of
   `A_JumpIf`, `A_JumpIfInventory`, and `A_SpawnItemEx`. Preserve ordering;
   changing it can change which branch fires first.
@@ -283,12 +341,19 @@ Recognise these idioms before editing.
 ## 5. Conventions
 
 - **Naming**
-  - Actors / classes are usually `BDEC*`, `Brutal_*`, `BD_*`, or
-    `<MapName>DecorationSpawn`.
-  - CVARs are old-style `MES_*` or `sv_*`, but `MES_*` values are inert unless
-    a script actively reads them.
-  - ACS scripts are usually named. Preserve existing raw numeric IDs where
-    they already exist (`2093`, `230`, `3125`, etc.).
+ - Most actors / classes are `BDEC*`, `Brutal_*`, `BD_*`, or
+ `<MapName>DecorationSpawn`.
+ - **CodeFX-derived** effect classes (in `zscript.txt` and
+ `decorate/cfx_barrel.txt`) use PascalCase descriptive names — `Smoke`,
+ `SlowSmoke`, `BigFastSmoke`, `FlamesBright`, `RedFlamesDarkSmall`,
+ `NewBarrel`, `NukeKABOOM`, `BarrelSplash`, etc. Keep that style when
+ extending the CodeFX hierarchy. Don't rename existing CodeFX classes —
+ they're referenced from DECORATE, GLDEFS, MODELDEF, etc.
+ - CVARs use `MES_*` for legacy (mostly inert) toggles, `mes_*` for new
+ live toggles, and `sv_*` for the surviving server CVAR
+ (`sv_allowbossmap`).
+ - ACS scripts are usually named. Preserve existing raw numeric IDs where
+ they already exist (`2093`, `230`, `3125`, etc.).
 - **Style**
   - DECORATE keywords are case-insensitive, but the project uses ALL-CAPS for
     flags (`+THRUACTORS`) and PascalCase / mixed historical casing for
@@ -358,18 +423,72 @@ Recognise these idioms before editing.
 4. Test the map manually. Decoration spawns call this hook already, but the
    hook body is currently empty.
 
-### Add a new CVAR-toggleable feature
+### Add a new CVAR-toggleable feature (direct DECORATE, preferred)
 
-1. Declare the CVAR in `cvarinfo` if it is not already present.
-2. Fill in or add an ACS check script in `src/bdcvars.acs` that actually
-   reads the CVAR with `GetCvar` and gives inventory or changes actor state.
+1. Declare the CVAR in `cvarinfo` with **`server`** scope. Example:
+ `server bool mes_mycooltoggle = true;`. Server CVARs archive by default
+ so the toggle persists across sessions.
+2. In the relevant DECORATE actor's state, branch on the CVAR with
+ `A_JumpIf`:
+
+ ```
+ Spawn:
+     TNT1 A 0 A_JumpIf(GetCvar("mes_mycooltoggle") == 0, "DisabledPath")
+     ...normal behavior...
+ DisabledPath:
+     ...alternative or no-op...
+ ```
+
+3. (Optional) Surface the toggle in the in-game menu by adding an `Option`
+ line to the `OptionMenu "UMEOptionsMenu"` block in `menudef`. See "Add a
+ new menu option" below.
+4. No ACS work, no recompile.
+
+**Do not use `user` scope** for a CVAR that DECORATE reads directly:
+`GetCvar()` cannot resolve `user` CVARs from a non-player actor and will
+silently return 0. If you genuinely need a per-player CVAR, fall back to the
+ACS-bridged path below.
+
+### Add a new CVAR-toggleable feature (ACS-bridged, legacy)
+
+Use this only when you need a `user`-scope CVAR or per-player branching.
+
+1. Declare the CVAR in `cvarinfo`.
+2. Add an ACS check script in `src/bdcvars.acs` that reads the CVAR with
+ `GetCvar` / `GetUserCVar(PlayerNumber(), ...)` and gives an inventory
+ token.
 3. Call the script from the relevant DECORATE actor with
-   `ACS_NamedExecuteAlways`.
-4. Branch on the inventory token or actor state in DECORATE.
+ `ACS_NamedExecuteAlways`.
+4. Branch on the inventory token in DECORATE with `A_JumpIfInventory`.
 5. Recompile `src/bdcvars.acs`.
 
 Do not assume the existing `MES_*` CVARs work. Most are retained declarations
 only.
+
+### Add a new menu option
+
+1. Declare the CVAR in `cvarinfo` (`server` scope for actor-driven toggles,
+ `user` if it's only consumed by ACS or ZScript on the player).
+2. Add an `Option` line to the existing `OptionMenu "UMEOptionsMenu"` block
+ in [`menudef`](menudef):
+
+ ```
+ Option "My toggle label", "mes_mycooltoggle", "OnOff"
+ ```
+
+ Replace `"OnOff"` with another preset (`"YesNo"`, `"Slider"`,
+ `"CrosshairColors"`, etc.) or your own `OptionValue` block if you need
+ enum/range semantics.
+3. If the change won't take effect until the next map load (common for
+ spawn-time CVAR checks), add a clarifying `StaticText` line below the
+ option, e.g.:
+
+ ```
+ StaticText "  (takes effect on next map load)"
+ ```
+
+4. Do not redefine `"OptionsMenu"` — `menudef` uses `AddOptionMenu`
+ specifically so the engine's stock Options screen stays intact.
 
 ### Add a new sound
 
@@ -407,12 +526,26 @@ only.
 - **Casing / low-graphics / deathmatch throttles are inert** until the relevant
   BDCVARS Janitor bodies are restored.
 - **Blood intensity uses external CVARs**: `BD_CheckBloodIntensity` reads
-  `bd_bloodamount` when `isrunningzandronum == 1`, and
-  `zdoombrutalblood` when `isrunningzandronum == 0`. It does not read
-  `MES_bloodamount`.
+ `bd_bloodamount` when `isrunningzandronum == 1`, and
+ `zdoombrutalblood` when `isrunningzandronum == 0`. It does not read
+ `MES_bloodamount`.
+- **`GetCvar()` in DECORATE needs the right scope**. DECORATE's
+ `GetCvar("name")` resolves relative to the calling actor's owning player.
+ Map-placed actors (barrels, decorations, etc.) have no player owner, so
+ reading a `user`-scope CVAR silently returns 0 and the toggle appears
+ stuck off regardless of the menu setting. Use **`server`** scope (the
+ `mes_custombarrel` precedent) or bridge through ACS. The correct
+ DECORATE function is **`GetCvar`** — the lowercase `cvar()` form some
+ ZScript snippets show is not valid in DECORATE and produces
+ `Call to unknown function 'CVar'` at parse time.
+- **Don't add new ZScript actors casually**. `zscript.txt` is intentionally
+ narrow: it ships shared base classes that DECORATE consumes, not
+ standalone actors. New gameplay/decoration logic should land in
+ DECORATE unless the user explicitly asks for ZScript or DECORATE
+ genuinely cannot express the behavior.
 - **ACS compiler**: not shipped with this repo. Use ACC from
-  [ZDoom Downloads](https://zdoom.org/downloads) (**Editing**), and omit any
-  local ACC unpack directory from built pk3s.
+ [ZDoom Downloads](https://zdoom.org/downloads) (**Editing**), and omit any
+ local ACC unpack directory from built pk3s.
 
 ---
 
@@ -427,12 +560,17 @@ gzdoom -iwad doom2.wad -file UME-Lite/ +map MAP01
 Useful console commands while testing:
 
 - `summon BDECPlantPot` - spawn an actor by name.
+- `summon NewBarrel` / `summon VanillaBarrelCompat` - sanity-check the
+ CodeFX barrel and its vanilla-faithful proxy without waiting for a
+ map-placed barrel.
+- `mes_custombarrel 0` followed by `map MAP01` - exercise the toggle's
+ spawn-time redirect without going through the Options menu.
 - `give LowGraphicsMode` - manually exercise branches that old Janitor scripts
-  no longer grant automatically.
+ no longer grant automatically.
 - `puke -sname Detect_Map` - force re-run map detection in a port that supports
-  named ACS pukes.
+ named ACS pukes.
 - `sv_allowbossmap 1` - exercise the remaining live CVAR branch in map
-  detection.
+ detection.
 
 The old `mes_disabledecorations`, `mes_disablemapenhancements`,
 `mes_lowgraphicsmode`, `mes_voxeldec`, `mes_infinitecasings`, and
@@ -457,8 +595,12 @@ behavior is unclear, consult these in this order:
    - Action functions: <https://zdoom.org/w/index.php?title=Action_functions>
    - DECORATE expressions: <https://zdoom.org/w/index.php?title=DECORATE_expressions>
    - Classes: <https://zdoom.org/w/index.php?title=Classes>
-2. **zdoom-docs (stable)**: <https://github.com/zdoom-docs/stable>
-3. **UZDoom source, tag 4.14.3**:
+2. **ZDoom Wiki - ZScript & menus**:
+   - ZScript overview: <https://zdoom.org/w/index.php?title=ZScript>
+   - MENUDEF: <https://zdoom.org/w/index.php?title=MENUDEF>
+   - CVARINFO: <https://zdoom.org/w/index.php?title=CVARINFO>
+3. **zdoom-docs (stable)**: <https://github.com/zdoom-docs/stable>
+4. **UZDoom source, tag 4.14.3**:
    <https://github.com/UZDoom/UZDoom/tree/4.14.3>
 
 For ACS specifically, **`zcommon.acs`** ships with ACC from
